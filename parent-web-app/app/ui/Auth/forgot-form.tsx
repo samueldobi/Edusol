@@ -6,6 +6,7 @@ export default function ResetForm() {
       {/*Logo section*/}
       <div className="flex justify-center items-center">
         <InformationCircleIcon className="h-20 w-20 text-indigo-950" />
+        
       </div>
       {/*Title and Subtitle*/}
       <h2 className="text-3xl font-bold leading-[3.75rem] mt-3 text-center text-lime-500">
@@ -25,7 +26,7 @@ export default function ResetForm() {
               type="phone"
               required
               autoComplete="phone"
-              className="w-full text-indigo-950 p-4 sm:p-5 mt-4 border-2 border-gray-300 rounded-xl focus:outline-none focus:border-transparent focus:ring-0 focus:ring-[#66cc00] focus:border-[#66cc00]"
+              className="w-full text-indigo-950 p-4 sm:p-5 mt-4 border-2 border-gray-300 rounded-xl focus:ring-[#66cc00] focus:border-[#66cc00] focus:outline-none"
               placeholder="Phone number / Username"
             />
           </div>

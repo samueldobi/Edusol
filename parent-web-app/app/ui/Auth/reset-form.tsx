@@ -25,7 +25,7 @@ export default function ResetForm() {
               type="password"
               required
               autoComplete="current-password"
-              className="w-full text-indigo-950 p-4 sm:p-5 mt-5 border-2 border-gray-300 rounded-xl focus:outline-none focus:border-transparent focus:ring-0 focus:ring-[#66cc00] focus:border-[#66cc00]"
+              className="w-full text-indigo-950 p-4 sm:p-5 mt-5 border-2 border-gray-300 rounded-xl focus:ring-[#66cc00] focus:border-[#66cc00] focus:outline-none"
               placeholder="Password"
             />
           </div>
