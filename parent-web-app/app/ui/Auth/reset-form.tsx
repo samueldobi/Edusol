@@ -1,5 +1,6 @@
 import { LockClosedIcon } from '@heroicons/react/24/solid';
 import Link from 'next/link';
+import { Button } from '@/app/ui/Auth/button';
 export default function ResetForm() {
   return (
     <div className="bg-white rounded-lg shadow-lg w-[40%] max-w-[500px] min-w-[320px] flex flex-col p-6 sm:w-[90%] sm:p-11 md:w-[85%] lg:w-[60%] xl:w-[35%]">
@@ -31,12 +32,9 @@ export default function ResetForm() {
           </div>
           {/*Submit button*/}
           <div className="flex flex-col sm:flex-row items-center justify-between  mt-7 gap-4">
-            <button
-              className="w-full sm:w-auto bg-indigo-950 font-bold text-white px-3 py-3"
-              type="submit"
-            >
+            <Button className="w-full sm:w-auto px-3 py-3">
               RESET PASSWORD
-            </button>
+            </Button>
             <Link
               href="#"
               className="font-normal  text-sm text-indigo-950 cursor-pointer hover:underline focus:underline"

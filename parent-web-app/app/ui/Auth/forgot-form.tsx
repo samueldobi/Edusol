@@ -1,12 +1,12 @@
 import { InformationCircleIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
+import { Button } from '@/app/ui/Auth/button';
 export default function ResetForm() {
   return (
     <div className="bg-white rounded-lg shadow-lg w-[40%] max-w-[500px] min-w-[320px] flex flex-col p-6 sm:w-[90%] sm:p-11 md:w-[85%] lg:w-[60%] xl:w-[35%]">
       {/*Logo section*/}
       <div className="flex justify-center items-center">
         <InformationCircleIcon className="h-20 w-20 text-indigo-950" />
-        
       </div>
       {/*Title and Subtitle*/}
       <h2 className="text-3xl font-bold leading-[3.75rem] mt-3 text-center text-lime-500">
@@ -32,12 +32,7 @@ export default function ResetForm() {
           </div>
           {/*Submit button*/}
           <div className="flex justify-center mt-7">
-            <button
-              className="bg-indigo-950 font-bold text-white px-20 py-3"
-              type="submit"
-            >
-              SUBMIT
-            </button>
+            <Button>SUBMIT</Button>
           </div>
         </form>
         <div className="mt-2 flex justify-center">

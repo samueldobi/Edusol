@@ -1,4 +1,4 @@
-
+import { Button } from '@/app/ui/Auth/button';
 
 export default function LoginForm() {
   return (
@@ -42,12 +42,7 @@ export default function LoginForm() {
           </div>
           {/*Submit button*/}
           <div className="flex justify-center mt-7">
-            <button
-              className="bg-indigo-950 font-bold text-white px-20 py-3"
-              type="submit"
-            >
-              LOG IN
-            </button>
+            <Button>LOG IN</Button>
           </div>
         </form>
         <div className="mt-2 flex justify-center">
