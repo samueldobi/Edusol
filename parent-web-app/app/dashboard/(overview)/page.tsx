@@ -1,5 +1,6 @@
 import MetricCard from '@/app/ui/dashboard/metric-card';
 import FinancialCard from '@/app/ui/dashboard/financial-card';
+import BarChartData from '@/app/ui/dashboard/bar-chart';
 export default async function Page() {
   return (
     <div className="bg-white p-8 rounded-lg shadow-md">
@@ -43,6 +44,11 @@ export default async function Page() {
           iconSrc="/up-icon.png"
           color="yellow-500"
         />
+      </div>
+
+      <div className="relative mb-8 w-[100%] flex items-center justify-center flex-col ">
+        <h2 className="text-xl font-semibold mb-4">Weekly Overview</h2>
+        <BarChartData />
       </div>
     </div>
   );
