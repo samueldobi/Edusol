@@ -36,15 +36,17 @@ export function NotificationItem({
   name: string;
   message: string;
 }) {
-  let borderColor = 'bg-green-500';
+  let backgroundColor = 'bg-green-500';
   if (type === 'Student') {
-    borderColor = 'bg-yellow-500';
+    backgroundColor = 'bg-yellow-500';
   } else if (type === 'School') {
-    borderColor = 'bg-red-500';
+    backgroundColor = 'bg-red-500';
   }
   return (
     <div className={`flex items-center space-x-4 p-2  mb-2 w-full`}>
-      <div className={`flex-shrink-0 ${borderColor} w-16 h-16 rounded-full`}>
+      <div
+        className={`flex-shrink-0 ${backgroundColor} w-16 h-16 rounded-full`}
+      >
         <img src="/teacher.png" alt="avatar of a teacher" />
       </div>
 
@@ -59,7 +61,7 @@ export function NotificationItem({
         >
           {message}
         </p>
-        <span className={`${borderColor} w-full h-1 rounded-sm`}></span>
+        <span className={`${backgroundColor} w-full h-1 rounded-sm`}></span>
       </div>
     </div>
   );

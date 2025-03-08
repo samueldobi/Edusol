@@ -6,6 +6,8 @@ import MetricCardWrapper from '@/app/ui/dashboard/metric-card';
 import ChartData from '@/app/ui/dashboard/chart';
 import NotificationItemWrapper from '@/app/ui/dashboard/notification-item';
 import AlertItem from '@/app/ui/dashboard/alert-item';
+import Calendar from '@/app/ui/dashboard/calendar';
+import ClassMetricsWrapper from '@/app/ui/dashboard/class-metric';
 export default function Page() {
   return (
     <main className=" p-0 sm:p-6">
@@ -29,6 +31,16 @@ export default function Page() {
         <div className="flex flex-col w-auto">
           <AlertItem />
           <NotificationItemWrapper />
+        </div>
+      </div>
+      <div className="grid md:grid-cols-[2fr_1fr] gap-8">
+        <div>
+          <p className="font-medium">TOP TEN CLASSES BY AVERAGE</p>
+          <ClassMetricsWrapper />
+        </div>
+        <div>
+          <p className="font-medium">CALENDER & EVENTS</p>
+          <Calendar />
         </div>
       </div>
     </main>
