@@ -3,10 +3,9 @@
 
 import React from 'react';
 import MetricCardWrapper from '@/app/ui/dashboard/metric-card';
-
 import ChartData from '@/app/ui/dashboard/chart';
-import NotificationItem from '@/app/ui/dashboard/notification-item';
-
+import NotificationItemWrapper from '@/app/ui/dashboard/notification-item';
+import AlertItem from '@/app/ui/dashboard/alert-item';
 export default function Page() {
   return (
     <main className=" p-0 sm:p-6">
@@ -28,35 +27,8 @@ export default function Page() {
 
         {/* Right Side: Notifications */}
         <div className="flex flex-col w-auto">
-          <h2 className="text-xl font-semibold mb-4">Notifications</h2>
-          <div className="flex items-center space-x-2 mb-2">
-            <span className="bg-green-500 w-3 h-3 rounded-full"></span>
-            <span>Teachers</span>
-            <span className="bg-yellow-500 w-3 h-3 rounded-full"></span>
-            <span>Student</span>
-            <span className="bg-red-500 w-3 h-3 rounded-full"></span>
-            <span>School</span>
-          </div>
-          <NotificationItem
-            type="Teachers"
-            name="Mr. Ben Roman"
-            message="I have an objection about the school new formation on class!"
-          />
-          <NotificationItem
-            type="Student"
-            name="Mr. Ben Roman"
-            message="I have an objection about the school new formation on class!"
-          />
-          <NotificationItem
-            type="School"
-            name="Mr. Ben Roman"
-            message="I have an objection about the school new formation on class!"
-          />
-          <NotificationItem
-            type="Teachers"
-            name="Mr. Ben Roman"
-            message="I have an objection about the school new formation on class!"
-          />
+          <AlertItem />
+          <NotificationItemWrapper />
         </div>
       </div>
     </main>

@@ -7,15 +7,15 @@ export default function FinancialCardWrapper() {
         title="Tuition"
         value="5,276,000"
         iconSrc="/up-icon.png"
-        color="text-green-600"
-        bgColor="bg-green-500"
+        color="#1AA939"
+        bgColor="#1AA939"
       />
       <FinancialCard
         title="Other Payments"
         value="5,567,476"
         iconSrc="/up-icon.png"
-        color="text-yellow-500"
-        bgColor="bg-yellow-500"
+        color="#FFB400"
+        bgColor="#FFB400"
       />
     </div>
   );
@@ -37,7 +37,8 @@ export function FinancialCard({
   return (
     <div className="p-4 rounded-lg flex justify-center items-center space-x-4">
       <div
-        className={`w-10 h-10 rounded-full flex items-center justify-center ${bgColor}`}
+        className={`w-10 h-10 rounded-full flex items-center justify-center`}
+        style={{ backgroundColor: bgColor }}
       >
         <img
           src={iconSrc}
@@ -47,8 +48,17 @@ export function FinancialCard({
       </div>
       <div className="flex flex-col sm:items-center">
         <p className="text-lg text-black font-medium uppercase">{title}</p>
-        <p className={`text-2xl font-semibold ${color}`}>{value}</p>
+        <p className={`text-2xl font-semibold`} style={{ color: color }}>
+          {value}
+        </p>
       </div>
     </div>
   );
+}
+
+{
+  /*style={{
+  height: `${(data2[index] / maxValue) * chartHeight}px`,
+  backgroundColor: '#FFB400',
+}}*/
 }
