@@ -1,55 +1,64 @@
-import MetricCard from '@/app/ui/dashboard/metric-card';
-import FinancialCard from '@/app/ui/dashboard/financial-card';
-import BarChartData from '@/app/ui/dashboard/bar-chart';
-export default async function Page() {
+// Page.js (Main Dashboard Layout)
+'use client';
+
+import React from 'react';
+import MetricCardWrapper from '@/app/ui/dashboard/metric-card';
+
+import ChartData from '@/app/ui/dashboard/chart';
+import NotificationItem from '@/app/ui/dashboard/notification-item';
+
+export default function Page() {
   return (
-    <div className="bg-white p-8 rounded-lg shadow-md">
-      <div className="flex items-center w-full justify-center flex-wrap gap-6 mb-8">
-        <MetricCard
-          title="Students"
-          value="589"
-          avatarSrc="/student.png"
-          color="text-yellow-500"
-        />
-        <MetricCard
-          title="Teachers"
-          value="49"
-          avatarSrc="/teacher.png"
-          color="text-teal-600"
-        />
-        <MetricCard
-          title="Events"
-          value="20"
-          avatarSrc="/calendar.JPG"
-          color="text-purple-600"
-        />
-        <MetricCard
-          title="Users"
-          value="630"
-          avatarSrc="/backpack.png"
-          color="text-green-600"
-        />
-      </div>
+    <main className=" p-0 sm:p-6">
+      <div className="grid md:grid-cols-[2fr_1fr] gap-8">
+        {/* Left Side: Metrics, Financial Cards, and Chart */}
+        <div className="flex flex-col">
+          {/* Top Metrics */}
+          <div className="mb-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              <MetricCardWrapper />
+            </div>
+          </div>
 
-      <div className="flex items-center w-full justify-center flex-wrap gap-6 mb-8">
-        <FinancialCard
-          title="tuition"
-          value="5,276,000"
-          iconSrc="/up-icon.png"
-          color="green-600"
-        />
-        <FinancialCard
-          title="Other payments"
-          value="5,567,476"
-          iconSrc="/up-icon.png"
-          color="yellow-500"
-        />
-      </div>
+          {/* Weekly Overview Chart */}
+          <div className="mb-8">
+            <ChartData />
+          </div>
+        </div>
 
-      <div className="relative mb-8 w-[100%] flex items-center justify-center flex-col ">
-        <h2 className="text-xl font-semibold mb-4">Weekly Overview</h2>
-        <BarChartData />
+        {/* Right Side: Notifications */}
+        <div className="flex flex-col w-auto">
+          <h2 className="text-xl font-semibold mb-4">Notifications</h2>
+          <div className="flex items-center space-x-2 mb-2">
+            <span className="bg-green-500 w-3 h-3 rounded-full"></span>
+            <span>Teachers</span>
+            <span className="bg-yellow-500 w-3 h-3 rounded-full"></span>
+            <span>Student</span>
+            <span className="bg-red-500 w-3 h-3 rounded-full"></span>
+            <span>School</span>
+          </div>
+          <NotificationItem
+            type="Teachers"
+            name="Mr. Ben Roman"
+            message="I have an objection about the school new formation on class!"
+          />
+          <NotificationItem
+            type="Student"
+            name="Mr. Ben Roman"
+            message="I have an objection about the school new formation on class!"
+          />
+          <NotificationItem
+            type="School"
+            name="Mr. Ben Roman"
+            message="I have an objection about the school new formation on class!"
+          />
+          <NotificationItem
+            type="Teachers"
+            name="Mr. Ben Roman"
+            message="I have an objection about the school new formation on class!"
+          />
+        </div>
       </div>
-    </div>
+    </main>
   );
 }

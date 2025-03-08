@@ -34,7 +34,7 @@ export default function Header({ onMenuToggle }: HeaderProps) {
           <SearchInput />
         </div>
 
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center space-x-0 sm:space-x-4">
           {/* Notification Button */}
           <button
             type="button"

@@ -1,4 +1,36 @@
-export default function MetricCard({
+export default function MetricCardWrapper() {
+  return (
+    <>
+      <MetricCard
+        title="Students"
+        value="589"
+        avatarSrc="/student.png"
+        color="text-yellow-500"
+      />
+      <MetricCard
+        title="Teachers"
+        value="49"
+        avatarSrc="/teacher.png"
+        color="text-teal-600"
+      />
+      <MetricCard
+        title="Events"
+        value="20"
+        avatarSrc="/calendar.JPG"
+        color="text-purple-600"
+      />
+      <MetricCard
+        title="Users"
+        value="630"
+        avatarSrc="/backpack.png"
+        color="text-green-600"
+      />
+    </>
+  );
+}
+
+// MetricCard.js
+export function MetricCard({
   title,
   value,
   avatarSrc,
@@ -10,17 +42,17 @@ export default function MetricCard({
   color: string;
 }) {
   return (
-    <div className={`p-4 rounded-lg  text-white flex items-start space-x-4`}>
+    <div className={`p-4 rounded-lg flex items-center space-x-4`}>
       <img
         src={avatarSrc}
         alt={`${title} Avatar`}
         className="w-12 h-12 rounded-full"
       />
-      <div className="flex flex-col items-center justify-center">
+      <div>
         <p className="text-sm text-neutral-600 font-semibold uppercase">
           {title}
         </p>
-        <p className={`text-2xl ${color} font-semibold`}>{value}</p>
+        <p className={`${color} text-2xl font-semibold`}>{value}</p>
       </div>
     </div>
   );
