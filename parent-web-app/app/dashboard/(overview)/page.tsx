@@ -8,6 +8,8 @@ import NotificationItemWrapper from '@/app/ui/dashboard/notification-item';
 import AlertItem from '@/app/ui/dashboard/alert-item';
 import Calendar from '@/app/ui/dashboard/calendar';
 import ClassMetricsWrapper from '@/app/ui/dashboard/class-metric';
+import RecentPaymentsTable from '@/app/ui/dashboard/recent-payment-table';
+
 export default function Page() {
   return (
     <main className=" p-0 sm:p-6">
@@ -41,9 +43,13 @@ export default function Page() {
           <ClassMetricsWrapper />
         </div>
         <div>
-          <p className="font-medium mb-4">CALENDER & EVENTS</p>
+          <p className="font-medium mb-4 uppercase">CALENDER & EVENTS</p>
           <Calendar />
         </div>
+      </div>
+      <div>
+        
+        <RecentPaymentsTable />
       </div>
     </main>
   );
