@@ -79,7 +79,7 @@ const Calendar = () => {
   }
 
   return (
-    <div className="container mx-auto p-4 bg-white shadow-md rounded-lg">
+    <div className="container mx-auto p-4 bg-white">
       <div className="flex justify-between items-center mb-4">
         <button
           onClick={goToPreviousMonth}

@@ -35,11 +35,13 @@ export default function Page() {
       </div>
       <div className="grid md:grid-cols-[2fr_1fr] gap-8">
         <div>
-          <p className="font-medium">TOP TEN CLASSES BY AVERAGE</p>
+          <p className="font-medium text-center sm:text-left mt-8 sm:mt-0">
+            TOP TEN CLASSES BY AVERAGE
+          </p>
           <ClassMetricsWrapper />
         </div>
         <div>
-          <p className="font-medium">CALENDER & EVENTS</p>
+          <p className="font-medium mb-4">CALENDER & EVENTS</p>
           <Calendar />
         </div>
       </div>
