@@ -1,4 +1,6 @@
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
+import PaymentStats from '@/app/ui/dashboard/payment/payment.stats';
+import PaymentTable from '@/app/ui/dashboard/payment/payment-table';
 export default function Page() {
   return (
     <div className="w-full">
@@ -17,7 +19,8 @@ export default function Page() {
           <img src="/calendar.png" className="w-11 h-11 opacity-80" />
         </div>
       </div>
-      
+      <PaymentStats />
+      <PaymentTable />
     </div>
   );
 }

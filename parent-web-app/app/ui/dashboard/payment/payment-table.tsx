@@ -1,6 +1,7 @@
+import React from 'react';
 import Table from '@/app/ui/dashboard/table';
 
-export default function RecentPaymentsTable() {
+export default function PaymentTable() {
   const data = [
     {
       profile: 'Anabella George',
@@ -49,13 +50,18 @@ export default function RecentPaymentsTable() {
     },
   ];
   return (
-    <div className="bg-white rounded-lg shadow-md overflow-x-auto">
-      <p className="font-medium p-4 uppercase">Recent Payments</p>
-      {/* Added shadow and overflow-x-auto for horizontal scrolling */}
+    <div className="bg-white p-6 rounded-lg shadow-md">
+      <h2 className="text-lg font-bold text-green-600 mb-4">All Payments</h2>
+      {/* Table */}
       <Table data={data} />
-      <div className="px-6 py-3 flex justify-end">
-        <button className="text-blue-600 hover:text-blue-800 text-sm">
-          View All Payments
+      {/* Pagination */}
+      <div className="flex justify-between items-center mt-4">
+        <button className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300">
+          Previous
+        </button>
+        {/* Add logic for pagination numbers */}
+        <button className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300">
+          Next
         </button>
       </div>
     </div>
