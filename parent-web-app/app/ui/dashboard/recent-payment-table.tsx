@@ -46,7 +46,7 @@ const data = [
   },
 ];
 
-const RecentPaymentsTable = () => {
+export default function RecentPaymentsTable() {
   return (
     <div className="bg-white rounded-lg shadow-md overflow-x-auto">
       <p className="font-medium p-4 uppercase">Recent Payments</p>
@@ -175,5 +175,3 @@ const RecentPaymentsTable = () => {
     </div>
   );
 };
-
-export default RecentPaymentsTable;
