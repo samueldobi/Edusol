@@ -115,7 +115,7 @@ export default function Table({ data }: TableProps) {
                 className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${
                   item.status === 'SUCCESSFUL'
                     ? 'bg-[#1AA939] text-[#FFFFFF]'
-                    : item.status === 'Pending'
+                    : item.status === 'PENDING'
                     ? 'bg-[#FFB400] text-[#FFFFFF]'
                     : 'bg-[#F84141] text-[#FFFFFF]'
                 }`}

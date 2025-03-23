@@ -1,3 +1,8 @@
+'use client';
+
+import { useState, useCallback } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useDebouncedCallback } from 'use-debounce';
 const stats = [
   {
     label: 'Total Payments',
@@ -30,12 +35,40 @@ const stats = [
 ];
 
 export default function PaymentStats() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const [activeFilter, setActiveFilter] = useState(
+    searchParams.get('filter') || 'total'
+  );
+
+  const updateFilter = useDebouncedCallback((filter) => {
+    const params = new URLSearchParams(searchParams);
+    params.set('filter', filter);
+    router.push(`?${params.toString()}`, { scroll: false });
+  }, 300);
+
+  const handleStatClick = useCallback(
+    (label: string) => {
+      const filter = label.toLowerCase().split(' ')[0];
+      setActiveFilter(filter);
+      updateFilter(filter);
+    },
+    [updateFilter]
+  );
   return (
     <div className="grid grid-cols-1 md:grid-cols-4 gap-7 mb-6 mt-20">
       {stats.map((stat, index) => (
         <div
           key={index}
-          className={`p-4 rounded-xl shadow-md flex flex-col items-center ${stat.color} py-8  text-white`}
+          className={`p-4 rounded-xl shadow-md flex flex-col items-center ${
+            stat.color
+          } py-8  text-white cursor-pointer 
+            transition-all duration-300 ${
+              activeFilter === stat.label.toLowerCase().split(' ')[0]
+                ? 'ring-4 ring-offset-2 ring-blue-500'
+                : ''
+            }`}
+          onClick={() => handleStatClick(stat.label)}
         >
           <div className="flex items-center justify-center w-full p-4 space-x-7">
             <div
