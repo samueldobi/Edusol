@@ -11,7 +11,7 @@ export default function SessionCard({ term }: { term: TermsPropTypes }) {
       style={{ borderColor: border }}
       className={`w-full border bg-white p-2 md:p-6 px-4 md:px-[2.1rem] py-1 md:py-2 items-center justify-center rounded-[10px]`}
     >
-      <div className="w-full px-2 lg:px-[2.2rem] p-2 flex flex-col space-y-6">
+      <div className="w-full px-2 lg:px-[2.2rem] p-2 flex flex-col space-y-6 justify-center items-center">
         <div
           style={{ backgroundColor: bg }}
           className={`flex rounded-[15px] px-4 items-center justify-between`}
