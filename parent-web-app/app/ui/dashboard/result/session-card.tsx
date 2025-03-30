@@ -1,13 +1,15 @@
 import Image from "next/image";
 import clock from "@/public/clockblue.png";
 import { TermsPropTypes } from "@/app/constants/sessions";
-export default function SessionCard({ term }: { term: TermsPropTypes }) {
+import Link from "next/link";
+export default function SessionCard({ term,session }: { term: TermsPropTypes,session:string }) {
   const border =
     term.id == "1" ? "1AA93947" : term.id == "2" ? "#00003266" : "#297fe180";
   const bg =
     term.id == "1" ? "#1AA939" : term.id == "2" ? "#424c87" : "#297FE1";
   return (
-    <div
+    <Link
+     href={`/dashboard/result/session?term=${term.name}&session=${session}`}
       style={{ borderColor: border }}
       className={`w-full border bg-white p-2 md:p-6 px-4 md:px-[2.1rem] py-1 md:py-2 items-center justify-center rounded-[10px]`}
     >
@@ -25,6 +27,6 @@ export default function SessionCard({ term }: { term: TermsPropTypes }) {
         </div>
         <div></div>
       </div>
-    </div>
+    </Link>
   );
 }

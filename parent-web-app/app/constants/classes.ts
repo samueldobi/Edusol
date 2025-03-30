@@ -1,0 +1,62 @@
+export default [
+    {
+        session:"2020/2021",
+        classes:[
+          {
+            id:1,
+            class:["SS1A","SS1B","SS1C","SS1D","SS1E","SS1F"]
+          },
+          {
+            id:2,
+            class:["SS2A","SS2B","SS2C","SS2D","SS2E","SS2F"]
+          },
+          {
+            id:3,
+            class:["SS3A","SS3B","SS3C","SS3D","SS3E","SS3F"]
+          }
+        ]
+    },
+    {
+        session:"2021/2022",
+        classes:[
+          {
+            id:1,
+            class:["SS1A","SS1B","SS1C","SS1D","SS1E","SS1F"]
+          },
+          {
+            id:2,
+            class:["SS2A","SS2B","SS2C","SS2D","SS2E","SS2F"]
+          },
+          {
+            id:3,
+            class:["SS3A","SS3B","SS3C","SS3D","SS3E","SS3F"]
+          }
+        ]
+    },
+    {
+        session:"2022/2023",
+        classes:[
+          {
+            id:1,
+            class:["SS1A","SS1B","SS1C","SS1D","SS1E","SS1F"]
+          },
+          {
+            id:2,
+            class:["SS2A","SS2B","SS2C","SS2D","SS2E","SS2F"]
+          },
+          {
+            id:3,
+            class:["SS3A","SS3B","SS3C","SS3D","SS3E","SS3F"]
+          }
+        ]
+    }
+]
+
+export interface ClassPropType {
+  session:string;
+  classes:ClassesPropType[]
+}
+export interface ClassesPropType{
+    id:number,
+    classes:string[]
+}

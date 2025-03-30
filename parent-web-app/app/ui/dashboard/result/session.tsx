@@ -12,14 +12,13 @@ export default function Session({ session }: { session: SessionsPropTypes }) {
         </h2>
         <PrimaryButton>View all</PrimaryButton>
       </div>
-      <Link
-        href={`/dashboard/result/${session.id}`}
-        className="w-full px-2 md:px-2 py:2 md:py-4  p-1 bg-[#b4d6fd33] items-center justify-center grid grid-cols-1 md:grid-cols-[repeat(3,minmax(214px,1fr))] gap-4 md:gap-10 xl:gap-16"
+      <div
+                className="w-full px-2 md:px-2 py:2 md:py-4  p-1 bg-[#b4d6fd33] items-center justify-center grid grid-cols-1 md:grid-cols-[repeat(3,minmax(214px,1fr))] gap-4 md:gap-10 xl:gap-16"
       >
         {session.terms.map((term) => {
-          return <SessionCard key={term.id} term={term} />;
+          return <SessionCard session={session.year} key={term.id} term={term} />;
         })}
-      </Link>
+      </div>
     </div>
   );
 }
