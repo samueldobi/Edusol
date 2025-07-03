@@ -36,7 +36,7 @@ export default function ResetForm() {
               RESET PASSWORD
             </Button>
             <Link
-              href="#"
+              href="login"
               className="font-normal  text-sm text-indigo-950 cursor-pointer hover:underline focus:underline"
             >
               Back to log in page

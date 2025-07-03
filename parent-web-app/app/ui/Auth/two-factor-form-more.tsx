@@ -33,7 +33,7 @@ export default function TwoFactorFormMore() {
         </form>
         <div className="mt-2 flex justify-center">
           <Link
-            href="#"
+            href="login"
             className="font-normal mt-8 text-sm text-indigo-950 cursor-pointer hover:underline focus:underline"
           >
             Back to log in page
