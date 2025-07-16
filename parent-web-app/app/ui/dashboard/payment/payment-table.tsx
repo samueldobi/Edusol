@@ -1,13 +1,13 @@
 'use client';
-import { Suspense } from 'react';// to be able to use useSearchParams
+
 import React, { useState, useEffect } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { paymentData } from '../../../lib/placeholder-data';
 import Table from '@/app/ui/dashboard/table';
 
 export default function PaymentTable() {
   const searchParams = useSearchParams();
-  // const router = useRouter(); I need to come back and add the router later
+  const router = useRouter();
 
   // Pagination and rows per page states
   const [currentPage, setCurrentPage] = useState(1);
@@ -55,8 +55,6 @@ export default function PaymentTable() {
   const totalPages = Math.ceil(filteredData.length / rowsPerPage);
 
   return (
-
-    <Suspense fallback={<div>Loading Payment Table...</div>}>
     <div className="bg-white py-6 rounded-lg shadow-md">
       <div className="flex justify-between items-center">
         <h2 className="text-4xl font-bold text-[#1AA939] mb-4 uppercase pl-6">
@@ -114,6 +112,5 @@ export default function PaymentTable() {
         </div>
       </div>
     </div>
-    </Suspense>
   );
 }

@@ -11,10 +11,8 @@ export default function Class({
         ACADEMIC RESULT FOR CLASS {id}{" "}
       </h2>
       <div className="grid grid-cols-[repeat(6,minmax(40px,82px))] gap-2 md:gap-8 mx-auto">
-        {classes.map((c) => (
-          <div 
-          key={c}
-          className="border-2 border-[#00000024] p-1 md:p-2 flex items-center justify-center cursor-pointer">
+        {classes.map((c, index) => (
+          <div key={index} className="border-2 border-[#00000024] p-1 md:p-2 flex items-center justify-center cursor-pointer">
             <span className="m-auto text-center">{c}</span>
           </div>
         ))}

@@ -1,6 +1,6 @@
 import { SessionsPropTypes } from "@/app/constants/sessions";
 import SessionCard from "./session-card";
-// import Link from "next/link";
+import Link from "next/link";
 import PrimaryButton from "../PrimaryButton";
 
 export default function Session({ session }: { session: SessionsPropTypes }) {

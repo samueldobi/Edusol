@@ -1,5 +1,5 @@
 'use client';
-import { Suspense } from 'react';// to be able to use useSearchParams
+
 import { useState, useCallback } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useDebouncedCallback } from 'use-debounce';
@@ -56,7 +56,6 @@ export default function PaymentStats() {
     [updateFilter]
   );
   return (
-    <Suspense fallback={<div>Loading Payment Table...</div>}>
     <div className="grid grid-cols-1 md:grid-cols-4 gap-7 mb-6 mt-20">
       {stats.map((stat, index) => (
         <div
@@ -85,6 +84,5 @@ export default function PaymentStats() {
         </div>
       ))}
     </div>
-    </Suspense>
   );
 }

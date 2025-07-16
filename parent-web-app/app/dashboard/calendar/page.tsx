@@ -1,3 +1,10 @@
+import Calendar from "@/app/ui/dashboard/calendar/calendar";
+import { EventProvider } from "@/app/lib/EventContext";
 export default function Page() {
-  return <p>Calendar</p>;
+  return(
+    <EventProvider>
+      <Calendar/>
+    </EventProvider>
+     
+  )
 }
