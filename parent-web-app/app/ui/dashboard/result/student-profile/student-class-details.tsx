@@ -1,6 +1,9 @@
 "use client";
 import Image from "next/image";
-export default function StudentClassDetails({studentSize}){
+type Props = {
+  studentSize?: number; 
+}
+export default function StudentClassDetails({studentSize}:Props){
     return(
  
         <>
