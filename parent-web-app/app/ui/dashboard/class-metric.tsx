@@ -1,4 +1,9 @@
-export function ClassMetrics({ data }: { data: any[] }) {
+interface ClassMetric {
+  className: string;
+  metric: number;
+  color: string;
+}
+export function ClassMetrics({ data }: { data:ClassMetric[]  }) {
   return (
     <div className="w-full bg-white mt-7 p-4 sm:p-0">
       <div className="flex justify-between items-center mb-4">
@@ -22,7 +27,7 @@ export function ClassMetrics({ data }: { data: any[] }) {
                 }}
               ></div>
             </div>
-          </li> //Closing tag
+          </li>
         ))}
       </ul>
     </div>
