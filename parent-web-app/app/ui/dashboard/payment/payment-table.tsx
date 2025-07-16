@@ -1,13 +1,13 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { useSearchParams, useRouter } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { paymentData } from '../../../lib/placeholder-data';
 import Table from '@/app/ui/dashboard/table';
 
 export default function PaymentTable() {
   const searchParams = useSearchParams();
-  const router = useRouter();
+  // const router = useRouter(); I need to come back and add the router later
 
   // Pagination and rows per page states
   const [currentPage, setCurrentPage] = useState(1);

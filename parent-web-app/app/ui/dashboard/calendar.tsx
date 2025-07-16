@@ -39,11 +39,11 @@ const Calendar = () => {
 
   const dayLabels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
   let dayCounter = 1;
-  let calendarRows = [];
+  const calendarRows = [];
 
   for (let i = 0; i < 6; i++) {
     // Up to 6 rows to cover all months
-    let row = [];
+    const row = [];
     for (let j = 0; j < 7; j++) {
       if (i === 0 && j < firstDay) {
         row.push(<td key={`${i}-${j}`} className="p-2 text-gray-400"></td>);

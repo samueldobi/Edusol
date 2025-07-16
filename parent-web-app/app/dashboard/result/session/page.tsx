@@ -8,8 +8,8 @@ import classes from "@/app/constants/classes";
 
 export default function ResultSession() {
   const searchParams = useSearchParams();
-  let term = searchParams.get("term");
-  let session = searchParams.get("session");
+  const term = searchParams.get("term");
+  const session = searchParams.get("session");
   const classarr = classes.find((c) => c.session == session);
 
   return (
@@ -31,7 +31,7 @@ export default function ResultSession() {
       </div>
       <div className="flex flex-col space-y-6">
         {classarr?.classes.map((c) => (
-          <Class classes={c.class} id={c.id} />
+          <Class  key={c.id} classes={c.class} id={c.id} />
         ))}
       </div>
     </div>
