@@ -44,7 +44,7 @@ export default function Page() {
         </div>
         <div>
           <p className="font-medium mb-4 uppercase">CALENDER & EVENTS</p>
-          <Calendar />
+          {/* <Calendar /> */}
         </div>
       </div>
       <div>
