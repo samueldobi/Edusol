@@ -18,7 +18,11 @@ export default function Page() {
       entriesPerPage={rowsPerPage}
       setEntriesPerPage={updateRowsPerPage}
     />
-    <UserTable rowsPerPage={rowsPerPage} />
+    <UserTable 
+    rowsPerPage={rowsPerPage}
+     currentPage={currentPage}
+    setCurrentPage={setCurrentPage}
+     />
     </>
   );
 }
