@@ -8,6 +8,7 @@ const Calendar = () => {
   // const [showManageEvent, setShowManageEvent] =  useState(false)
   // const [currentMonth, setCurrentMonth] = useState(new Date()); 
   // const [newEvent, setNewEvent] = useState(false)
+  // const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   // const handleManage= ()=>{
   //   setShowManageEvent(true)
   // }
@@ -16,7 +17,6 @@ const Calendar = () => {
   // }
 
   //These are the states for day and month
-  // const [selectedDate, setSelectedDate] = useState<Date | null>(null);
 
   // const goToPreviousMonth = () => {
   //   setCurrentMonth(
