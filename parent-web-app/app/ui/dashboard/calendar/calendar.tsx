@@ -2,20 +2,20 @@
 
 import React, { useState } from 'react';
 import ManageCalendarModal from './manage-calendar';
-import CreateEventModal from './new-event';
 
-const Calendar = ({onClose}) => {
+
+const Calendar = () => {
   const [showManageEvent, setShowManageEvent] =  useState(false)
-  const [newEvent, setNewEvent] = useState(false)
+  const [currentMonth, setCurrentMonth] = useState(new Date()); 
+  // const [newEvent, setNewEvent] = useState(false)
   const handleManage= ()=>{
     setShowManageEvent(true)
   }
-  const handleNewEvent = ()=>{
-    setNewEvent(true);
-  }
+  // const handleNewEvent = ()=>{
+  //   setNewEvent(true);
+  // }
 
   //These are the states for day and month
-  const [currentMonth, setCurrentMonth] = useState(new Date()); 
   // const [selectedDate, setSelectedDate] = useState<Date | null>(null);
 
   const goToPreviousMonth = () => {
@@ -100,7 +100,7 @@ const Calendar = ({onClose}) => {
             Manage
           </button>
           <button 
-          onClick={handleNewEvent}
+          // onClick={handleNewEvent}
           className="px-4 py-2 text-xs font-semibold uppercase rounded border-2 border-green-600 text-green-600 hover:bg-green-50 hover:shadow transition">
             New Event
           </button>
@@ -166,9 +166,9 @@ const Calendar = ({onClose}) => {
     {showManageEvent && (
       <ManageCalendarModal onClose={() => setShowManageEvent(false)} />
     )}
-    {newEvent && (
+    {/* {newEvent && (
       <CreateEventModal onClose = {()=> setNewEvent(false)}/>
-    )}
+    )} */}
     </>
   );
 };

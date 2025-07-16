@@ -1,5 +1,5 @@
 import { termData } from "@/app/lib/placeholder-data"
-import Image from "next/image"
+// import Image from "next/image"
 export default function  SessionCard(){
     return(
         <>

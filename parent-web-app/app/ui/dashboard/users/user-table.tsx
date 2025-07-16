@@ -15,6 +15,7 @@ export default function UserTable(){
 // States for student data and student size
 const [studentData, setStudentData] = useState<Student[]>([]);
 const[studentSize, setStudentSize] =  useState(0);
+console.log(studentSize)
 // Pagination States for rows and rows per page
 const [currentPage, setCurrentPage] = useState(1);
 const [rowsPerPage, setRowsPerPage] = useState(5);

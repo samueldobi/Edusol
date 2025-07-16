@@ -1,5 +1,4 @@
 "use client";
-
 import Image from "next/image";
 import polygon from "@/public/Polygon 1.png";
 import Class from "@/app/ui/dashboard/result/class";
@@ -40,7 +39,6 @@ export default function ResultSession() {
             session,
             term,
             classId: c.id,
-            // className:className
           }
         }}  
         >

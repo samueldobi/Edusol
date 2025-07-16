@@ -3,6 +3,7 @@ import { useState } from "react";
 // import Image from "next/image";
 export default function SearchClass(){
     const [selectedClass, setSelectedClass] = useState("SS 1 {SS1A}");
+    console.log(setSelectedClass);
     return (
     <div className="flex items-center gap-3 mb-6 p-2">
       {/* Input Wrapper */}

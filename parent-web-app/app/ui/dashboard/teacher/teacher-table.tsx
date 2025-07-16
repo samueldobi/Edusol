@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { teachersTable } from "@/app/lib/placeholder-data";
+// import { teachersTable } from "@/app/lib/placeholder-data";
 export default function TeacherTable({data}){
   const visibleTeachers = data;
     return(
