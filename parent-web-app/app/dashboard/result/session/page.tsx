@@ -1,5 +1,5 @@
 "use client";
-
+import { Suspense } from 'react';// to be able to use useSearchParams
 import Image from "next/image";
 import polygon from "@/public/Polygon 1.png";
 import Class from "@/app/ui/dashboard/result/class";
@@ -13,6 +13,8 @@ export default function ResultSession() {
   const classarr = classes.find((c) => c.session == session);
 
   return (
+    <Suspense fallback={<div>Loading ...</div>}>
+        
     <div className="flex flex-col space-y-2 md:space-y-6 px-4 md:px-12">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
@@ -35,5 +37,6 @@ export default function ResultSession() {
         ))}
       </div>
     </div>
+    </Suspense>
   );
 }
