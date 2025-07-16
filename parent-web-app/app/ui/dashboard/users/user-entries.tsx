@@ -1,5 +1,12 @@
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
-export default function UserEntries(){
+interface UserEntriesProps {
+  entriesPerPage: number;
+  setEntriesPerPage: (value: number) => void;
+}
+export default function UserEntries({
+  entriesPerPage,
+  setEntriesPerPage,
+}: UserEntriesProps){
     return(
         <>
                     <div className="flex justify-between">
@@ -9,6 +16,9 @@ export default function UserEntries(){
                     </label>
                     <select
                         id="rowsPerPage"
+                        value={entriesPerPage}
+                        onChange={(e) => setEntriesPerPage(Number(e.target.value))}
+
                         className="p-2 border rounded w-44"
                     >
                         <option value="5">5</option>

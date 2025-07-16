@@ -2,7 +2,7 @@
 import Image from "next/image";
 import AddTeacherModal from "./add-teacher";
 import { useState } from "react";
-export default function TeacherNav({onClose}){
+export default function TeacherNav(){
     const [ teacherModal, setTeacherModal ] = useState(false)
     const  handleClick = () =>{
         setTeacherModal(true);

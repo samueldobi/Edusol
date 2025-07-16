@@ -27,7 +27,7 @@ export default function TeacherUI() {
   const totalPages = Math.ceil(teachersTable.length / entriesPerPage);
   return(
     <>
-      <TeacherNav onClose={onclose}/>
+      <TeacherNav />
       <TeacherDepartmentTab/>
       <TeacherEntries 
             entriesPerPage={entriesPerPage}

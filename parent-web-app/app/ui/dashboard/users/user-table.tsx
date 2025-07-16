@@ -2,7 +2,17 @@
 import Image from "next/image"
 import { useEffect, useState } from "react";
 import axios from "axios";
-export default function UserTable(){
+
+interface Props {
+  rowsPerPage: number;
+  currentPage: number;
+  setCurrentPage: (page: number) => void;
+}
+export default function UserTable({
+  rowsPerPage,
+  currentPage,
+  setCurrentPage,
+}: Props){
     type Student = {
         id: number;
         student_name: string;
@@ -17,8 +27,8 @@ const [studentData, setStudentData] = useState<Student[]>([]);
 const[studentSize, setStudentSize] =  useState(0);
 console.log(studentSize)
 // Pagination States for rows and rows per page
-const [currentPage, setCurrentPage] = useState(1);
-const [rowsPerPage, setRowsPerPage] = useState(5);
+// const [currentPage, setCurrentPage] = useState(1);
+// const [rowsPerPage, setRowsPerPage] = useState(5);
     useEffect(()=>{
         const fetchStudents =async()=>{
             try{
@@ -43,10 +53,10 @@ const [rowsPerPage, setRowsPerPage] = useState(5);
     setCurrentPage(newPage);
   };
   // Update rows per page function
-  const updateRowsPerPage = (newRowsPerPage: number) => {
-    setRowsPerPage(newRowsPerPage);
-    setCurrentPage(1);
-  };
+  // const updateRowsPerPage = (newRowsPerPage: number) => {
+  //   setRowsPerPage(newRowsPerPage);
+  //   setCurrentPage(1);
+  // };
     // Total number of pages
   const totalPages = Math.ceil(studentData.length / rowsPerPage);
     return(

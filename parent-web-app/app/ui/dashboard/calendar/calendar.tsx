@@ -166,9 +166,7 @@ const Calendar = () => {
     {showManageEvent && (
       <ManageCalendarModal onClose={() => setShowManageEvent(false)} />
     )}
-    {/* {newEvent && (
-      <CreateEventModal onClose = {()=> setNewEvent(false)}/>
-    )} */}
+
     </>
   );
 };
