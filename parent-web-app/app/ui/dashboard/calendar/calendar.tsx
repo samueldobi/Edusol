@@ -1,16 +1,16 @@
 'use client';
 
-import React, { useState } from 'react';
-import ManageCalendarModal from './manage-calendar';
+// import React, { useState } from 'react';
+// import ManageCalendarModal from './manage-calendar';
 
 
 const Calendar = () => {
-  const [showManageEvent, setShowManageEvent] =  useState(false)
-  const [currentMonth, setCurrentMonth] = useState(new Date()); 
+  // const [showManageEvent, setShowManageEvent] =  useState(false)
+  // const [currentMonth, setCurrentMonth] = useState(new Date()); 
   // const [newEvent, setNewEvent] = useState(false)
-  const handleManage= ()=>{
-    setShowManageEvent(true)
-  }
+  // const handleManage= ()=>{
+  //   setShowManageEvent(true)
+  // }
   // const handleNewEvent = ()=>{
   //   setNewEvent(true);
   // }
@@ -18,28 +18,28 @@ const Calendar = () => {
   //These are the states for day and month
   // const [selectedDate, setSelectedDate] = useState<Date | null>(null);
 
-  const goToPreviousMonth = () => {
-    setCurrentMonth(
-      new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1)
-    );
-  };
+  // const goToPreviousMonth = () => {
+  //   setCurrentMonth(
+  //     new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1)
+  //   );
+  // };
 
-  const goToNextMonth = () => {
-    setCurrentMonth(
-      new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1)
-    );
-  };
+  // const goToNextMonth = () => {
+  //   setCurrentMonth(
+  //     new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1)
+  //   );
+  // };
   //   setSelectedDate(
   //     new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day)
   //   );
   // };
 
-  const monthName = currentMonth.toLocaleString('default', { month: 'long' });
-  const month = currentMonth.getMonth(); 
-  const year = currentMonth.getFullYear();
-  const firstDayOfMonth = new Date(year, month, 1).getDay()
-  const daysInMonth = new Date(year, month + 1, 0).getDate();
-  const adjustedFirstDay = firstDayOfMonth === 0 ? 6 : firstDayOfMonth - 1;
+  // const monthName = currentMonth.toLocaleString('default', { month: 'long' });
+  // const month = currentMonth.getMonth(); 
+  // const year = currentMonth.getFullYear();
+  // const firstDayOfMonth = new Date(year, month, 1).getDay()
+  // const daysInMonth = new Date(year, month + 1, 0).getDate();
+  // const adjustedFirstDay = firstDayOfMonth === 0 ? 6 : firstDayOfMonth - 1;
 
 
 
@@ -90,24 +90,25 @@ const Calendar = () => {
 
   return (
     <>
-  <div className="max-w-4xl mx-auto w-full bg-white rounded shadow overflow-hidden">
+    <p>calendar</p>
+  {/* <div className="max-w-4xl mx-auto w-full bg-white rounded shadow overflow-hidden"> */}
       {/* Header Buttons */}
-      <div className="relative p-4 bg-white">
+      {/* <div className="relative p-4 bg-white">
         <div className="absolute top-4 right-4 flex gap-2">
           <button 
           onClick={handleManage}
           className="px-4 py-2 text-xs font-semibold uppercase rounded bg-green-600 text-white hover:shadow hover:-translate-y-0.5 transition">
             Manage
           </button>
-          <button 
-          // onClick={handleNewEvent}
+          <button  */}
+           {/* onClick={handleNewEvent}
           className="px-4 py-2 text-xs font-semibold uppercase rounded border-2 border-green-600 text-green-600 hover:bg-green-50 hover:shadow transition">
             New Event
           </button>
-        </div>
+        </div> */}
 
         {/* Month Navigation */}
-        <div className="mt-20 md:mt-10">
+        {/* <div className="mt-20 md:mt-10">
           <div className="bg-green-600 px-4 py-3 rounded-lg shadow">
             <div className="flex items-center justify-between text-white font-semibold text-lg">
               <button 
@@ -125,11 +126,11 @@ const Calendar = () => {
               </button>
             </div>
           </div>
-        </div>
-      </div>
+        </div> */}
+      {/* </div> */}
 
       {/* Weekdays Header */}
-      <div className="px-4 pb-2">
+      {/* <div className="px-4 pb-2">
         <div className="grid grid-cols-7 gap-1 mb-1 text-sm font-semibold text-gray-600 text-center">
           <div>Mon</div>
           <div>Tue</div>
@@ -160,12 +161,12 @@ const Calendar = () => {
     </div>
 
 
-    </div>
+    </div> */}
 
-    {/* Modals */}
-    {showManageEvent && (
+ 
+    {/* {showManageEvent && (
       <ManageCalendarModal onClose={() => setShowManageEvent(false)} />
-    )}
+    )} */}
 
     </>
   );

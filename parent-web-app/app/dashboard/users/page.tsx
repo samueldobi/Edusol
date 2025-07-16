@@ -6,6 +6,7 @@ import UserEntries from "@/app/ui/dashboard/users/user-entries";
 export default function Page() {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
+  console.log(currentPage)
     const updateRowsPerPage = (newRowsPerPage: number) => {
     setRowsPerPage(newRowsPerPage);
     setCurrentPage(1);

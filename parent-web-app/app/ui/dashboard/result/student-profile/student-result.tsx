@@ -2,7 +2,7 @@ import StudentAttendanceCard from "./student-attendace-card";
 import StudentClassDetails from "./student-class-details";
 import StudentOverviewCard from "./student-overview-card";
 import StudentPerformanceTable from "./student-performance-table";
-export default function StudentResult({onBack, studentInfo, studentScore, studentSize }){
+export default function StudentResult({onBack,  studentScore, studentSize }){
     return(
         <>
         <div>

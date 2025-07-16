@@ -69,9 +69,9 @@ export default function ClassDetails() {
     console.log("Updated student scores:", studentScores);
 }, [studentScores]);
 
-const  handleDisplayScores =(studentId: number)=>{
+const  handleDisplayScores =()=>{
   setShowScores(true);
-  setSelectedStudent(studentId);
+  // setSelectedStudent();
 }
 const handleGoBack = () => {
   setShowScores(false);
@@ -83,10 +83,10 @@ const handleGoBack = () => {
     {showScores ? (
       <StudentResult
         onBack={handleGoBack}
-        studentInfo={students.find((s) => s.id === selectedStudent)}
+        // studentInfo={students.find((s) => s.id === selectedStudent)}
         studentScore={studentScores.find((s) => s.id === selectedStudent)}
         studentSize={students.length}
-        studentId={selectedStudent}
+        // studentId={selectedStudent}
       />
     ) : (
       <>
@@ -101,7 +101,7 @@ const handleGoBack = () => {
             {students.map((student) => (
               <button
                 key={student.id}
-                onClick={() => handleDisplayScores(student.id)}
+                onClick={() => handleDisplayScores()}
                 className="w-full text-left bg-white border border-gray-200 p-6 rounded-2xl shadow-md hover:shadow-lg transition duration-300 hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-400"
               >
                 <p className="text-lg font-semibold text-gray-800">{student.name}</p>
