@@ -2,7 +2,7 @@
 import Image from "next/image";
 import { attendanceCardData } from "@/app/lib/placeholder-data";
 import { useEffect, useState } from "react";
-export default function  StudentAttendanceCard({attendance}){
+export default function  StudentAttendanceCard(){
         type CardData = {
         id: number;
         term: string;
@@ -10,10 +10,11 @@ export default function  StudentAttendanceCard({attendance}){
         attendance: string;
         text: string;
         };
+        
     const [cardData, setCardData] = useState<CardData[]>([]);
     useEffect(()=>{
         setCardData(attendanceCardData)
-        console.log(attendance)
+    
     },[])
     return(
         <>

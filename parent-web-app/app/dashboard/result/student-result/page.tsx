@@ -9,7 +9,7 @@ export default function Page(){
         <>
             <StudentOverviewCard/>
             <StudentClassDetails/>
-            <StudentAttendanceCard attendance={studentScore.attendance} />
+            <StudentAttendanceCard  />
             <StudentPerformanceTable/>
         </>
 
