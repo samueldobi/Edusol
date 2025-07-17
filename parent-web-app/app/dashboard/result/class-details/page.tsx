@@ -70,7 +70,7 @@ export default function ClassDetails() {
     console.log("Updated student scores:", studentScores);
 }, [studentScores]);
 
-const  handleDisplayScores =(studentId: string)=>{
+const  handleDisplayScores =()=>{
   setShowScores(true);
   // setSelectedStudent(studentId);
 }
