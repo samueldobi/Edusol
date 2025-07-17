@@ -23,10 +23,10 @@ type StudentResultProps = {
 
 export default function StudentResult({
   onBack,
-  studentScore,
+//   studentScore,
   studentSize,
 }: StudentResultProps) {
-  if (!studentScore) {
+  if (!studentSize) {
     return (
       <div className="p-4 text-center text-red-500">
         Student score data is not available.
@@ -45,7 +45,7 @@ export default function StudentResult({
         </button>
       </div>
       <StudentClassDetails studentSize={studentSize} />
-      <StudentAttendanceCard attendance={studentScore.attendance} />
+      <StudentAttendanceCard/>
       <StudentOverviewCard />
       <StudentPerformanceTable />
     </>

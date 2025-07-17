@@ -25,7 +25,7 @@ interface Attendance {
 }
 
 // Main student score structure
-interface StudentScore {
+interface StudentScoreData {
   id: string; 
   attendance: Attendance;
   first_term: TermScores;
@@ -44,9 +44,9 @@ export default function ClassDetails() {
   // const classId = searchParams.get("classId");
 
   const [students, setStudents] = useState<Student[]>([]);
-  const [studentScores, setStudentScores] = useState<StudentScore[]>([]);
+  const [studentScores, setStudentScores] = useState<StudentScoreData[]>([]);
   const [showScores, setShowScores] =  useState(false)
-  const [selectedStudent, setSelectedStudent] = useState(null);
+  // const [selectedStudent, setSelectedStudent] = useState(null);
   useEffect(() => {
     // Fetch Students Results Data 
     const fetchData= async() => {
@@ -59,6 +59,7 @@ export default function ClassDetails() {
         );
         setStudents(studentsRes.data)
         setStudentScores(scoresRes.data)
+        console.log("main student scores",students)
       } catch (err) {
         console.log(err);
       }
@@ -69,13 +70,13 @@ export default function ClassDetails() {
     console.log("Updated student scores:", studentScores);
 }, [studentScores]);
 
-const  handleDisplayScores =()=>{
+const  handleDisplayScores =(studentId: string)=>{
   setShowScores(true);
-  // setSelectedStudent();
+  // setSelectedStudent(studentId);
 }
 const handleGoBack = () => {
   setShowScores(false);
-  setSelectedStudent(null);
+  // setSelectedStudent(null);
 };
 
   return (
@@ -83,7 +84,7 @@ const handleGoBack = () => {
     {showScores ? (
       <StudentResult
         onBack={handleGoBack}
-        // studentScore={studentScore.find((s) => s.id === selectedStudent)}
+        // studentScore={studentScores.find((s) => s.id === selectedStudent)}
         studentSize={students.length}
       />
     ) : (
@@ -100,7 +101,7 @@ const handleGoBack = () => {
               <button
                 key={student.id}
                 onClick={() =>
-                   handleDisplayScores()}
+                   handleDisplayScores(student.id)}
                 className="w-full text-left bg-white border border-gray-200 p-6 rounded-2xl shadow-md hover:shadow-lg transition duration-300 hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-400"
               >
                 <p className="text-lg font-semibold text-gray-800">{student.name}</p>

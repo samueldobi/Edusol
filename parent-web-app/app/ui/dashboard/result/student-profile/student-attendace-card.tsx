@@ -4,7 +4,8 @@ import { attendanceCardData } from "@/app/lib/placeholder-data";
 import { useEffect, useState } from "react";
 
 // 👇 Accept the attendance prop from parent
-export default function StudentAttendanceCard({ attendance }: { attendance: { first_term: number; second_term: number; third_term: number } }) {
+// export default function StudentAttendanceCard({ attendance }: { attendance: { first_term: number; second_term: number; third_term: number } }) {
+export default function StudentAttendanceCard() {
 
   // Card data type
   type CardData = {
@@ -16,28 +17,31 @@ export default function StudentAttendanceCard({ attendance }: { attendance: { fi
   };
 
   const [cardData, setCardData] = useState<CardData[]>([]);
+  
 
   useEffect(() => {
    
-    const updatedCardData = attendanceCardData.map((card) => {
-      let termAttendance = "";
+    setCardData(attendanceCardData)
+    console.log(setCardData)
+//     const updatedCardData = attendanceCardData.map((card) => {
+//       let termAttendance = "";
 
-      if (card.term === "First Term") {
-        termAttendance = `${attendance.first_term}%`;
-      } else if (card.term === "Second Term") {
-        termAttendance = `${attendance.second_term}%`;
-      } else if (card.term === "Third Term") {
-        termAttendance = `${attendance.third_term}%`;
-      }
+//       if (card.term === "First Term") {
+//         termAttendance = `${attendance.first_term}%`;
+//       } else if (card.term === "Second Term") {
+//         termAttendance = `${attendance.second_term}%`;
+//       } else if (card.term === "Third Term") {
+//         termAttendance = `${attendance.third_term}%`;
+//       }
 
-      return {
-        ...card,
-        attendance: termAttendance, 
-      };
-    });
+//       return {
+//         ...card,
+//         attendance: termAttendance, 
+//       };
+//     });
 
-    setCardData(updatedCardData); 
-  }, [attendance]);
+//     setCardData(updatedCardData); 
+  }, []);
 
   return (
     <>
