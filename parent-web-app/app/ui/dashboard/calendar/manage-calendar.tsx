@@ -1,4 +1,7 @@
-export default function ManageCalendarModal({onClose}){
+interface ManageCalendarModalProps {
+  onClose: () => void;
+}
+export default function ManageCalendarModal({onClose}:ManageCalendarModalProps){
     return(
         <>
         <div className="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50">
