@@ -1,11 +1,20 @@
 import { schoolStructure } from "@/app/lib/placeholder-data";
+type SchoolLevel = {
+  [key: string]: string[] | undefined;
+};
+type LevelGroup = {
+  level: string;
+  classes: string[];
+};
 export default function ClassGroups() {
-     const transformClasses = (classes) => 
-    classes.map(item => {
-      const [level, classes] = Object.entries(item)[0];
-      return { level, classes };
+     const transformClasses = (groups: SchoolLevel[]): LevelGroup[] => 
+    groups.map(item => {
+      // Filter out undefined values and get the first defined entry
+      const entries = Object.entries(item).filter(([_, value]) => value !== undefined);
+      const [level, classList] = entries[0];
+      return { level, classes: classList as string[] };
     });
-      const allLevels = [
+      const allLevels: LevelGroup[] = [
     ...transformClasses(schoolStructure.junior),
     ...transformClasses(schoolStructure.senior)
   ];
