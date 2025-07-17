@@ -10,7 +10,7 @@ export default function ClassGroups() {
      const transformClasses = (groups: SchoolLevel[]): LevelGroup[] => 
     groups.map(item => {
       // Filter out undefined values and get the first defined entry
-      const entries = Object.entries(item).filter(([_, value]) => value !== undefined);
+      const entries = Object.entries(item).filter(([, value]) => value !== undefined);
       const [level, classList] = entries[0];
       return { level, classes: classList as string[] };
     });
