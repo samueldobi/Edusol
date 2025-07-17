@@ -2,7 +2,12 @@ import StudentAttendanceCard from "./student-attendace-card";
 import StudentClassDetails from "./student-class-details";
 import StudentOverviewCard from "./student-overview-card";
 import StudentPerformanceTable from "./student-performance-table";
-export default function StudentResult({onBack,  studentScore, studentSize }){
+type StudentResultProps = {
+  onBack: () => void;
+  studentScore: number; 
+  studentSize: number;
+};
+export default function StudentResult({onBack,  studentSize }:StudentResultProps){
     return(
         <>
         <div>
@@ -13,7 +18,7 @@ export default function StudentResult({onBack,  studentScore, studentSize }){
             </button>
         </div>
          <StudentClassDetails studentSize ={studentSize}/>
-         <StudentAttendanceCard attendance={studentScore.attendance}/>
+         <StudentAttendanceCard />
          <StudentOverviewCard/>
          <StudentPerformanceTable/>
         </>
