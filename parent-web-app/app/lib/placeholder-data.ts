@@ -631,8 +631,15 @@ export const termData = [
         end: "End - 27th July 2023",
       },
     ]
-
-export const assignmentData = [
+export type Assignment = {
+  id: number;
+  imageUrl: string;
+  subject: string;
+  topic: string;
+  submitted: boolean;
+  day: string;
+};
+export const assignmentData: Assignment[] = [
   {
     "id": 1,
     "imageUrl": "/math-logo.png",

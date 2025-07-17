@@ -1,10 +1,11 @@
 "use client";
-import { assignmentData } from "@/app/lib/placeholder-data"
+import { assignmentData, Assignment } from "@/app/lib/placeholder-data"
 import { useState } from "react";
 import Image from "next/image"
 import EditAssignmentModal from "./modals/edit-assignment-modal";
 import DeleteConfirmModal from "./modals/delete-assignment-modal";
 import SuccessModal from "./modals/show-success-modal";
+
 
 export default function AssignmentCards(){
   const [showEdit, setShowEdit] = useState(false);
@@ -13,11 +14,11 @@ export default function AssignmentCards(){
   const [successTitle, setSuccessTitle] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
 
-  const groupByDay = (data) => {
+  const groupByDay = (data: Assignment[]) => {
     return data.reduce((acc, item) => {
       acc[item.day] = acc[item.day] ? [...acc[item.day], item] : [item];
       return acc;
-    }, {});
+    }, {} as Record<string, Assignment[]>);
   };
 
   const grouped = groupByDay(assignmentData);
