@@ -15,7 +15,7 @@ type StudentScore = {
 };
 type StudentResultProps = {
   onBack: () => void;
-  studentScore: StudentScore;
+  studentScore?: StudentScore;
   studentSize: number;
 };
 export default function StudentResult({onBack,  studentSize,studentScore }: StudentResultProps) {
