@@ -83,10 +83,8 @@ const handleGoBack = () => {
     {showScores ? (
       <StudentResult
         onBack={handleGoBack}
-        // studentInfo={students.find((s) => s.id === selectedStudent)}
         studentScore={studentScores.find((s) => s.id === selectedStudent)}
         studentSize={students.length}
-        // studentId={selectedStudent}
       />
     ) : (
       <>

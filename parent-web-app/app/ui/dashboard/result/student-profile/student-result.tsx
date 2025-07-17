@@ -2,12 +2,30 @@ import StudentAttendanceCard from "./student-attendace-card";
 import StudentClassDetails from "./student-class-details";
 import StudentOverviewCard from "./student-overview-card";
 import StudentPerformanceTable from "./student-performance-table";
+type StudentScore = {
+  id: string;
+  attendance: {
+    first_term: number;
+    second_term: number;
+    third_term: number;
+  };
+  first_term: number;
+  second_term: number;
+  third_term: number;
+};
 type StudentResultProps = {
   onBack: () => void;
-  studentScore: number; 
+  studentScore: StudentScore;
   studentSize: number;
 };
-export default function StudentResult({onBack,  studentSize }:StudentResultProps){
+export default function StudentResult({onBack,  studentSize,studentScore }: StudentResultProps) {
+  if (!studentScore) {
+    return (
+      <div className="p-4 text-center text-red-500">
+        Student score data is not available.
+      </div>
+    );
+  }
     return(
         <>
         <div>
@@ -18,7 +36,7 @@ export default function StudentResult({onBack,  studentSize }:StudentResultProps
             </button>
         </div>
          <StudentClassDetails studentSize ={studentSize}/>
-         <StudentAttendanceCard />
+         <StudentAttendanceCard attendance={studentScore.attendance}  />
          <StudentOverviewCard/>
          <StudentPerformanceTable/>
         </>
