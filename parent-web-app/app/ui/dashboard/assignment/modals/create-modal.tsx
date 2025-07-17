@@ -4,7 +4,7 @@ import { useState } from "react";
 import { subjectsList } from "@/app/lib/placeholder-data";
 interface CreateAssignmentModalProps {
   onClose: () => void;
-  onSuccess: () => void;
+  onSuccess: (assignment: { subject: string; topic: string }) => void;
 }
 const CreateAssignmentModal: React.FC<CreateAssignmentModalProps> =({ onClose, onSuccess })=>{
   const [subject, setSubject] = useState(subjectsList[0].subject);
