@@ -1,6 +1,10 @@
 import React from "react";
-
-export default function DeleteModal({ show, onConfirm, onClose }) {
+interface DeleteModalProps {
+  show: boolean;
+  onConfirm: () => void;
+  onClose: () => void;
+}
+export default function DeleteModal({ show, onConfirm, onClose }: DeleteModalProps) {
   if (!show) return null;
 
   return (
