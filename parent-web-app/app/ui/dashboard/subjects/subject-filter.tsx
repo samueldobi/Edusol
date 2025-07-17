@@ -5,7 +5,7 @@ import EditSubjectModal from "./edit-subject-modal";
 export default function SubjectFilter(){
      const [activeTab, setActiveTab] = useState('junior');
      const [editModal, setEditModal] = useState(false);
-        const handleClick=(tabName)=>{
+        const handleClick=(tabName: 'junior' | 'senior')=>{
             setActiveTab(tabName);
         }
         const handleShowModal=()=>{
