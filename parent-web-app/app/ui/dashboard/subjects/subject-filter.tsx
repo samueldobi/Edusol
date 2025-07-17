@@ -46,7 +46,7 @@ export default function SubjectFilter(){
                 {currentSubjects.map((subject) => (
                     <li
                     key={`${subject.arm}-${subject.index}`}
-                    onClick={() => handleShowModal(subject)}
+                    onClick={() => handleShowModal}
                     className="w-full text-left bg-white border border-gray-200 p-6 rounded-2xl shadow-md hover:shadow-lg transition duration-300 hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-400"
                     >
                     <p className="text-[#071331] font-bold">
