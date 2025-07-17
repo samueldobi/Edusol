@@ -88,7 +88,7 @@ const handleGoBack = () => {
       />
     ) : (
       <>
-        <h2 className="p-2 text-center text-white bg-[#050548] text-[15px] md:text-[22px]">
+        <h2 className="p-2 text-center text-white bg-[#050548] text-[15px] md:text-[23px]">
           Class List for {term}, {session}
         </h2>
 
