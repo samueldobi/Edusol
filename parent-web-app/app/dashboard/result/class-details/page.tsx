@@ -99,7 +99,8 @@ const handleGoBack = () => {
             {students.map((student) => (
               <button
                 key={student.id}
-                onClick={() => handleDisplayScores()}
+                onClick={() =>
+                   handleDisplayScores()}
                 className="w-full text-left bg-white border border-gray-200 p-6 rounded-2xl shadow-md hover:shadow-lg transition duration-300 hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-400"
               >
                 <p className="text-lg font-semibold text-gray-800">{student.name}</p>
