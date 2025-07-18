@@ -9,7 +9,7 @@ export function Button({ children, className, ...rest }: ButtonProps) {
     <button
       {...rest}
       className={clsx(
-        'bg-indigo-950 font-bold text-white sm:px-20 py-3',
+        'bg-indigo-950 font-bold text-white px-4 sm:px-20 py-3',
         className
       )}
     >
