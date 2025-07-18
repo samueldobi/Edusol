@@ -22,14 +22,14 @@ export default function HomePage() {
       <h2 className="text-4xl font-bold leading-[3.75rem] text-lime-600">
         Welcome to Edusol
       </h2>
-        <div className="transition-transform duration-300 hover:scale-75">
+        <div className="">
             <p className=" text-center font-light text-indigo-950 ">
             To Get Started 
       </p>
         </div>
       
       {/*Form section*/}
-      <div className="mt-4 mx-auto ">
+      <div className="mt-4 mx-auto transition-transform duration-300 hover:scale-75 ">
        
            <Link href= "/auth/login">
                 <Button>LOG IN</Button>
