@@ -25,6 +25,7 @@ export default function Page() {
             >
               <div className="flex sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-4 px-2 sm:px-0 min-w-[max-content] sm:min-w-0">
                 <MetricCardWrapper />
+                  <div className="min-w-[16px] sm:hidden" />
               </div>
             </motion.div>
             {/* <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
