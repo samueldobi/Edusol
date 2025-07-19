@@ -5,12 +5,9 @@ interface AddTeacherModalProps {
 export default function AddTeacherModal({onClose}: AddTeacherModalProps){
     return(
         <>
-      {/* Overlay and Modal Wrapper */}
       <div 
       onClick={onClose}
       className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 p-4">
-        
-        {/* Scrollable Modal Content */}
         <div 
         onClick={(e)=>e.stopPropagation()}
         className="bg-white max-w-2xl w-full max-h-screen overflow-y-auto rounded-lg shadow-lg p-6 sm:p-8">

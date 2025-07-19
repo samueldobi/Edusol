@@ -8,10 +8,9 @@ import PaginationControls from './pagination-controls';
 import { teachersTable } from '@/app/lib/placeholder-data';
 export default function TeacherUI() {
     const [entriesPerPage, setEntriesPerPage] = useState(10)
-      const [currentPage, setCurrentPage] = useState(1);
-      // Pagination logic
+    const [currentPage, setCurrentPage] = useState(1);
+  // Pagination logic
   const startIndex = (currentPage - 1) * entriesPerPage;
-//   const endIndex = startIndex + entriesPerPage;
  const paginatedData = teachersTable.slice(startIndex, startIndex + entriesPerPage);
 
   // Change page function

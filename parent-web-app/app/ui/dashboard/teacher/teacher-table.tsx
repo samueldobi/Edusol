@@ -11,7 +11,6 @@ interface TeacherTableProps {
   data: Teacher[];
 }
 import Image from "next/image";
-// import { teachersTable } from "@/app/lib/placeholder-data";
 export default function TeacherTable({data}:TeacherTableProps){
   const visibleTeachers = data;
     return(

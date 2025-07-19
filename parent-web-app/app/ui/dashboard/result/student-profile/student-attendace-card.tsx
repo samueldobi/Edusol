@@ -3,8 +3,8 @@ import Image from "next/image";
 import { attendanceCardData } from "@/app/lib/placeholder-data";
 import { useEffect, useState } from "react";
 
-// 👇 Accept the attendance prop from parent
-// export default function StudentAttendanceCard({ attendance }: { attendance: { first_term: number; second_term: number; third_term: number } }) {
+
+ 
 export default function StudentAttendanceCard() {
 
   // Card data type
@@ -23,24 +23,6 @@ export default function StudentAttendanceCard() {
    
     setCardData(attendanceCardData)
     console.log(setCardData)
-//     const updatedCardData = attendanceCardData.map((card) => {
-//       let termAttendance = "";
-
-//       if (card.term === "First Term") {
-//         termAttendance = `${attendance.first_term}%`;
-//       } else if (card.term === "Second Term") {
-//         termAttendance = `${attendance.second_term}%`;
-//       } else if (card.term === "Third Term") {
-//         termAttendance = `${attendance.third_term}%`;
-//       }
-
-//       return {
-//         ...card,
-//         attendance: termAttendance, 
-//       };
-//     });
-
-//     setCardData(updatedCardData); 
   }, []);
 
   return (

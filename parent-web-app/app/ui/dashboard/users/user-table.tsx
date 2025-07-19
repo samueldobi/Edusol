@@ -52,11 +52,6 @@ console.log(studentSize)
   const changePage = (newPage: number) => {
     setCurrentPage(newPage);
   };
-  // Update rows per page function
-  // const updateRowsPerPage = (newRowsPerPage: number) => {
-  //   setRowsPerPage(newRowsPerPage);
-  //   setCurrentPage(1);
-  // };
     // Total number of pages
   const totalPages = Math.ceil(studentData.length / rowsPerPage);
     return(

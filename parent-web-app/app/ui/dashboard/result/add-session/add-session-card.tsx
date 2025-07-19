@@ -4,7 +4,6 @@ export default function  SessionCard(){
     return(
         <>
             <div className="flex flex-col gap-8 md:flex-row">
-  {/* Left Column */}
   <div className="flex-1 bg-white p-8 rounded-xl shadow">
     {[
       {

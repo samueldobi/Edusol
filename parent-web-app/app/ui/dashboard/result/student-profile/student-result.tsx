@@ -3,27 +3,15 @@ import StudentClassDetails from "./student-class-details";
 import StudentOverviewCard from "./student-overview-card";
 import StudentPerformanceTable from "./student-performance-table";
 
-// type StudentScore = {
-//   id: string;
-//   attendance: {
-//     first_term: number;
-//     second_term: number;
-//     third_term: number;
-//   };
-//   first_term: number;
-//   second_term: number;
-//   third_term: number;
-// };
+;
 
 type StudentResultProps = {
   onBack: () => void;
-//   studentScore: StudentScore | null;
   studentSize: number;
 };
 
 export default function StudentResult({
   onBack,
-//   studentScore,
   studentSize,
 }: StudentResultProps) {
   if (!studentSize) {

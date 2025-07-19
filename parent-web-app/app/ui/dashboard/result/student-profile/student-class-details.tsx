@@ -33,9 +33,9 @@ export default function StudentClassDetails({studentSize}:Props){
                     defaultValue="8197465876"
                     className="flex-1 px-3 py-2 bg-transparent text-white placeholder-white outline-none"
                     />
-                    {/* Example SVG icon */}
+                  
                     <button className="p-2 hover:bg-white/20">
-                    {/* I used the file icon here*/}
+                    
                         <Image
                             src="/file.svg"
                             width={15}

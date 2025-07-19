@@ -6,7 +6,7 @@ export default function ManageCalendarModal({onClose}:ManageCalendarModalProps){
         <>
         <div className="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50">
         <div className="bg-white rounded-lg shadow-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto p-6">
-            <div className="bg-white rounded-lg shadow-xl max-w-4xl w-full max-h-[90vh] overflow-hidden">
+        <div className="bg-white rounded-lg shadow-xl max-w-4xl w-full max-h-[90vh] overflow-hidden">
       {/* Header */}
       <div className="flex justify-between items-center px-5 py-4 bg-gray-100 border-b border-gray-200">
         <h2 className="text-green-600 font-bold text-sm tracking-wide">MANAGE EVENTS</h2>

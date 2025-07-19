@@ -17,9 +17,6 @@ export default function NotificationEntries(){
                     </label>
                     <select
                         id="rowsPerPage"
-                        // value={entriesPerPage}
-                        // onChange={(e) => setEntriesPerPage(Number(e.target.value))}
-
                         className="p-2 border rounded w-44"
                     >
                         <option value="5">5</option>

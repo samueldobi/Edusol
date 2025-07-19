@@ -32,7 +32,7 @@ export default function PaymentTable() {
     }
 
     setFilteredData(newData);
-    setCurrentPage(1); // Reset page on filter change
+    setCurrentPage(1); 
   }, [filter]);
 
   // Pagination logic

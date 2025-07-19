@@ -8,7 +8,7 @@ export default function HomePage() {
         <div className="relative h-screen bg-[url('/login-bg-image.png')] bg-cover bg-center">
       <div className="absolute inset-0 bg-gradient-to-r from-slate-900 to-lime-800 opacity-70"></div>
       <div className="relative z-10 flex items-center justify-center h-full">
-            <div className="bg-white rounded-lg shadow-lg w-[40%] max-w-[500px] min-w-[320px] flex flex-col p-6 sm:w-[90%] sm:p-11 md:w-[85%] lg:w-[60%] xl:w-[35%]">
+      <div className="bg-white rounded-lg shadow-lg w-[40%] max-w-[500px] min-w-[320px] flex flex-col p-6 sm:w-[90%] sm:p-11 md:w-[85%] lg:w-[60%] xl:w-[35%]">
       {/*Logo section*/}
       <div className="flex justify-center items-center">
         <Image
