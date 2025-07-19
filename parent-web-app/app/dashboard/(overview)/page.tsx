@@ -9,6 +9,7 @@ import AlertItem from '@/app/ui/dashboard/alert-item';
 // import Calendar from '@/app/ui/dashboard/calendar/calendar';
 import ClassMetricsWrapper from '@/app/ui/dashboard/class-metric';
 import RecentPaymentsTable from '@/app/ui/dashboard/recent-payment-table';
+import { motion } from 'framer-motion';
 
 export default function Page() {
   return (
@@ -18,9 +19,17 @@ export default function Page() {
         <div className="flex flex-col">
           {/* Top Metrics */}
           <div className="mb-8">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <motion.div
+              className="overflow-x-auto sm:overflow-visible"
+              whileTap={{ cursor: "grabbing" }}
+            >
+              <div className="flex sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-4 px-2 sm:px-0 min-w-[max-content] sm:min-w-0">
+                <MetricCardWrapper />
+              </div>
+            </motion.div>
+            {/* <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               <MetricCardWrapper />
-            </div>
+            </div> */}
           </div>
 
           {/* Weekly Overview Chart */}
