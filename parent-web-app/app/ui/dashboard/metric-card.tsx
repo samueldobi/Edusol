@@ -14,7 +14,7 @@ export default function MetricCardWrapper() {
         color="text-teal-600"
       />
       <MetricCard
-        title="Events"
+        title="Guardians"
         value="20"
         avatarSrc="/calendar.JPG"
         color="text-purple-600"

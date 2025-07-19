@@ -17,7 +17,7 @@ export default function SessionCard({ term }: { term: TermsPropTypes }) {
           className={`flex rounded-[15px] px-4 items-center justify-between`}
         >
           <h2 className="text-[22px] font-semibold">{term.name}</h2>
-          <Image src={clock} alt="Clock" />
+          <Image src={clock} alt="Clock"  />
         </div>
         <div className="flex space-y-2 flex-col px-[1px] text-center">
           <p className="text-[15px] text-[#000032b2]">Start - {term.start}</p>

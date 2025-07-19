@@ -8,10 +8,13 @@ const links = [
   { name: 'Result', href: '/dashboard/result' },
   { name: 'Assignment', href: '/dashboard/assignment' },
   { name: 'Teacher', href: '/dashboard/teacher' },
-  { name: 'Calendar', href: '/dashboard/calendar' },
-  { name: 'Activities', href: '/dashboard/activities' },
   { name: 'Users', href: '/dashboard/users' },
-  { name: 'Lesson Notes', href: '/dashboard/lesson-notes' },
+  { name: 'Subjects', href: '/dashboard/subjects' },
+  { name: 'Classes', href: '/dashboard/classes' },
+  // { name: 'Admin', href: '/dashboard/admin' },
+  // { name: 'Calendar', href: '/dashboard/calendar' },
+  // { name: 'Activities', href: '/dashboard/activities' },
+  // { name: 'Lesson Notes', href: '/dashboard/lesson-notes' },
 ];
 
 export default function NavLinks() {

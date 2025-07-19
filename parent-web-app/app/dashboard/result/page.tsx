@@ -7,7 +7,7 @@ import Link from "next/link";
 export default function Page() {
   return (
     <div className="flex flex-col space-y-6">
-      <Link href={"/dashboard/result"} className="flex items-center space-x-4">
+      <Link href={"/dashboard/result/session/add-session"} className="flex items-center space-x-4">
         <Image src={plus} alt="Plus" />
         <p className="text-[#1AA939] text-[14px] md:text-[20px] font-medium">
           Add New academic session

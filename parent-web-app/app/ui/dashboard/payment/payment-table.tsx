@@ -1,13 +1,13 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { useSearchParams, useRouter } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { paymentData } from '../../../lib/placeholder-data';
 import Table from '@/app/ui/dashboard/table';
 
 export default function PaymentTable() {
   const searchParams = useSearchParams();
-  const router = useRouter();
+  // const router = useRouter();
 
   // Pagination and rows per page states
   const [currentPage, setCurrentPage] = useState(1);
@@ -32,7 +32,7 @@ export default function PaymentTable() {
     }
 
     setFilteredData(newData);
-    setCurrentPage(1); // Reset page on filter change
+    setCurrentPage(1); 
   }, [filter]);
 
   // Pagination logic
