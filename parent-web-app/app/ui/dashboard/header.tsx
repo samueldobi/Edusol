@@ -54,7 +54,7 @@ useEffect(() => {
 
         <div className="flex items-center space-x-0 sm:space-x-4">
           {/* Notification Button */}
-          <Link href="/notifications">
+          <Link href="dashboard/notifications">
                  <button
             type="button"
             className="text-white hover:bg-green-700 rounded-full p-2 focus:outline-none focus:ring-2 focus:ring-white"
