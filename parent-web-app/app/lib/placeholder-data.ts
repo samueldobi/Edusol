@@ -1306,3 +1306,47 @@ export const teachersTable = [
     arm: "Art",
   },
 ];
+export const notificationsData = [
+    {
+      "icon": "📩",
+      "type": "message",
+      "date": "2025-07-19",
+      "time": "10:30 AM",
+      "heading": "New Message Received",
+      "info": "You have a new message from John Doe regarding your recent inquiry."
+    },
+    {
+      "icon": "⚠️",
+      "type": "alert",
+      "date": "2025-07-18",
+      "time": "3:45 PM",
+      "heading": "System Alert",
+      "info": "Your account password was changed successfully."
+    },
+    {
+      "icon": "✅",
+      "type": "success",
+      "date": "2025-07-17",
+      "time": "8:00 AM",
+      "heading": "Payment Confirmed",
+      "info": "Your payment of $120 has been processed."
+    },
+    {
+      "icon": "🔔",
+      "type": "reminder",
+      "date": "2025-07-16",
+      "time": "1:15 PM",
+      "heading": "Event Reminder",
+      "info": "You have a scheduled call with the design team tomorrow at 9 AM."
+    },
+    {
+      "icon": "📦",
+      "type": "update",
+      "date": "2025-07-15",
+      "time": "11:50 AM",
+      "heading": "Package Shipped",
+      "info": "Your order #234987 has been shipped and is on its way!"
+    }
+  
+
+];

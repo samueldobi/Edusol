@@ -1,5 +1,14 @@
+import NotificationNav from "./notification-nav";
+import NotificationEntries from "./notification-entries";
+import NotificationTable from "./notification-table";
+import { notificationsData } from "@/app/lib/placeholder-data";
 export default function AllNotifications(){
     return(
-        <p>All notifications </p>
+       <>
+        <NotificationNav/>
+        <NotificationEntries/>
+        <NotificationTable notificationsData={notificationsData}
+        />
+       </>
     )
 }
