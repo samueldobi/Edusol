@@ -3,10 +3,14 @@ export default function AddTeacherModal({onClose}){
     return(
         <>
       {/* Overlay and Modal Wrapper */}
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 p-4">
+      <div 
+      onClick={onClose}
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 p-4">
         
         {/* Scrollable Modal Content */}
-        <div className="bg-white max-w-2xl w-full max-h-screen overflow-y-auto rounded-lg shadow-lg p-6 sm:p-8">
+        <div 
+        onClick={(e)=>e.stopPropagation()}
+        className="bg-white max-w-2xl w-full max-h-screen overflow-y-auto rounded-lg shadow-lg p-6 sm:p-8">
           {/* Title */}
           <div className="flex justify-between">
           <div className="text-green-600 font-bold text-lg mb-6">
@@ -97,6 +101,7 @@ export default function AddTeacherModal({onClose}){
              <div className=" mt-2">
               <button
                 type="submit"
+                onClick={onClose}
                 className="bg-green-600 text-white px-6 py-2 rounded-md font-bold hover:bg-green-700 transition"
               >
                 SAVE

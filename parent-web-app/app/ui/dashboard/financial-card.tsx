@@ -1,5 +1,5 @@
 // FinancialCard.js
-
+import Image from "next/image";
 export default function FinancialCardWrapper() {
   return (
     <div className="flex flex-wrap items-start justify-start space-x-0 space-y-4 sm:space-y-0 sm:space-x-4 sm:flex-nowrap sm:justify-center w-full">
@@ -40,10 +40,12 @@ export function FinancialCard({
         className={`w-10 h-10 rounded-full flex items-center justify-center`}
         style={{ backgroundColor: bgColor }}
       >
-        <img
+        <Image
+        width={40}
+        height={40}
           src={iconSrc}
           alt={`${title} Icon`}
-          className="w-10 h-10" // Reduced size
+          className="w-8 h-8" 
         />
       </div>
       <div className="flex flex-col sm:items-center">
@@ -56,9 +58,3 @@ export function FinancialCard({
   );
 }
 
-{
-  /*style={{
-  height: `${(data2[index] / maxValue) * chartHeight}px`,
-  backgroundColor: '#FFB400',
-}}*/
-}

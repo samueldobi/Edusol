@@ -91,6 +91,7 @@ export default function AssignmentCards(){
             setSuccessTitle("Success!");
             setSuccessMessage("Assignment was successfully deleted.");
             setShowSuccess(true);
+            setShowEdit(false);
           }}
         />
       )}

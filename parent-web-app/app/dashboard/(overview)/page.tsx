@@ -28,9 +28,7 @@ export default function Page() {
                   <div className="min-w-[16px] sm:hidden" />
               </div>
             </motion.div>
-            {/* <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              <MetricCardWrapper />
-            </div> */}
+       
           </div>
 
           {/* Weekly Overview Chart */}
