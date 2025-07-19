@@ -1,6 +1,18 @@
+type Teacher = {
+  name: string;
+  photo: string;
+  subject: string;
+  class: string;
+  chatIcon: string;
+  editIcon: string;
+  deleteIcon: string;
+};
+interface TeacherTableProps {
+  data: Teacher[];
+}
 import Image from "next/image";
 // import { teachersTable } from "@/app/lib/placeholder-data";
-export default function TeacherTable({data}){
+export default function TeacherTable({data}:TeacherTableProps){
   const visibleTeachers = data;
     return(
         <>
@@ -67,7 +79,7 @@ export default function TeacherTable({data}){
           <div>Delete</div>
         </div>
 
-        {visibleTeachers.map((teacher, idx) => (
+        {visibleTeachers.map((teacher:Teacher, idx:number) => (
           <div
             key={idx}
             className="grid grid-cols-8 gap-2 items-center border-b border-gray-100 px-3 py-2 text-sm"

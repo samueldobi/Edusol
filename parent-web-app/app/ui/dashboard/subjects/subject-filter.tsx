@@ -2,8 +2,13 @@
 import { useState } from "react";
 import { subjects } from "@/app/lib/placeholder-data";
 import EditSubjectModal from "./edit-subject-modal";
+type Subject = {
+  index: number;
+  arm: string;
+  subjectName: string;
+};
 export default function SubjectFilter(){
-     const [activeTab, setActiveTab] = useState('junior');
+      const [activeTab, setActiveTab] = useState<'junior' | 'senior'>('junior');
      const [editModal, setEditModal] = useState(false);
         const handleClick=(tabName: 'junior' | 'senior')=>{
             setActiveTab(tabName);
@@ -43,7 +48,7 @@ export default function SubjectFilter(){
             {/* Subjects lits */}
             <div>
            <ul className="grid grid-cols-1 md:grid-cols-2 gap-6" >
-                {currentSubjects.map((subject) => (
+                {currentSubjects.map((subject:Subject) => (
                     <li
                     key={`${subject.arm}-${subject.index}`}
                     onClick={() => handleShowModal}

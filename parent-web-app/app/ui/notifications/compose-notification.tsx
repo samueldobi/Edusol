@@ -1,6 +1,9 @@
 "use client";
 import { useState } from "react";
 
+interface ComposeNotificationModalProps {
+  onClose: () => void;
+}
 const predefinedTags = [
   { name: "Result", color: "bg-green-100 text-green-800" },
   { name: "Important", color: "bg-red-100 text-red-800" },
@@ -12,9 +15,9 @@ const predefinedTags = [
 
 const recipients = ["Students", "Teachers", "All"];
 
-export default function ComposeNotificationModal({onClose}) {
-  const [selectedTag, setSelectedTag] = useState(null);
-  const [selectedRecipient, setSelectedRecipient] = useState(null);
+export default function ComposeNotificationModal({onClose}:ComposeNotificationModalProps) {
+  const [selectedTag, setSelectedTag] = useState<string | null>(null);
+  const [selectedRecipient, setSelectedRecipient] = useState<string | null>(null);
   const [customTag, setCustomTag] = useState("");
   const [customColor, setCustomColor] = useState("#28a745");
 

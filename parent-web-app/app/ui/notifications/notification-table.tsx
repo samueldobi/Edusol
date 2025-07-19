@@ -12,7 +12,7 @@ export default function NotificationTable({
   notificationsData: NotificationItem[];
 }){
 
-    function getTypeColor(type) {
+    function getTypeColor(type:string) {
   switch (type) {
     case 'alert':
       return 'bg-blue-100 text-blue-700';

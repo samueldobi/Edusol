@@ -12,19 +12,18 @@ interface HeaderProps {
 
 export default function Header({ onMenuToggle }: HeaderProps) {
   const [isOpen, setIsOpen] =  useState(false)
-  const dropDownRef = useRef(null)
+  const dropDownRef = useRef<HTMLDivElement>(null);
 useEffect(() => {
-      function handleClickOutside(event) {
-        if (dropDownRef.current && !dropDownRef.current.contains(event.target)) {
-          setIsOpen(false);
-        }
-      }
-      document.addEventListener("click", handleClickOutside);
-      return () => {
-        document.removeEventListener("click", handleClickOutside);
-      };
-    }, []);
-
+  function handleClickOutside(event: MouseEvent) {
+    if (dropDownRef.current && !dropDownRef.current.contains(event.target as Node)) {
+      setIsOpen(false);
+    }
+  }
+  document.addEventListener("click", handleClickOutside);
+  return () => {
+    document.removeEventListener("click", handleClickOutside);
+  };
+}, []);
   return (
     <header className="bg-[#1AA939] fixed inset-x-0 top-0 z-10 md:left-0 md:w-full">
       <nav className="flex items-center justify-between p-4">

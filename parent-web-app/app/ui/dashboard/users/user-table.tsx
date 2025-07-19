@@ -8,12 +8,7 @@ interface Props {
   currentPage: number;
   setCurrentPage: (page: number) => void;
 }
-export default function UserTable({
-  rowsPerPage,
-  currentPage,
-  setCurrentPage,
-}: Props){
-    type Student = {
+  type Student = {
         id: number;
         student_name: string;
         parent_name: string;
@@ -22,19 +17,24 @@ export default function UserTable({
         class: string;
         image: string;
         };
+type ApiStudent = Student & { status: string };
+export default function UserTable({
+  rowsPerPage,
+  currentPage,
+  setCurrentPage,
+}: Props){
+  
 // States for student data and student size
 const [studentData, setStudentData] = useState<Student[]>([]);
 const[studentSize, setStudentSize] =  useState(0);
 console.log(studentSize)
-// Pagination States for rows and rows per page
-// const [currentPage, setCurrentPage] = useState(1);
-// const [rowsPerPage, setRowsPerPage] = useState(5);
+
     useEffect(()=>{
         const fetchStudents =async()=>{
             try{
                 const res = await axios.get("https://raw.githubusercontent.com/samueldobi/Currency-Converter/refs/heads/main/edusol_data.json")
                 // Filter for only students
-                const studentEntries = res.data.filter((entry)=>entry.status === "student")
+                const studentEntries = res.data.filter((entry:ApiStudent)=>entry.status === "student")
                 setStudentData(studentEntries)
                 setStudentSize(studentEntries.length)
             }catch(err){

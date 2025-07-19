@@ -1,5 +1,8 @@
-import Image from "next/image"
-export default function AddTeacherModal({onClose}){
+import Image from "next/image";
+interface AddTeacherModalProps {
+  onClose: () => void;
+}
+export default function AddTeacherModal({onClose}: AddTeacherModalProps){
     return(
         <>
       {/* Overlay and Modal Wrapper */}

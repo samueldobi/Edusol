@@ -1,4 +1,9 @@
-export default function PaginationControls({ currentPage, totalPages, changePage }){
+interface PaginationControlsProps {
+  currentPage: number;
+  totalPages: number;
+  changePage: (page: number) => void;
+}
+export default function PaginationControls({ currentPage, totalPages, changePage }: PaginationControlsProps){
     return(
         <>
         {/* Entries Info */}

@@ -1,5 +1,8 @@
 import { notificationsData } from "@/app/lib/placeholder-data";
-export default function ManageNotificationModal({onClose}) {
+interface ManageNotificationModalProps {
+  onClose: () => void;
+}
+export default function ManageNotificationModal({onClose}:ManageNotificationModalProps) {
   return (
     <div 
         className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40"

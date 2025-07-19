@@ -1,4 +1,9 @@
-export default function  TeacherEntries({entriesPerPage, setEntriesPerPage}){
+interface TeacherEntriesProps {
+  entriesPerPage: number;
+  setEntriesPerPage: (value: number) => void;
+}
+
+export default function  TeacherEntries({entriesPerPage, setEntriesPerPage}: TeacherEntriesProps){
     return(
         <>
        <div className="flex items-center justify-between gap-4 mb-2 flex-nowrap w-full p-2">

@@ -1,10 +1,10 @@
 "use client";
 import { useState } from "react";
 export default function TeacherDepartmentTab(){
-    const [activeTab, setActiveTab] = useState('science');
-    const handleClick=(tabName)=>{
-        setActiveTab(tabName);
-    }
+     const [activeTab, setActiveTab] = useState<'science' | 'art' | 'commercial' | 'others'>('science');
+    const handleClick = (tabName: 'science' | 'art' | 'commercial' | 'others') => {
+    setActiveTab(tabName);
+  };
     return(
         <>
             <div className="flex w-full  mt-2 mb-6">
