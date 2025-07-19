@@ -48,9 +48,7 @@ useEffect(() => {
             <Bars3CenterLeftIcon className="w-8 h-8" />
           </button>
         </div>
-        {/* <div className="hidden md:block">
-          <SearchInput />
-        </div> */}
+     
 
         <div className="flex items-center space-x-0 sm:space-x-4">
           {/* Notification Button */}
@@ -67,7 +65,7 @@ useEffect(() => {
           </Link>
      
           {/* User Profile Button */}
-          <div className="relative"        ref={dropDownRef}>
+          <div className="relative"   ref={dropDownRef}>
             <button
             onClick={()=>setIsOpen(true)}
               type="button"
