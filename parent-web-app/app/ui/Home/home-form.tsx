@@ -29,7 +29,7 @@ export default function HomePage() {
         </div>
       
       {/*Form section*/}
-      <div className="mt-4 mx-auto transition-transform duration-300 hover:scale-75 ">
+      <div className="mt-4 mx-auto transition-transform duration-300 hover:scale-95 ">
        
            <Link href= "/auth/login">
                 <Button>LOG IN</Button>
