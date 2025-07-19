@@ -2,7 +2,7 @@
 
 import { BellAlertIcon, UserIcon } from '@heroicons/react/24/solid';
 import { Bars3CenterLeftIcon } from '@heroicons/react/24/outline';
-import SearchInput from '@/app/ui/dashboard/search-input';
+// import SearchInput from '@/app/ui/dashboard/search-input';
 import Link from 'next/link';
 import { useState,useRef, useEffect } from 'react';
 import Image from 'next/image';
@@ -48,9 +48,9 @@ useEffect(() => {
             <Bars3CenterLeftIcon className="w-8 h-8" />
           </button>
         </div>
-        <div className="hidden md:block">
+        {/* <div className="hidden md:block">
           <SearchInput />
-        </div>
+        </div> */}
 
         <div className="flex items-center space-x-0 sm:space-x-4">
           {/* Notification Button */}
