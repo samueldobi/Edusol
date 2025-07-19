@@ -29,6 +29,7 @@ useEffect(() => {
     <header className="bg-[#1AA939] fixed inset-x-0 top-0 z-10 md:left-0 md:w-full">
       <nav className="flex items-center justify-between p-4">
         <div className=" flex items-center space-x-4">
+          <Link href ="/dashboard">
           <Image
             alt="Educesol logo"
             src="/logo-white-better.png"
@@ -36,7 +37,10 @@ useEffect(() => {
             width={50}
             height={50}
           />
-          <span className="text-white text-2xl font-bold">Educesol</span>
+          </Link>
+            <Link href ="/dashboard">
+              <span className="text-white text-2xl font-bold">Educesol</span>
+            </Link>
 
           {/* Close Button */}
           <button
@@ -52,7 +56,7 @@ useEffect(() => {
 
         <div className="flex items-center space-x-0 sm:space-x-4">
           {/* Notification Button */}
-          <Link href="dashboard/notifications">
+          <Link href="/dashboard/notifications">
                  <button
             type="button"
             className="text-white hover:bg-green-700 rounded-full p-2 focus:outline-none focus:ring-2 focus:ring-white"
