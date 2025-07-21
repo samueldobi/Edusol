@@ -1,4 +1,8 @@
+"use client";
+import React from "react"
+import { useEffect } from "react";
 import { schoolStructure } from "@/app/lib/placeholder-data";
+import { fetchSchoolClasses } from "@/app/src/api/schoolService";
 type SchoolLevel = {
   [key: string]: string[] | undefined;
 };
@@ -9,7 +13,7 @@ type LevelGroup = {
 export default function ClassGroups() {
      const transformClasses = (groups: SchoolLevel[]): LevelGroup[] => 
     groups.map(item => {
-      // Filter out undefined values and get the first defined entry
+      // I  am filtering out undefined values and getting the first defined entry
       const entries = Object.entries(item).filter(([, value]) => value !== undefined);
       const [level, classList] = entries[0];
       return { level, classes: classList as string[] };
@@ -18,6 +22,18 @@ export default function ClassGroups() {
     ...transformClasses(schoolStructure.junior),
     ...transformClasses(schoolStructure.senior)
   ];
+  useEffect(() => {
+    const fetchClasses = async () => {
+      try {
+        const classes = await fetchSchoolClasses();
+        console.log("Fetched classes:", classes);
+      }
+      catch (error) {
+        console.error("Error fetching classes:", error);
+      }
+    }
+    fetchClasses();
+  }, []);
   return (
     <>
         <div className="space-y-8">
@@ -43,6 +59,13 @@ export default function ClassGroups() {
             </div>
             </div>
         ))}
+        <div className="mx-auto">
+          <button
+          onClick={fetchSchoolClasses}
+          >
+            test classes
+          </button>
+        </div>
         </div>
 
     </>

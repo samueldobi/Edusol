@@ -11,7 +11,7 @@ export default function TeacherNav(){
         <>
         <div className="flex items-center justify-between flex-wrap gap-3 mb-5 w-full">
         <h2 className="text-[#2eb24c] text-lg sm:text-xl md:text-[22px] font-bold tracking-wide">
-            STUDENTS
+            ALL TEACHERS
         </h2>
 
         <div className="">

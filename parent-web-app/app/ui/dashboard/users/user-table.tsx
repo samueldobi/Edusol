@@ -7,6 +7,7 @@ interface Props {
   rowsPerPage: number;
   currentPage: number;
   setCurrentPage: (page: number) => void;
+  data: Student[];
 }
   type Student = {
         id: number;
@@ -22,6 +23,7 @@ export default function UserTable({
   rowsPerPage,
   currentPage,
   setCurrentPage,
+  data
 }: Props){
   
 // States for student data and student size
@@ -46,14 +48,13 @@ console.log(studentSize)
       // Pagination logic
   const startIndex = (currentPage - 1) * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
-  const paginatedData = studentData.slice(startIndex, endIndex);
+  const paginatedData = data.slice(startIndex, endIndex);
+  const totalPages = Math.ceil(data.length / rowsPerPage);
 
   // Change page function
   const changePage = (newPage: number) => {
     setCurrentPage(newPage);
   };
-    // Total number of pages
-  const totalPages = Math.ceil(studentData.length / rowsPerPage);
     return(
         <>
         {/* Table display on larger screen sizes */}
@@ -194,8 +195,8 @@ console.log(studentSize)
     {/* Pagination */}
       <div className="flex justify-between items-center mt-4 px-6">
         <div>
-            Showing {startIndex + 1} to {Math.min(endIndex, studentData.length)}{' '}
-          of {studentData.length} entries
+            Showing {startIndex + 1} to {Math.min(endIndex, data.length)}{' '}
+          of {data.length} entries
         </div>
         <div className="flex items-center space-x-4">
           <button
@@ -208,13 +209,12 @@ console.log(studentSize)
 
           {/* Page Number Display */}
           <span>
-            {/* Page {currentPage} of {totalPages} */}
             Page
           </span>
 
           <button
             onClick={() => changePage(currentPage + 1)}
-            disabled={currentPage === totalPages}
+            disabled={endIndex >= data.length}
             className="px-4 py-2 bg-[#1AA939] text-white font-bold rounded border border-[#1AA939] hover:bg-transparent hover:text-[#1AA939] disabled cursor-pointer"
           >
             Next
