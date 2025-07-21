@@ -1,9 +1,9 @@
 'use client';
 
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
-import axios from "axios";
-import StudentResult from "@/app/ui/dashboard/result/student-profile/student-result";
+import {  useState } from "react";
+// import axios from "axios";
+// import StudentResult from "@/app/ui/dashboard/result/student-profile/student-result";
 import StudentClassDetails from "@/app/ui/dashboard/result/student-profile/student-class-details";
 
 // Individual subject score
@@ -26,18 +26,18 @@ interface Attendance {
 }
 
 // Main student score structure
-interface StudentScoreData {
-  id: string; 
-  attendance: Attendance;
-  first_term: TermScores;
-  second_term: TermScores;
-  third_term: TermScores;
-}
+// interface StudentScoreData {
+//   id: string; 
+//   attendance: Attendance;
+//   first_term: TermScores;
+//   second_term: TermScores;
+//   third_term: TermScores;
+// }
 
-interface Student {
-  id: string;
-  name: string;
-}
+// interface Student {
+//   id: string;
+//   name: string;
+// }
 
 import UserTable from "@/app/ui/dashboard/users/user-table";
 
@@ -85,6 +85,23 @@ export default function ClassDetails() {
         Class Details for {className} - {term} {session}
       </h2>
       <StudentClassDetails studentSize={students.length} />
+      <div className="flex items-center space-x-4 mb-4">
+        <label htmlFor="rowsPerPage" className="mr-2">Show</label>
+        <select
+          id="rowsPerPage"
+          value={rowsPerPage}
+          onChange={e => {
+            setRowsPerPage(Number(e.target.value));
+            setCurrentPage(1);
+          }}
+          className="p-2 border rounded w-24"
+        >
+          <option value="5">5</option>
+          <option value="10">10</option>
+          <option value="20">20</option>
+        </select>
+        <span>Entries</span>
+      </div>
       <UserTable
         rowsPerPage={rowsPerPage}
         currentPage={currentPage}

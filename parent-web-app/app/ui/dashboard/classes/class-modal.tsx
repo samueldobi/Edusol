@@ -53,6 +53,7 @@ export default function AddClassUI() {
       });
     } catch (err) {
       setError("Failed to add class. Please try again.");
+      console.log(err)
     } finally {
       setLoading(false);
     }

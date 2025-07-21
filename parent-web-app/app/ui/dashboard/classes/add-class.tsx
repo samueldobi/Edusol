@@ -19,11 +19,12 @@ export function AddClassButton() {
       school: "school-id"
     };
     try {
-      const result = await createSchoolClass(newClass);
+      const res = await createSchoolClass(newClass);
       alert("Class added successfully!");
+      console.log(res)
       // Optionally, refresh class list or handle result
     } catch (error) {
-      alert("Failed to add class");
+      console.log(error)
     }
   };
 
@@ -33,6 +34,7 @@ export function AddClassButton() {
     
     <Link href="/dashboard/classes/add-class">
             <button
+            onClick={handleAddClass}
             className="flex items-center gap-2 sm:gap-3 bg-white px-3 sm:px-4 py-2 rounded-lg border border-white shadow-sm hover:shadow-md transition-shadow"
             >
             <span className="w-6 sm:w-7 h-6 sm:h-7">

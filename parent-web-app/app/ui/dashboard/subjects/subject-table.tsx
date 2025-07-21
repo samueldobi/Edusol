@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+// import { useEffect, useState } from "react";
 
 export interface Subject {
   id: number;
@@ -21,7 +21,7 @@ export default function SubjectTable({ rowsPerPage, currentPage, setCurrentPage,
   const startIndex = (currentPage - 1) * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
   const paginatedData = data.slice(startIndex, endIndex);
-  const totalPages = Math.ceil(data.length / rowsPerPage);
+  // const totalPages = Math.ceil(data.length / rowsPerPage);
 
   const changePage = (newPage: number) => {
     setCurrentPage(newPage);
