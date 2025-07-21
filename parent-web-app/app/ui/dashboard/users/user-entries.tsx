@@ -2,10 +2,14 @@ import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 interface UserEntriesProps {
   entriesPerPage: number;
   setEntriesPerPage: (value: number) => void;
+  search: string;
+  setSearch: (value: string) => void;
 }
 export default function UserEntries({
   entriesPerPage,
   setEntriesPerPage,
+  search,
+  setSearch,
 }: UserEntriesProps){
     return(
         <>
@@ -18,7 +22,6 @@ export default function UserEntries({
                         id="rowsPerPage"
                         value={entriesPerPage}
                         onChange={(e) => setEntriesPerPage(Number(e.target.value))}
-
                         className="p-2 border rounded w-44"
                     >
                         <option value="5">5</option>
@@ -31,6 +34,8 @@ export default function UserEntries({
                     <div className="p-6">
                     <input
                         placeholder="Search Users"
+                        value={search}
+                        onChange={e => setSearch(e.target.value)}
                         className=" shadow-md rounded-full pl-12 py-3 w-full font-normal text-xl text-[#2C2C2C] focus:outline-[#2C2C2C]"
                     />
                     <MagnifyingGlassIcon className="absolute left-3 top-3 w-6 h-6 text-[#AEAEAE]" />

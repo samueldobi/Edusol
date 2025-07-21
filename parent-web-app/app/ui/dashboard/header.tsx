@@ -85,12 +85,12 @@ useEffect(() => {
 
         >
           <div className="py-2">
-            <a
-              href="/profile"
+            <Link
+              href="/dashboard/admin"
               className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-green-600"
             >
               Profile
-            </a>
+            </Link>
             <button
               onClick={() => alert("Logging out...")}
               className="w-full text-left block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-red-600"
