@@ -7,23 +7,23 @@ import {  useState } from "react";
 import StudentClassDetails from "@/app/ui/dashboard/result/student-profile/student-class-details";
 
 // Individual subject score
-interface SubjectScore {
-  subject: string;
-  ca: number;
-  exam: number;
-  total: number;
-  grade: string; 
-}
+// interface SubjectScore {
+//   subject: string;
+//   ca: number;
+//   exam: number;
+//   total: number;
+//   grade: string; 
+// }
 
 // Term-wise scores
-type TermScores = SubjectScore[];
+// type TermScores = SubjectScore[];
 
 // Attendance per term
-interface Attendance {
-  first_term: number;
-  second_term: number;
-  third_term: number;
-}
+// interface Attendance {
+//   first_term: number;
+//   second_term: number;
+//   third_term: number;
+// }
 
 // Main student score structure
 // interface StudentScoreData {
