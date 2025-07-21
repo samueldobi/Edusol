@@ -1,4 +1,4 @@
-import { notificationsData } from "@/app/lib/placeholder-data";
+import { notificationsData } from '../../lib/placeholder-data';
 interface ManageNotificationModalProps {
   onClose: () => void;
 }

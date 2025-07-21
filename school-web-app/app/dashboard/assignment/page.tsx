@@ -1,7 +1,7 @@
-import SearchClass from "@/app/ui/dashboard/assignment/search"
-import CreateAssignmnent from "@/app/ui/dashboard/assignment/create-assignment";
-import StudendInput from "@/app/ui/dashboard/assignment/student-input";
-import AssignmentCards from "@/app/ui/dashboard/assignment/assignment-cards";
+import SearchClass from '../../ui/dashboard/assignment/search';
+import CreateAssignmnent from '../../ui/dashboard/assignment/create-assignment';
+import StudendInput from '../../ui/dashboard/assignment/student-input';
+import AssignmentCards from '../../ui/dashboard/assignment/assignment-cards';
 export default function Page() {
   return(
     <>

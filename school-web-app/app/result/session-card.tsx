@@ -1,6 +1,6 @@
 import Image from "next/image";
-import clock from "@/public/clockblue.png";
-import { TermsPropTypes } from "@/app/constants/sessions";
+import clock from "../../public/clockblue.png";
+import { TermsPropTypes } from "../constants/sessions";
 export default function SessionCard({ term }: { term: TermsPropTypes }) {
   const border =
     term.id == "1" ? "1AA93947" : term.id == "2" ? "#00003266" : "#297fe180";

@@ -1,7 +1,7 @@
 "use client"
 import Image from "next/image";
 import { useState } from "react";
-import { subjectsList } from "@/app/lib/placeholder-data";
+import { subjectsList } from '../../../../lib/placeholder-data';
 interface CreateAssignmentModalProps {
   onClose: () => void;
   onSuccess: (assignment: { subject: string; topic: string }) => void;

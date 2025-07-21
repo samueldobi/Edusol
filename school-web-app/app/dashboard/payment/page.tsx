@@ -1,6 +1,6 @@
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
-import PaymentStats from '@/app/ui/dashboard/payment/payment.stats';
-import PaymentTable from '@/app/ui/dashboard/payment/payment-table';
+import PaymentStats from '../../ui/dashboard/payment/payment.stats';
+import PaymentTable from '../../ui/dashboard/payment/payment-table';
 export default function Page() {
   return (
     <div className="w-full">

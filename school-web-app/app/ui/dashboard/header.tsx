@@ -2,7 +2,7 @@
 
 import { BellAlertIcon, UserIcon } from '@heroicons/react/24/solid';
 import { Bars3CenterLeftIcon } from '@heroicons/react/24/outline';
-// import SearchInput from '@/app/ui/dashboard/search-input';
+// import SearchInput from './search-input';
 import Link from 'next/link';
 import { useState,useRef, useEffect } from 'react';
 import Image from 'next/image';

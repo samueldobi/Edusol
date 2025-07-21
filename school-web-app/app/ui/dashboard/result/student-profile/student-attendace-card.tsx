@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { attendanceCardData } from "@/app/lib/placeholder-data";
+import { attendanceCardData } from '../../../../lib/placeholder-data';
 import { useEffect, useState } from "react";
 
 

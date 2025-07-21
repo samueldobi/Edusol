@@ -1,4 +1,4 @@
-import { SessionsPropTypes } from "@/app/constants/sessions";
+import { SessionsPropTypes } from "../constants/sessions";
 import SessionCard from "./session-card";
 import Link from "next/link";
 import PrimaryButton from "../PrimaryButton";

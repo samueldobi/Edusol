@@ -1,4 +1,4 @@
-import Form from '@/app/ui/Auth/forgot-form';
+import Form from '../../ui/Auth/forgot-form';
 export default function Page() {
   return <Form />;
 }

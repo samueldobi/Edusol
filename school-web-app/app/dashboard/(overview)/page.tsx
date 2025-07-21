@@ -2,13 +2,13 @@
 'use client';
 
 import React from 'react';
-import MetricCardWrapper from '@/app/ui/dashboard/metric-card';
-import ChartData from '@/app/ui/dashboard/chart';
-import NotificationItemWrapper from '@/app/ui/dashboard/notification-item';
-import AlertItem from '@/app/ui/dashboard/alert-item';
-// import Calendar from '@/app/ui/dashboard/calendar/calendar';
-import ClassMetricsWrapper from '@/app/ui/dashboard/class-metric';
-import RecentPaymentsTable from '@/app/ui/dashboard/recent-payment-table';
+import MetricCardWrapper from '../../ui/dashboard/metric-card';
+import ChartData from '../../ui/dashboard/chart';
+import NotificationItemWrapper from '../../ui/dashboard/notification-item';
+import AlertItem from '../../ui/dashboard/alert-item';
+// import Calendar from '../../ui/dashboard/calendar/calendar';
+import ClassMetricsWrapper from '../../ui/dashboard/class-metric';
+import RecentPaymentsTable from '../../ui/dashboard/recent-payment-table';
 import { motion } from 'framer-motion';
 
 export default function Page() {

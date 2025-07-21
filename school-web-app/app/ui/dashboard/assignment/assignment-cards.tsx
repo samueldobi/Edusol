@@ -1,5 +1,5 @@
 "use client";
-import { assignmentData, Assignment } from "@/app/lib/placeholder-data"
+import { assignmentData, Assignment } from '../../../lib/placeholder-data';
 import { useState } from "react";
 import Image from "next/image"
 import EditAssignmentModal from "./modals/edit-assignment-modal";

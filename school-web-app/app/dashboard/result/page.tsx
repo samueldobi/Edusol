@@ -1,7 +1,7 @@
-import Session from "@/app/ui/dashboard/result/session";
-import sessions from "@/app/constants/sessions";
+import Session from '../../ui/dashboard/result/session';
+import sessions from '../../constants/sessions';
 import Image from "next/image";
-import plus from "@/public/plus.png";
+import plus from '../../../public/plus.png';
 import Link from "next/link";
 
 export default function Page() {

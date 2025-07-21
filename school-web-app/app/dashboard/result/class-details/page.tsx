@@ -3,7 +3,7 @@
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import StudentResult from "@/app/ui/dashboard/result/student-profile/student-result";
+import StudentResult from "../../../ui/dashboard/result/student-profile/student-result";
 
 // Individual subject score
 interface SubjectScore {

@@ -1,6 +1,6 @@
 import Link from 'next/link';
-// import OtpInput from '@/app/ui/Auth/otpinputs';
-import { Button } from '@/app/ui/Auth/button';
+// import OtpInput from './otpinputs';
+import { Button } from './button';
 
 export default function ErrorForm() {
   return (

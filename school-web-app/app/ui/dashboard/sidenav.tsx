@@ -1,6 +1,6 @@
 'use client';
 import { XMarkIcon } from '@heroicons/react/24/outline';
-import NavLinks from '@/app/ui/dashboard/nav-links';
+import NavLinks from './nav-links';
 
 interface SideNavProps {
   isOpen: boolean;

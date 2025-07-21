@@ -1,4 +1,4 @@
-import { schoolStructure } from "@/app/lib/placeholder-data";
+import { schoolStructure } from '../../../lib/placeholder-data';
 type SchoolLevel = {
   [key: string]: string[] | undefined;
 };

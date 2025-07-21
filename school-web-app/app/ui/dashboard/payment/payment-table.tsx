@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { paymentData } from '../../../lib/placeholder-data';
-import Table from '@/app/ui/dashboard/table';
+import Table from '../table';
 
 export default function PaymentTable() {
   const searchParams = useSearchParams();

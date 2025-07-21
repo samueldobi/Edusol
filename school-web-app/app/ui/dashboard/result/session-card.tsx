@@ -1,6 +1,5 @@
 import Image from "next/image";
-import clock from "@/public/clockblue.png";
-import { TermsPropTypes } from "@/app/constants/sessions";
+import { TermsPropTypes } from '../../../constants/sessions';
 import Link from "next/link";
 export default function SessionCard({ term,session }: { term: TermsPropTypes,session:string }) {
   const border =
@@ -19,7 +18,7 @@ export default function SessionCard({ term,session }: { term: TermsPropTypes,ses
           className={`flex rounded-[15px] px-4 items-center justify-between`}
         >
           <h2 className="text-[22px] font-semibold">{term.name}</h2>
-          <Image src={clock} alt="Clock" />
+          <Image src="/clockblue.png" alt="Clock" width={32} height={32} />
         </div>
         <div className="flex space-y-2 flex-col px-[1px] text-center">
           <p className="text-[15px] text-[#000032b2]">Start - {term.start}</p>

@@ -1,6 +1,6 @@
 import { InformationCircleIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
-import { Button } from '@/app/ui/Auth/button';
+import { Button } from './button';
 export default function ResetForm() {
   return (
     <div className="bg-white rounded-lg shadow-lg w-[40%] max-w-[500px] min-w-[320px] flex flex-col p-6 sm:w-[90%] sm:p-11 md:w-[85%] lg:w-[60%] xl:w-[35%]">

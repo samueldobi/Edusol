@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { poppins } from '@/app/ui/fonts';
+import { poppins } from './ui/fonts';
 import './globals.css';
 
 export const metadata: Metadata = {

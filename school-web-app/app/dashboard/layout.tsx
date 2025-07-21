@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
-import SideNav from '@/app/ui/dashboard/sidenav';
-import Header from '@/app/ui/dashboard/header';
+import SideNav from '../ui/dashboard/sidenav';
+import Header from '../ui/dashboard/header';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const [isSideNavOpen, setIsSideNavOpen] = useState(false);

@@ -1,5 +1,5 @@
 "use client"
-import { performanceTable } from "@/app/lib/placeholder-data"
+import { performanceTable } from '../../../../lib/placeholder-data';
 export default function StudentPerformanceTable(){
     return(
     <>

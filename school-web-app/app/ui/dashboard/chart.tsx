@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import FinancialCardWrapper from '@/app/ui/dashboard/financial-card';
+import FinancialCardWrapper from './financial-card';
 
 export default function Chart() {
   const data1 = [800000, 300000, 1200000, 900000, 900000, 1300000, 800000];

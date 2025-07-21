@@ -1,4 +1,4 @@
-import Table from '@/app/ui/dashboard/table';
+import Table from './table';
 
 export default function RecentPaymentsTable() {
   const data = [

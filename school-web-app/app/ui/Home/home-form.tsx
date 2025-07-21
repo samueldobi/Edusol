@@ -1,5 +1,5 @@
 // "use client";
-import { Button } from '@/app/ui/Auth/button';
+import { Button } from '../Auth/button';
 import Image from 'next/image';
 import Link from 'next/link';
 export default function HomePage() {

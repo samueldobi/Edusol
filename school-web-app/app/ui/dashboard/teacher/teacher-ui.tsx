@@ -5,7 +5,7 @@ import TeacherDepartmentTab from "./teacher-tab";
 import TeacherEntries from "./teacher-entries";
 import TeacherTable from "./teacher-table";
 import PaginationControls from './pagination-controls';
-import { teachersTable } from '@/app/lib/placeholder-data';
+import { teachersTable } from '../../../lib/placeholder-data';
 export default function TeacherUI() {
     const [entriesPerPage, setEntriesPerPage] = useState(10)
     const [currentPage, setCurrentPage] = useState(1);

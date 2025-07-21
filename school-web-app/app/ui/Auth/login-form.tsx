@@ -1,5 +1,5 @@
 // "use client";
-import { Button } from '@/app/ui/Auth/button';
+import { Button } from './button';
 import Link from 'next/link';
 export default function LoginForm() {
   return (

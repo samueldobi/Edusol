@@ -1,9 +1,8 @@
 "use client";
 import Image from "next/image";
-import polygon from "@/public/Polygon 1.png";
-import Class from "@/app/ui/dashboard/result/class";
+import Class from "../../../ui/dashboard/result/class";
 import { useSearchParams } from "next/navigation";
-import classes from "@/app/constants/classes";
+import classes from "../../../constants/classes";
 import Link from "next/link";
 
 export default function ResultSession() {
@@ -21,7 +20,7 @@ export default function ResultSession() {
           </h2>
           <Image
             className=" w-[0.9rem] md:w-[1.2rem]"
-            src={polygon}
+            src="/Polygon 1.png"
             alt="Polgon"
           ></Image>
         </div>
