@@ -29,7 +29,7 @@ export default function UserTable({
 // States for student data and student size
 const [studentData, setStudentData] = useState<Student[]>([]);
 const[studentSize, setStudentSize] =  useState(0);
-console.log(studentSize)
+console.log(studentSize, studentData)
 
     useEffect(()=>{
         const fetchStudents =async()=>{
@@ -49,7 +49,7 @@ console.log(studentSize)
   const startIndex = (currentPage - 1) * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
   const paginatedData = data.slice(startIndex, endIndex);
-  const totalPages = Math.ceil(data.length / rowsPerPage);
+  // const totalPages = Math.ceil(data.length / rowsPerPage);
 
   // Change page function
   const changePage = (newPage: number) => {
