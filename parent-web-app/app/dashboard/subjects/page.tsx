@@ -1,6 +1,8 @@
 "use client";
 import SubjectTable from "@/app/ui/dashboard/subjects/subject-table";
 import { useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
 
 const mockJuniorSubjects = [
   { id: 1, subject_name: "Mathematics", subject_code: "MATH101", description: "Basic Math" },
@@ -55,7 +57,7 @@ function SubjectEntries({ entriesPerPage, setEntriesPerPage, search, setSearch }
           onChange={e => setSearch(e.target.value)}
           className=" shadow-md rounded-full pl-12 py-3 w-full font-normal text-xl text-[#2C2C2C] focus:outline-[#2C2C2C]"
         />
-        {/* Add search icon if needed */}
+      
       </div>
     </div>
   );
@@ -66,6 +68,7 @@ export default function Page() {
   const [currentPage, setCurrentPage] = useState(1);
   const [tab, setTab] = useState<'junior' | 'senior'>('junior');
   const [search, setSearch] = useState("");
+  const [showAddSubject, setShowAddSubject] = useState(false);
 
   const updateRowsPerPage = (newRowsPerPage: number) => {
     setRowsPerPage(newRowsPerPage);
@@ -81,6 +84,33 @@ export default function Page() {
 
   return (
     <>
+      <div className="flex items-center justify-between flex-wrap gap-3 mb-5 w-full">
+        <h2 className="text-[#2eb24c] text-lg sm:text-xl md:text-[22px] font-bold tracking-wide">
+          ALL SUBJECTS
+        </h2>
+        <div>
+          <button
+            type="button"
+            onClick={() => setShowAddSubject(true)}
+            className="flex items-center gap-2 sm:gap-3 bg-white px-3 sm:px-4 py-2 rounded-lg border border-white shadow-sm hover:shadow-md transition-shadow"
+          >
+            <span className="w-6 sm:w-7 h-6 sm:h-7">
+              <Image
+                src="/plus.png"
+                width={30}
+                height={30}
+                alt="plus icon"
+              />
+            </span>
+            <Link href="/dashboard/subjects/add-subject">
+              <span className="text-[16px] sm:text-[18px] md:text-[20px] text-[#2eb24c] font-semibold tracking-wide">
+                Add Subject
+              </span>
+            </Link>
+          </button>
+        </div>
+      </div>
+      {/* Junior/Senior Tabs */}
       <div className="flex gap-4 mb-4 mt-2">
         <button
           className={`px-4 py-2 rounded-lg font-semibold text-lg ${tab === 'junior' ? 'bg-[#1AA939] text-white' : 'bg-gray-200 text-[#1AA939]'}`}
@@ -107,6 +137,7 @@ export default function Page() {
         setCurrentPage={setCurrentPage}
         data={filteredSubjects}
       />
+      {/* AddSubjectModal would go here if implemented */}
     </>
   );
 }

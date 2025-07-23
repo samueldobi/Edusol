@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 interface TableProps {
   data: {
     profile: string;
@@ -39,7 +41,8 @@ export default function Table({ data }: TableProps) {
       </thead>
       <tbody className="bg-white divide-y divide-gray-200">
         {data.map((item, index) => (
-          <tr key={index}>
+          <Link key={index} href={{ pathname: "/dashboard/payment/payment-details", query: { userId: item.profile, class: item.class, amount: item.amount } }} legacyBehavior>
+            <tr className="cursor-pointer hover:bg-gray-50">
             <td className="px-6 py-4 whitespace-nowrap">
               <div className="flex items-center">
                 <div className="flex-shrink-0 h-16 w-16">
@@ -67,17 +70,17 @@ export default function Table({ data }: TableProps) {
                 {item.paymentDetails === '(3)' ? (
                   <div className="flex">
                     <img
-                      src="/house.icon.png"
+                      src="/house-icon.png"
                       alt="Tuition"
                       className="h-6 w-6 mr-1"
                     />
                     <img
-                      src="/tuition.icon.png"
+                      src="/tuition-icon.png"
                       alt="Tuition"
                       className="h-6 w-6 mr-1"
                     />
                     <img
-                      src="/brick.icon.png"
+                      src="/brick-icon.png"
                       alt="Tuition"
                       className="h-6 w-6 mr-1"
                     />
@@ -85,12 +88,12 @@ export default function Table({ data }: TableProps) {
                 ) : item.paymentDetails === '(2)' ? (
                   <div className="flex">
                     <img
-                      src="/house.icon.png"
+                      src="/house-icon.png"
                       alt="Tuition"
                       className="h-6 w-6 mr-1"
                     />
                     <img
-                      src="/tuition.icon.png"
+                      src="/tuition-icon.png"
                       alt="Tuition"
                       className="h-6 w-6 mr-1"
                     />
@@ -98,7 +101,7 @@ export default function Table({ data }: TableProps) {
                 ) : (
                   <div className="flex">
                     <img
-                      src="/brick.icon.png"
+                      src="/brick-icon.png"
                       alt="Tuition"
                       className="h-6 w-6 mr-1"
                     />
@@ -124,6 +127,7 @@ export default function Table({ data }: TableProps) {
               </span>
             </td>
           </tr>
+          </Link>
         ))}
       </tbody>
     </table>

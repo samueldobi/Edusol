@@ -81,7 +81,7 @@ export default function ClassDetails() {
 
   return (
     <div className="p-4 space-y-4">
-      <h2 className="p-2 text-center text-white bg-[#050548] text-[15px] md:text-[23px]">
+      <h2 className="p-2 text-center text-white bg-[#1AA939] text-[15px] md:text-[23px]">
         Class Details for {className} - {term} {session}
       </h2>
       <StudentClassDetails studentSize={students.length} />
