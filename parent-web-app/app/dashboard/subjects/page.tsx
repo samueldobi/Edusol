@@ -69,6 +69,7 @@ export default function Page() {
   const [tab, setTab] = useState<'junior' | 'senior'>('junior');
   const [search, setSearch] = useState("");
   const [showAddSubject, setShowAddSubject] = useState(false);
+  console.log(showAddSubject);
 
   const updateRowsPerPage = (newRowsPerPage: number) => {
     setRowsPerPage(newRowsPerPage);

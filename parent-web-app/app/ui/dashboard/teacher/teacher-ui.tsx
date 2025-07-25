@@ -22,7 +22,7 @@ export default function TeacherUI() {
   const startIndex = (currentPage - 1) * entriesPerPage;
   const endIndex = startIndex + entriesPerPage;
   const paginatedData = filteredData.slice(startIndex, endIndex);
-  const totalPages = Math.ceil(filteredData.length / entriesPerPage);
+  // const totalPages = Math.ceil(filteredData.length / entriesPerPage);
 
   const changePage = (newPage: number) => {
     setCurrentPage(newPage);

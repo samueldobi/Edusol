@@ -11,10 +11,10 @@ export interface UserType {
   user_type: "TEACHER" | "GUARDIAN" | "ADMIN" | "SUPER_ADMIN" | "STUDENT";
   created_at: string;
   updated_at: string;
-  student_profile?: any;
-  teacher_profile?: any;
-  admin_profile?: any;
-  guardian_profile?: any;
+  student_profile?: string;
+  teacher_profile?: string;
+  admin_profile?: string;
+  guardian_profile?: string;
 }
 
 export interface CreateUserPayload {

@@ -66,6 +66,7 @@ export default function Page() {
       });
     } catch (err) {
       setError("Failed to add subject. Please try again.");
+      console.log(err);
     } finally {
       setLoading(false);
     }
@@ -91,6 +92,7 @@ export default function Page() {
       setNewSubjectId(newSubject.id);
     } catch (err) {
       setError("Failed to add demo subject. Please try again.");
+      console.log(err);
     } finally {
       setLoading(false);
     }
@@ -103,6 +105,7 @@ export default function Page() {
       alert("Check the console for the list of users.");
     } catch (err) {
       alert("Failed to fetch users.");
+      console.log(err);
     }
   };
 

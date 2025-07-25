@@ -31,8 +31,8 @@ const sessions = [
 ];
 
 export default function AcademicSession() {
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [search, setSearch] = useState("");
+  // const [dropdownOpen, setDropdownOpen] = useState(false);
+  // const [search, setSearch] = useState("");
 
   return (
     <div className="min-h-screen text-gray-900">
