@@ -2,7 +2,7 @@
 import React from "react"
 import { useEffect } from "react";
 import { schoolStructure } from "@/app/lib/placeholder-data";
-import { fetchSchoolClasses } from "@/app/src/api/schoolService";
+import { fetchSchoolClasses, createSchoolClass } from "@/app/src/api/services/schoolService";
 type SchoolLevel = {
   [key: string]: string[] | undefined;
 };
@@ -34,6 +34,25 @@ export default function ClassGroups() {
     }
     fetchClasses();
   }, []);
+  const addClass = async () => {
+    try {
+      const newClass = await createSchoolClass({
+        id: "1",
+        class_name: "JSS3M",
+        class_level: "JSS3",
+        class_arm: null,
+        capacity: 30,
+        created_by: "0ad7e1c2-2056-4aaf-8093-ff01e3ebcb43",
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+        school: "935d20c4-847f-4f96-8257-a9a9895d29b6"
+      });
+      console.log("New class:", newClass);
+    }
+    catch (error) {
+      console.error("Error fetching classes:", error);
+    }
+  }
   return (
     <>
         <div className="space-y-8">
@@ -59,11 +78,11 @@ export default function ClassGroups() {
             </div>
             </div>
         ))}
-        <div className="mx-auto">
+        <div className="flex justify-center">
           <button
-          onClick={fetchSchoolClasses}
+          onClick={addClass}
           >
-            test classes
+            add classes
           </button>
         </div>
         </div>

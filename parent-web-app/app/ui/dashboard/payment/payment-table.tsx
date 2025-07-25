@@ -96,7 +96,7 @@ export default function PaymentTable({ search }: PaymentTableProps) {
       {/* Table */}
 
       {/* Pagination */}
-      <div className="flex justify-between items-center mt-4 px-6">
+      <div className="flex flex-col md:flex-row md:justify-between md:items-center mt-4 px-6 gap-2 my-2 text-center md:text-left">
         <div>
           Showing {startIndex + 1} to {Math.min(endIndex, filteredData.length)}{' '}
           of {filteredData.length} entries

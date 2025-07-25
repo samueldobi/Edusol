@@ -1,5 +1,5 @@
-import {schoolClient} from './clients/schoolClient';
-import {SCHOOL_API} from './endpoints/schoolEndpoint';
+import {schoolClient} from '../clients/schoolClient';
+import {SCHOOL_API} from '../endpoints/schoolEndpoint';
 
 // --- Types ---
 export interface ClassType {

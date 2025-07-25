@@ -2,7 +2,7 @@
 import { useSearchParams } from "next/navigation";
 import Image from "next/image";
 
-const profileImg = "/Person.png";
+
 
 export default function PaymentDetails() {
   const searchParams = useSearchParams();

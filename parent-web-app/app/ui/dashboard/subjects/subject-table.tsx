@@ -109,7 +109,7 @@ export default function SubjectTable({ rowsPerPage, currentPage, setCurrentPage,
         ))}
       </div>
       {/* Pagination */}
-      <div className="flex justify-between items-center mt-4 px-6">
+      <div className="flex flex-col md:flex-row md:justify-between md:items-center mt-4 px-6 gap-2">
         <div>
           Showing {startIndex + 1} to {Math.min(endIndex, data.length)} of {data.length} entries
         </div>

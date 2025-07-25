@@ -1,4 +1,4 @@
-import { schoolClient } from "../clients/schoolClient";
+import { userClient } from "../clients/userClient";
 
 // --- Types ---
 export interface UserType {
@@ -44,35 +44,35 @@ const USER_API = {
 
 // List all users
 export const fetchUsersList = async (): Promise<UserType[]> => {
-  const response = await schoolClient.get(USER_API.USERS_LIST);
+  const response = await userClient.get(USER_API.USERS_LIST);
   return response.data;
 };
 
 // Create a new user
 export const createUser = async (data: CreateUserPayload): Promise<UserType> => {
-  const response = await schoolClient.post(USER_API.USERS_LIST, data);
+  const response = await userClient.post(USER_API.USERS_LIST, data);
   return response.data;
 };
 
 // Get user by ID
 export const fetchUserById = async (id: string): Promise<UserType> => {
-  const response = await schoolClient.get(USER_API.USERS_DETAIL(id));
+  const response = await userClient.get(USER_API.USERS_DETAIL(id));
   return response.data;
 };
 
 // Update user by ID (PATCH)
 export const updateUser = async (id: string, data: Partial<CreateUserPayload>): Promise<UserType> => {
-  const response = await schoolClient.patch(USER_API.USERS_DETAIL(id), data);
+  const response = await userClient.patch(USER_API.USERS_DETAIL(id), data);
   return response.data;
 };
 
 // Delete user by ID
 export const deleteUser = async (id: string): Promise<void> => {
-  await schoolClient.delete(USER_API.USERS_DETAIL(id));
+  await userClient.delete(USER_API.USERS_DETAIL(id));
 };
 
 // Get user counts for a school
 export const fetchUserCounts = async (school_id: string): Promise<UserCountResponse> => {
-  const response = await schoolClient.get(USER_API.USERS_COUNT(school_id));
+  const response = await userClient.get(USER_API.USERS_COUNT(school_id));
   return response.data;
 };

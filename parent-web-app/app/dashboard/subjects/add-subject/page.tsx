@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
-import { createSubject, CreateSubjectPayload } from "@/app/src/api/schoolService";
+import { createSubject, CreateSubjectPayload } from "@/app/src/api/services/schoolService";
+import { fetchUsersList } from "@/app/src/api/services/userService";
 
 const categoryOptions = [
   { value: "senior", label: "Senior" },
@@ -92,6 +93,16 @@ export default function Page() {
       setError("Failed to add demo subject. Please try again.");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleListUsers = async () => {
+    try {
+      const users = await fetchUsersList();
+      console.log("Fetched users:", users);
+      alert("Check the console for the list of users.");
+    } catch (err) {
+      alert("Failed to fetch users.");
     }
   };
 
@@ -192,6 +203,13 @@ export default function Page() {
           {loading ? "Adding..." : "Add Subject"}
         </button>
       </form>
+      <button
+        type="button"
+        onClick={handleListUsers}
+        className="bg-blue-500 text-white px-4 py-2 rounded mt-4 w-full font-semibold hover:bg-blue-700 transition"
+      >
+        List Users (Console Log)
+      </button>
       <button
         type="button"
         onClick={handleDemoCreate}
