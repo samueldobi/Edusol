@@ -41,7 +41,7 @@ export default function AcademicSession() {
       {/* Main Section */}
       <section className="max-w-5xl mx-auto mt-10 px-4">
         {/* Search Bar */}
-        {/* <div className="flex items-center gap-2 bg-white p-3 rounded-lg shadow mb-6 max-w-md">
+        <div className="flex items-center gap-2 bg-white p-3 rounded-lg shadow mb-6 max-w-md">
           <Image
             src="/file.svg"
             alt="Search"
@@ -56,7 +56,7 @@ export default function AcademicSession() {
             onChange={e => setSearch(e.target.value)}
             className="flex-1 border-none outline-none text-base bg-transparent"
           />
-        </div> */}
+        </div>
 
         {/* Add New Session */}
         <Link
