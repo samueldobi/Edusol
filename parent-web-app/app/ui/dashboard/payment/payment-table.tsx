@@ -1,11 +1,15 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { paymentData } from '../../../lib/placeholder-data';
 import Table from '@/app/ui/dashboard/table';
 
-export default function PaymentTable() {
+interface PaymentTableProps {
+  search: string;
+}
+
+export default function PaymentTable({ search }: PaymentTableProps) {
   const searchParams = useSearchParams();
   // const router = useRouter();
 
@@ -31,9 +35,18 @@ export default function PaymentTable() {
       newData = paymentData.filter((item) => item.status === 'PENDING');
     }
 
+    // Apply search filter
+    if (search.trim() !== "") {
+      newData = newData.filter(item =>
+        (item.profile && item.profile.toLowerCase().includes(search.toLowerCase())) ||
+        (item.class && item.class.toLowerCase().includes(search.toLowerCase())) ||
+        (item.amount && item.amount.toString().includes(search))
+      );
+    }
+
     setFilteredData(newData);
     setCurrentPage(1); 
-  }, [filter]);
+  }, [filter, search]);
 
   // Pagination logic
   const startIndex = (currentPage - 1) * rowsPerPage;
@@ -83,7 +96,7 @@ export default function PaymentTable() {
       {/* Table */}
 
       {/* Pagination */}
-      <div className="flex justify-between items-center mt-4 px-6">
+      <div className="flex flex-col md:flex-row md:justify-between md:items-center mt-4 px-6 gap-2 my-2 text-center md:text-left">
         <div>
           Showing {startIndex + 1} to {Math.min(endIndex, filteredData.length)}{' '}
           of {filteredData.length} entries

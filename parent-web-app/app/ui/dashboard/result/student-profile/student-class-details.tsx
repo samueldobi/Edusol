@@ -7,7 +7,7 @@ export default function StudentClassDetails({studentSize}:Props){
     return(
  
         <>
-        <div className="  flex flex-col items-center justify-center lg:flex-row lg:justify-between bg-green-600 text-white rounded-xl   mb-6 p-2">   
+        <div className="  flex flex-col items-center justify-center lg:flex-row lg:justify-between bg-[#1AA939] text-white rounded-xl   mb-6 p-2">   
                 <div className="flex p-4">
                       <Image
                         src="/teacher.png"

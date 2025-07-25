@@ -1,28 +1,28 @@
 "use client";
-import { createSchoolClass } from "@/app/src/api/schoolService";
+import { createSchoolClass } from "@/app/src/api/services/schoolService";
 import Image from "next/image";
 import Link from "next/link";
 
 export function AddClassButton() {
   const handleAddClass = async () => {
-    // Example payload, replace with real form data as needed
+    //Test  Payload
     const newClass = {
       id: "temp-id",
       class_name: "New Class",
       class_level: "JSS1",
       class_arm: null,
-      form_teacher_id: null,
+      // form_teacher_id: null,
       capacity: 30,
-      created_by: "admin-id",
+      created_by: "0ad7e1c2-2056-4aaf-8093-ff01e3ebcb43",
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),
-      school: "school-id"
+      school: "935d20c4-847f-4f96-8257-a9a9895d29b6"
     };
     try {
       const res = await createSchoolClass(newClass);
       alert("Class added successfully!");
       console.log(res)
-      // Optionally, refresh class list or handle result
+     
     } catch (error) {
       console.log(error)
     }

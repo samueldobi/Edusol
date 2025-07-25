@@ -14,8 +14,8 @@ export default function AdminNav(){
 
         {/* Name and ID */}
         <div>
-          <div className="text-lg font-semibold text-gray-800">Tenderkids Admin</div>
-          <div className="text-sm text-gray-500">SS3A</div>
+          <div className="text-lg font-semibold text-gray-800">Tenderkids Secondary School Admin</div>
+          <div className="text-sm text-gray-500">Mr Ajayi</div>
         </div>
       </div>
 
@@ -24,25 +24,25 @@ export default function AdminNav(){
         <Image
           src="/shape.png"
           alt="Educesol logo"
-          className="w-10 h-10"
-          width={50}
-          height={50}/>
+          // className="w-10 h-10"
+          width={40}
+          height={40}/>
         <Image
           src="/contact.png"
           alt="Educesol logo"
-          className="w-10 h-10"
-          width={40}
-          height={40}/>
+          // className="w-10 h-10"
+          width={30}
+          height={30}/>
         <Image
           src="/bank.png"
           alt="Educesol logo"
-          className="w-10 h-10"
-          width={40}
-          height={40}/>
+          // className="w-10 h-10"
+          width={30}
+          height={30}/>
         <Image
           src="/setting.png"
           alt="Educesol logo"
-          className="w-10 h-10"
+          // className="w-10 h-10"
           width={40}
           height={40}/>
       </div>

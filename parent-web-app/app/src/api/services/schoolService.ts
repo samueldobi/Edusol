@@ -1,5 +1,5 @@
-import {schoolClient} from './clients/schoolClient';
-import {SCHOOL_API} from './endpoints/schoolEndpoint';
+import {schoolClient} from '../clients/schoolClient';
+import {SCHOOL_API} from '../endpoints/schoolEndpoint';
 
 // --- Types ---
 export interface ClassType {
@@ -229,7 +229,15 @@ export const fetchSubjectById = async (id: string): Promise<SubjectType> => {
   const response = await schoolClient.get(SCHOOL_API.SUBJECTS_BY_ID.replace('{id}', id));
   return response.data;
 };
-export const createSubject = async (data: SubjectType): Promise<SubjectType> => {
+export type CreateSubjectPayload = {
+  subject_name: string;
+  subject_code: string;
+  description?: string | null;
+  created_by: string;
+  created_at: string;
+  school: string;
+};
+export const createSubject = async (data: CreateSubjectPayload): Promise<SubjectType> => {
   const response = await schoolClient.post(SCHOOL_API.SUBJECTS_CREATE, data);
   return response.data;
 };

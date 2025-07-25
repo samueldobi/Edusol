@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { createSchoolClass } from "@/app/src/api/schoolService";
+import { createSchoolClass } from "@/app/src/api/services/schoolService";
 
 export default function AddClassUI() {
   const [form, setForm] = useState({
