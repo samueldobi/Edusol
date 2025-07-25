@@ -1,5 +1,5 @@
 "use client";
-// import { useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -32,7 +32,7 @@ const sessions = [
 
 export default function AcademicSession() {
   // const [dropdownOpen, setDropdownOpen] = useState(false);
-  // const [search, setSearch] = useState("");
+  const [search, setSearch] = useState("");
 
   return (
     <div className="min-h-screen text-gray-900">
