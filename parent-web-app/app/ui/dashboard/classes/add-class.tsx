@@ -3,7 +3,11 @@ import { createSchoolClass } from "@/app/src/api/services/schoolService";
 import Image from "next/image";
 import Link from "next/link";
 
-export function AddClassButton() {
+interface AddClassButtonProps {
+  onClassAdded?: () => void;
+}
+
+export function AddClassButton({ onClassAdded }: AddClassButtonProps) {
   const handleAddClass = async () => {
     //Test  Payload
     const newClass = {
@@ -22,7 +26,10 @@ export function AddClassButton() {
       const res = await createSchoolClass(newClass);
       alert("Class added successfully!");
       console.log(res)
-     
+      // Call the callback if provided
+      if (onClassAdded) {
+        onClassAdded();
+      }
     } catch (error) {
       console.log(error)
     }
@@ -52,6 +59,5 @@ export function AddClassButton() {
     </Link>
     </div>
     </>
-
   );
 }
