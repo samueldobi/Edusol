@@ -1,16 +1,23 @@
 "use client";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { createSchoolClass } from "@/app/src/api/services/schoolService";
 
-export default function AddClassUI() {
+interface AddClassUIProps {
+  onClassAdded?: () => void;
+}
+
+export default function AddClassUI({ onClassAdded }: AddClassUIProps) {
+  const router = useRouter();
   const [form, setForm] = useState({
     class_name: "",
     class_level: "",
     class_arm: "",
-    capacity: 0,
-    created_by: "",
+    form_teacher_id: "774ee9c9-a23a-413c-85dc-36ac8f19a256",
+    capacity: 30,
+    created_by: "ee824cad-d7a6-4f48-87dc-e8461a9201c4", 
     created_at: new Date().toISOString(),
-    school: ""
+    school: "997b5388-c4ee-4b64-8b19-f252d6b255e7"
   });
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
@@ -42,15 +49,28 @@ export default function AddClassUI() {
         capacity: Number(form.capacity),
       });
       setSuccess("Class added successfully!");
+      
+      // Reset form
       setForm({
         class_name: "",
         class_level: "",
         class_arm: "",
-        capacity: 0,
-        created_by: "",
+        form_teacher_id: "",
+        capacity: 30,
+        created_by: "", 
         created_at: new Date().toISOString(),
         school: ""
       });
+
+      // Call the callback to refresh classes list
+      if (onClassAdded) {
+        onClassAdded();
+      }
+
+      // Redirect to classes page after a short delay
+      setTimeout(() => {
+        router.push("/dashboard/classes?refresh=true");
+      }, 1500);
     } catch (err) {
       setError("Failed to add class. Please try again.");
       console.log(err)
@@ -128,17 +148,9 @@ export default function AddClassUI() {
           className="w-full border rounded px-2 py-1"
         />
       </div>
-      <div>
-        <label className="block font-medium">Created By (User ID)<span className="text-red-500">*</span></label>
-        <input
-          type="text"
-          name="created_by"
-          value={form.created_by}
-          onChange={handleChange}
-          className="w-full border rounded px-2 py-1"
-          required
-        />
-      </div>
+      {/* Hidden fields with default values */}
+      <input type="hidden" name="created_by" value={form.created_by} />
+      <input type="hidden" name="school" value={form.school} />
       <div>
         <label className="block font-medium">Created At</label>
         <input
@@ -148,17 +160,6 @@ export default function AddClassUI() {
           onChange={handleChange}
           className="w-full border rounded px-2 py-1"
           disabled
-        />
-      </div>
-      <div>
-        <label className="block font-medium">School ID<span className="text-red-500">*</span></label>
-        <input
-          type="text"
-          name="school"
-          value={form.school}
-          onChange={handleChange}
-          className="w-full border rounded px-2 py-1"
-          required
         />
       </div>
       <button type="submit" className="bg-[#1AA939] text-white px-4 py-2 rounded mt-2" disabled={loading}>
