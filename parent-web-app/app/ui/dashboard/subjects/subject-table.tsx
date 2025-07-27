@@ -3,10 +3,14 @@ import Image from "next/image";
 // import { useEffect, useState } from "react";
 
 export interface Subject {
-  id: number;
+  id: string;
   subject_name: string;
   subject_code: string;
-  description?: string;
+  description?: string | null;
+  created_by: string;
+  created_at: string;
+  updated_at: string;
+  school: string;
 }
 
 interface Props {

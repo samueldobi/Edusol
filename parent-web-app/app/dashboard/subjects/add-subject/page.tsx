@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { createSubject, CreateSubjectPayload } from "@/app/src/api/services/schoolService";
-import { fetchUsersList } from "@/app/src/api/services/userService";
 
 const categoryOptions = [
   { value: "senior", label: "Senior" },
@@ -11,19 +11,19 @@ const categoryOptions = [
 ];
 
 export default function Page() {
+  const router = useRouter();
   const [form, setForm] = useState({
     category: "senior",
     subject_name: "",
     subject_code: "",
     description: "",
-    created_by: "",
+    created_by: "ee824cad-d7a6-4f48-87dc-e8461a9201c4", // Default user ID
     created_at: new Date().toISOString(),
-    school: ""
+    school: "997b5388-c4ee-4b64-8b19-f252d6b255e7" // Default school ID
   });
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
-  const [newSubjectId, setNewSubjectId] = useState<string | null>(null);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
@@ -34,7 +34,7 @@ export default function Page() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!form.subject_name || !form.subject_code || !form.created_by || !form.school) {
+    if (!form.subject_name || !form.subject_code) {
       setError("Please fill all required fields.");
       setSuccess("");
       return;
@@ -42,7 +42,7 @@ export default function Page() {
     setError("");
     setSuccess("");
     setLoading(true);
-    setNewSubjectId(null);
+    
     try {
       const payload: CreateSubjectPayload = {
         subject_name: form.subject_name,
@@ -54,16 +54,22 @@ export default function Page() {
       };
       const newSubject = await createSubject(payload);
       setSuccess("Subject added successfully!");
-      setNewSubjectId(newSubject.id);
+      
+      // Reset form
       setForm({
-        category: "senior",
+        category: "",
         subject_name: "",
         subject_code: "",
         description: "",
-        created_by: "",
+        created_by: "0ad7e1c2-2056-4aaf-8093-ff01e3ebcb43", 
         created_at: new Date().toISOString(),
-        school: ""
+        school: "997b5388-c4ee-4b64-8b19-f252d6b255e7" 
       });
+
+      
+      setTimeout(() => {
+        router.push("/dashboard/subjects?refresh=true");
+      }, 1500);
     } catch (err) {
       setError("Failed to add subject. Please try again.");
       console.log(err);
@@ -72,51 +78,11 @@ export default function Page() {
     }
   };
 
-  // Demo button to trigger the function
-  const handleDemoCreate = async () => {
-    setError("");
-    setSuccess("");
-    setLoading(true);
-    setNewSubjectId(null);
-    try {
-      const payload: CreateSubjectPayload = {
-        subject_name: "Demo Subject",
-        subject_code: "DEMO101",
-        description: "Demo subject for UUID extraction",
-        created_by: "497f6eca-6276-4993-bfeb-53cbbbba6f08",
-        created_at: new Date().toISOString(),
-        school: "497f6eca-6276-4993-bfeb-53cbbbba6f08",
-      };
-      const newSubject = await createSubject(payload);
-      setSuccess("Demo subject added successfully!");
-      setNewSubjectId(newSubject.id);
-    } catch (err) {
-      setError("Failed to add demo subject. Please try again.");
-      console.log(err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleListUsers = async () => {
-    try {
-      const users = await fetchUsersList();
-      console.log("Fetched users:", users);
-      alert("Check the console for the list of users.");
-    } catch (err) {
-      alert("Failed to fetch users.");
-      console.log(err);
-    }
-  };
-
   return (
     <div className="max-w-xl mx-auto mt-8 bg-white p-6 rounded-lg shadow-md">
       <h2 className="text-2xl font-bold text-[#1AA939] mb-4 text-center">Add New Subject</h2>
       {error && <div className="text-red-500 text-sm mb-2">{error}</div>}
       {success && <div className="text-green-600 text-sm mb-2">{success}</div>}
-      {newSubjectId && (
-        <div className="text-blue-600 text-sm mb-2">New Subject UUID: {newSubjectId}</div>
-      )}
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label className="block font-medium mb-1">Category</label>
@@ -143,18 +109,7 @@ export default function Page() {
             required
           />
         </div>
-        <div>
-          <label className="block font-medium mb-1">Subject Code<span className="text-red-500">*</span></label>
-          <input
-            type="text"
-            name="subject_code"
-            maxLength={20}
-            value={form.subject_code}
-            onChange={handleChange}
-            className="w-full border rounded px-2 py-2"
-            required
-          />
-        </div>
+      
         <div>
           <label className="block font-medium mb-1">Description</label>
           <textarea
@@ -165,17 +120,9 @@ export default function Page() {
             rows={3}
           />
         </div>
-        <div>
-          <label className="block font-medium mb-1">Created By (User ID)<span className="text-red-500">*</span></label>
-          <input
-            type="text"
-            name="created_by"
-            value={form.created_by}
-            onChange={handleChange}
-            className="w-full border rounded px-2 py-2"
-            required
-          />
-        </div>
+        {/* Hidden fields with default values */}
+        <input type="hidden" name="created_by" value={form.created_by} />
+        <input type="hidden" name="school" value={form.school} />
         <div>
           <label className="block font-medium mb-1">Created At</label>
           <input
@@ -187,17 +134,6 @@ export default function Page() {
             disabled
           />
         </div>
-        <div>
-          <label className="block font-medium mb-1">School ID<span className="text-red-500">*</span></label>
-          <input
-            type="text"
-            name="school"
-            value={form.school}
-            onChange={handleChange}
-            className="w-full border rounded px-2 py-2"
-            required
-          />
-        </div>
         <button
           type="submit"
           className="bg-[#1AA939] text-white px-4 py-2 rounded mt-2 w-full font-semibold hover:bg-[#168a2c] transition"
@@ -206,21 +142,6 @@ export default function Page() {
           {loading ? "Adding..." : "Add Subject"}
         </button>
       </form>
-      <button
-        type="button"
-        onClick={handleListUsers}
-        className="bg-blue-500 text-white px-4 py-2 rounded mt-4 w-full font-semibold hover:bg-blue-700 transition"
-      >
-        List Users (Console Log)
-      </button>
-      <button
-        type="button"
-        onClick={handleDemoCreate}
-        className="bg-blue-500 text-white px-4 py-2 rounded mt-4 w-full font-semibold hover:bg-blue-700 transition"
-        disabled={loading}
-      >
-        {loading ? "Creating Demo Subject..." : "Create Demo Subject (Show UUID)"}
-      </button>
     </div>
   );
 }
