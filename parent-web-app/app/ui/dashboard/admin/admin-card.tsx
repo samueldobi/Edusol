@@ -1,4 +1,9 @@
-export default function AdminCard(){
+interface AdminCardProps {
+  adminData: { label: string; value: string; key: string }[];
+  onEdit?: () => void;
+}
+
+export default function AdminCard({ adminData, onEdit }: AdminCardProps) {
     return(
         <>
         <div
@@ -10,18 +15,7 @@ export default function AdminCard(){
 
       <table className="w-full border-collapse">
         <tbody>
-          {[
-            ['Full Name', 'Tola Diamond'],
-            ['Email Addres', 'tendertouch@gmail.com'],
-            ['Phone number', '08037743942'],
-            ['School Name', 'Tenderkids School'],
-            ['Role', 'Principal'],
-            ['Teachers Name', 'Mr JS Brown'],
-            ['Account Created On', '10-12-2023'],
-            ["Total Students", '456'],
-            ['Number of Clases', '25'],
-            ['Parent / Guardian Relationship', 'Mother'],
-          ].map(([label, value], index, arr) => (
+          {adminData.map(({ label, value }, index, arr) => (
             <tr
               key={label}
               className={index !== arr.length - 1 ? 'border-b border-gray-100' : ''}
@@ -35,6 +29,7 @@ export default function AdminCard(){
 
       <button
         className="bg-green-600 text-white font-bold py-3 px-8 rounded-lg block mx-auto mt-8 hover:bg-green-700 hover:-translate-y-0.5 transition-transform duration-200"
+        onClick={onEdit}
       >
         Update
       </button>

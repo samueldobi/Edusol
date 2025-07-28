@@ -1,7 +1,7 @@
 "use client";
 import React from "react"
 import { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import { fetchSchoolClasses, ClassType } from "@/app/src/api/services/schoolService";
 
 type LevelGroup = {
@@ -11,6 +11,7 @@ type LevelGroup = {
 
 export default function ClassGroups() {
   const searchParams = useSearchParams();
+  const router = useRouter();
   const [allLevels, setAllLevels] = useState<LevelGroup[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -35,13 +36,34 @@ export default function ClassGroups() {
   const fetchClasses = async () => {
     try {
       setLoading(true);
-      const classes = await fetchSchoolClasses();
-      console.log("Fetched classes:", classes);
-      const groupedClasses = groupClassesByLevel(classes);
+      setError("");
+      console.log("Fetching classes...");
+      console.log("API URL:", process.env.NEXT_PUBLIC_SCHOOL_SERVICE_URL);
+      console.log("Full endpoint:", `${process.env.NEXT_PUBLIC_SCHOOL_SERVICE_URL}/api/schools/classes`);
+      
+      const fetchedClasses = await fetchSchoolClasses();
+      const groupedClasses = groupClassesByLevel(fetchedClasses);
       setAllLevels(groupedClasses);
-    } catch (error) {
+      console.log("Fetched classes:", fetchedClasses);
+    } catch (error: any) {
       console.error("Error fetching classes:", error);
-      setError("Failed to fetch classes");
+      console.error("Error response:", error.response);
+      console.error("Error status:", error.response?.status);
+      console.error("Error data:", error.response?.data);
+      console.error("Error config:", error.config);
+      console.error("Request URL:", error.config?.url);
+      console.error("Request method:", error.config?.method);
+      console.error("Request headers:", error.config?.headers);
+      
+      if (error.response?.status === 403) {
+        setError("Access forbidden. This might be a server configuration issue. Check console for details.");
+      } else if (error.response?.status === 404) {
+        setError("API endpoint not found. Please check the URL configuration.");
+      } else if (error.response?.status >= 500) {
+        setError("Server error. Please try again later.");
+      } else {
+        setError(`Failed to fetch classes: ${error.message || 'Unknown error'}`);
+      }
     } finally {
       setLoading(false);
     }
@@ -63,12 +85,31 @@ export default function ClassGroups() {
     }
   }, [searchParams]);
 
+  const handleClassClick = (className: string) => {
+    router.push(`/dashboard/classes/class-details?classId=${encodeURIComponent(className)}`);
+  };
+
   if (loading) {
     return <div className="text-center py-4">Loading classes...</div>;
   }
 
   if (error) {
-    return <div className="text-red-500 text-center py-4">{error}</div>;
+    return (
+      <div className="text-center py-8">
+        <div className="text-red-500 mb-4">{error}</div>
+        <div className="flex gap-2 justify-center">
+          <button 
+            onClick={fetchClasses}
+            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700"
+          >
+            Retry
+          </button>
+        </div>
+        <div className="mt-2 text-sm text-gray-600">
+          Check the browser console for more details
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -92,7 +133,8 @@ export default function ClassGroups() {
                 {group.classes.map((className) => (
                   <div
                     key={className}
-                    className="border-2 border-[#00000024] p-2 flex items-center justify-center cursor-pointer hover:bg-gray-50"
+                    onClick={() => handleClassClick(className)}
+                    className="border-2 border-[#00000024] p-2 flex items-center justify-center cursor-pointer hover:bg-gray-50 hover:border-[#1AA939] transition-colors"
                   >
                     {className.toUpperCase()}
                   </div>

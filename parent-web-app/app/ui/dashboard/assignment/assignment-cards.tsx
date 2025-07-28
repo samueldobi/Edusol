@@ -1,27 +1,79 @@
 "use client";
-import { assignmentData, Assignment } from "@/app/lib/placeholder-data"
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image"
 import EditAssignmentModal from "./modals/edit-assignment-modal";
 import DeleteConfirmModal from "./modals/delete-assignment-modal";
 import SuccessModal from "./modals/show-success-modal";
-
+import { fetchAssignmentsList, AssignmentType } from "@/app/src/api/services/schoolService";
 
 export default function AssignmentCards(){
+  const [assignments, setAssignments] = useState<AssignmentType[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
   const [showEdit, setShowEdit] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false); 
   const [successTitle, setSuccessTitle] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
 
-  const groupByDay = (data: Assignment[]) => {
-    return data.reduce((acc, item) => {
-      acc[item.day] = acc[item.day] ? [...acc[item.day], item] : [item];
-      return acc;
-    }, {} as Record<string, Assignment[]>);
+  const fetchAssignments = async () => {
+    try {
+      setLoading(true);
+      const fetchedAssignments = await fetchAssignmentsList();
+      setAssignments(fetchedAssignments);
+      console.log("Fetched assignments:", fetchedAssignments);
+    } catch (error: any) {
+      console.error("Error fetching assignments:", error);
+      setError("Failed to fetch assignments");
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const grouped = groupByDay(assignmentData);
+  useEffect(() => {
+    fetchAssignments();
+  }, []);
+
+  const groupByDay = (data: AssignmentType[]) => {
+    return data.reduce((acc, item) => {
+      const dueDate = new Date(item.due_date);
+      const day = dueDate.toLocaleDateString('en-US', { 
+        weekday: 'long',
+        month: 'long',
+        day: 'numeric'
+      });
+      acc[day] = acc[day] ? [...acc[day], item] : [item];
+      return acc;
+    }, {} as Record<string, AssignmentType[]>);
+  };
+
+  const grouped = groupByDay(assignments);
+
+  if (loading) {
+    return <div className="text-center py-8">Loading assignments...</div>;
+  }
+
+  if (error) {
+    return (
+      <div className="text-center py-8">
+        <div className="text-red-500 mb-4">{error}</div>
+        <button 
+          onClick={fetchAssignments}
+          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700"
+        >
+          Retry
+        </button>
+      </div>
+    );
+  }
+
+  if (assignments.length === 0) {
+    return (
+      <div className="text-center py-8 text-gray-500">
+        No assignments found. Create your first assignment to get started.
+      </div>
+    );
+  }
 
   return(
     <>
@@ -41,7 +93,7 @@ export default function AssignmentCards(){
                 <div className="flex gap-4 items-center mb-4">
                   <div className="w-[60px] h-[60px] rounded-lg bg-blue-100 flex justify-center items-center overflow-hidden">
                     <Image
-                      src={item.imageUrl}
+                      src="/math-logo.png"
                       alt={item.subject}
                       width={60}
                       height={60}
@@ -62,12 +114,14 @@ export default function AssignmentCards(){
                   </div>
                   <span
                     className={`text-xs font-bold px-3 py-1 rounded-full uppercase ${
-                      item.submitted
+                      item.status === 'completed'
                         ? "bg-[#1AA939] text-white"
+                        : item.status === 'active'
+                        ? "bg-blue-500 text-white"
                         : "bg-red-500 text-white"
                     }`}
                   >
-                    {item.submitted ? "SUBMITTED" : "NOT SUBMITTED"}
+                    {item.status.toUpperCase()}
                   </span>
                 </div>
               </div>
@@ -85,6 +139,7 @@ export default function AssignmentCards(){
             setSuccessTitle("Success!");
             setSuccessMessage("Assignment was successfully updated.");
             setShowSuccess(true);
+            fetchAssignments(); // Refresh the list
           }}
           onDelete={() => {
             setShowDelete(false);
@@ -92,17 +147,18 @@ export default function AssignmentCards(){
             setSuccessMessage("Assignment was successfully deleted.");
             setShowSuccess(true);
             setShowEdit(false);
+            fetchAssignments(); // Refresh the list
           }}
         />
       )}
 
-            {showSuccess && (
-            <SuccessModal
-                title={successTitle}
-                message={successMessage}
-                onClose={() => setShowSuccess(false)}
-            />
-            )}
+      {showSuccess && (
+        <SuccessModal
+          title={successTitle}
+          message={successMessage}
+          onClose={() => setShowSuccess(false)}
+        />
+      )}
 
       {showDelete && (
         <DeleteConfirmModal
@@ -110,10 +166,10 @@ export default function AssignmentCards(){
           onDelete={() => {
             setShowDelete(false);
             setShowSuccess(true);
+            fetchAssignments(); // Refresh the list
           }}
         />
       )}
-   
     </>
   )
 }

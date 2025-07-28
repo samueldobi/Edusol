@@ -26,6 +26,13 @@ export const SCHOOL_API = {
     TERMS_UPDATE: '/api/schools/terms/{id}',
     TERMS_PARTIAL_UPDATE: '/api/schools/terms/{id}',
     TERMS_DELETE: '/api/schools/terms/{id}',
+    // Assignments
+    ASSIGNMENTS_LIST: '/api/schools/assignments',
+    ASSIGNMENTS_CREATE: '/api/schools/assignments',
+    ASSIGNMENTS_BY_ID: '/api/schools/assignments/{id}',
+    ASSIGNMENTS_UPDATE: '/api/schools/assignments/{id}',
+    ASSIGNMENTS_PARTIAL_UPDATE: '/api/schools/assignments/{id}',
+    ASSIGNMENTS_DELETE: '/api/schools/assignments/{id}',
     // Classes (missing CRUD)
     CLASSES_CREATE: '/api/schools/classes/',
     CLASSES_UPDATE: '/api/schools/classes/{id}',

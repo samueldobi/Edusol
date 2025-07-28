@@ -87,10 +87,35 @@ export interface TermType {
   updated_at: string;
   school: string;
 }
+
+export interface AssignmentType {
+  id: string;
+  subject: string;
+  topic: string;
+  start_date: string;
+  due_date: string;
+  status: 'active' | 'inactive' | 'completed';
+  created_by: string;
+  created_at: string;
+  updated_at: string;
+  school: string;
+}
+
 export type CreateSubjectPayload = {
   subject_name: string;
   subject_code: string;
   description?: string | null;
+  created_by: string;
+  created_at: string;
+  school: string;
+};
+
+export type CreateAssignmentPayload = {
+  subject: string;
+  topic: string;
+  start_date: string;
+  due_date: string;
+  status: 'active' | 'inactive' | 'completed';
   created_by: string;
   created_at: string;
   school: string;
@@ -278,5 +303,31 @@ export const partialUpdateTerm = async (id: string, data: Partial<TermType>): Pr
 };
 export const deleteTerm = async (id: string): Promise<TermType> => {
   const response = await schoolClient.delete(SCHOOL_API.TERMS_DELETE.replace('{id}', id));
+  return response.data;
+};
+
+// -------------------- ASSIGNMENTS --------------------
+export const fetchAssignmentsList = async (): Promise<AssignmentType[]> => {
+  const response = await schoolClient.get(SCHOOL_API.ASSIGNMENTS_LIST);
+  return response.data;
+};
+export const fetchAssignmentById = async (id: string): Promise<AssignmentType> => {
+  const response = await schoolClient.get(SCHOOL_API.ASSIGNMENTS_BY_ID.replace('{id}', id));
+  return response.data;
+};
+export const createAssignment = async (data: CreateAssignmentPayload): Promise<AssignmentType> => {
+  const response = await schoolClient.post(SCHOOL_API.ASSIGNMENTS_CREATE, data);
+  return response.data;
+};
+export const updateAssignment = async (id: string, data: AssignmentType): Promise<AssignmentType> => {
+  const response = await schoolClient.put(SCHOOL_API.ASSIGNMENTS_UPDATE.replace('{id}', id), data);
+  return response.data;
+};
+export const partialUpdateAssignment = async (id: string, data: Partial<AssignmentType>): Promise<AssignmentType> => {
+  const response = await schoolClient.patch(SCHOOL_API.ASSIGNMENTS_PARTIAL_UPDATE.replace('{id}', id), data);
+  return response.data;
+};
+export const deleteAssignment = async (id: string): Promise<AssignmentType> => {
+  const response = await schoolClient.delete(SCHOOL_API.ASSIGNMENTS_DELETE.replace('{id}', id));
   return response.data;
 };
