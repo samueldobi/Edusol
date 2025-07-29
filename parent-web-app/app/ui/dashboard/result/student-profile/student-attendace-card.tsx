@@ -3,9 +3,23 @@ import Image from "next/image";
 import { attendanceCardData } from "@/app/lib/placeholder-data";
 import { useEffect, useState } from "react";
 
+interface StudentData {
+  id: string;
+  name: string;
+  parent_name: string;
+  gender: string;
+  phone_number: string;
+  class: string;
+  session: string;
+  term: string;
+  classId: string;
+}
 
- 
-export default function StudentAttendanceCard() {
+interface Props {
+  studentData?: StudentData;
+}
+
+export default function StudentAttendanceCard({ studentData }: Props) {
 
   // Card data type
   type CardData = {
@@ -30,7 +44,7 @@ export default function StudentAttendanceCard() {
       <div className="my-6 p-7">
         <div className="h-1 w-60 mx-auto bg-green-500 rounded-full mt-50"></div>
         <h2 className="text-3xl md:text-5xl text-center font-bold text-gray-800 mb-4">
-          Attendance
+          Attendance - {studentData?.name || "Student"}
         </h2>
         <div className="h-1 w-60 mx-auto bg-green-500 rounded-full"></div>
       </div>

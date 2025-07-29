@@ -1,9 +1,24 @@
 "use client";
 import Image from "next/image";
-type Props = {
-  studentSize?: number; 
+
+interface StudentData {
+  id: string;
+  name: string;
+  parent_name: string;
+  gender: string;
+  phone_number: string;
+  class: string;
+  session: string;
+  term: string;
+  classId: string;
 }
-export default function StudentClassDetails({studentSize}:Props){
+
+type Props = {
+  studentSize?: number;
+  studentData?: StudentData;
+}
+
+export default function StudentClassDetails({studentSize, studentData}:Props){
     return(
  
         <>
@@ -23,14 +38,14 @@ export default function StudentClassDetails({studentSize}:Props){
                 </div>
                 <div className="p-4">
                 <div className="text-lg uppercase tracking-wide opacity-80">Number of Students</div>
-                <div className="font-semibold text-2xl text-center text-[#fff]">{studentSize}</div>
+                <div className="font-semibold text-2xl text-center text-[#fff]">{studentSize || 0}</div>
                 </div>
                 <div className="p-4">
                 <div className="text-lg uppercase tracking-wide opacity-80 ">Input Student ID</div>
                 <div className="flex items-center bg-white/10 rounded-md overflow-hidden">
                     <input
                     type="text"
-                    defaultValue="8197465876"
+                    defaultValue={studentData?.id || "8197465876"}
                     className="flex-1 px-3 py-2 bg-transparent text-white placeholder-white outline-none"
                     />
                   

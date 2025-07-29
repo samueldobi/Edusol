@@ -2,6 +2,7 @@
 import Image from "next/image"
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useRouter, useSearchParams } from "next/navigation";
 
 interface Props {
   rowsPerPage: number;
@@ -29,6 +30,8 @@ export default function UserTable({
 // States for student data and student size
 const [studentData, setStudentData] = useState<Student[]>([]);
 const[studentSize, setStudentSize] =  useState(0);
+const router = useRouter();
+const searchParams = useSearchParams();
 console.log(studentSize, studentData)
 
     useEffect(()=>{
@@ -45,6 +48,27 @@ console.log(studentSize, studentData)
         }
         fetchStudents();
     },[])
+
+    const handleStudentClick = (student: Student) => {
+        const session = searchParams.get("session");
+        const term = searchParams.get("term");
+        const classId = searchParams.get("classId");
+        
+        const queryParams = new URLSearchParams({
+            session: session || "",
+            term: term || "",
+            classId: classId || "",
+            studentId: student.id.toString(),
+            studentName: student.student_name,
+            parentName: student.parent_name,
+            gender: student.gender,
+            phoneNumber: student.phone_number,
+            className: student.class,
+        });
+        
+        router.push(`/dashboard/result/student-result?${queryParams.toString()}`);
+    };
+
       // Pagination logic
   const startIndex = (currentPage - 1) * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
@@ -87,7 +111,11 @@ console.log(studentSize, studentData)
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
                 {paginatedData.map((item) => (
-                <tr key={item.id}>
+                <tr 
+                    key={item.id} 
+                    className="cursor-pointer hover:bg-gray-50 transition-colors"
+                    onClick={() => handleStudentClick(item)}
+                >
                     <td className="px-6 py-4 whitespace-nowrap">
                     <div className="flex items-center">
                         <div className="flex-shrink-0 h-37 w-37">
@@ -124,7 +152,13 @@ console.log(studentSize, studentData)
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                     <div className="flex justify-between">
-                        <button className="p-2">
+                        <button 
+                            className="p-2"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                handleStudentClick(item);
+                            }}
+                        >
                             <Image
                             src = "/userview.png"
                             width={40}
@@ -158,7 +192,11 @@ console.log(studentSize, studentData)
         {/* Card display on smaller screen sizes */}
     <div className="block md:hidden space-y-4 ">
   {paginatedData.map((item) => (
-    <div key={item.id} className="bg-white shadow rounded-lg p-4 border border-gray-100 w-full">
+    <div 
+        key={item.id} 
+        className="bg-white shadow rounded-lg p-4 border border-gray-100 w-full cursor-pointer hover:bg-gray-50 transition-colors"
+        onClick={() => handleStudentClick(item)}
+    >
       <div className="flex flex-col items-center justify-center gap-4">
         <Image
           width={60}
@@ -178,7 +216,12 @@ console.log(studentSize, studentData)
       </div>
 
       <div className="mt-4 flex justify-center gap-4">
-        <button>
+        <button
+            onClick={(e) => {
+                e.stopPropagation();
+                handleStudentClick(item);
+            }}
+        >
           <Image src="/userview.png" width={32} height={32} alt="view" />
         </button>
         <button>

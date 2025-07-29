@@ -121,6 +121,17 @@ export type CreateAssignmentPayload = {
   school: string;
 };
 
+export type CreateTermPayload = {
+  term_name: string;
+  academic_year: string;
+  start_date: string;
+  end_date: string;
+  is_current: boolean;
+  created_by: string;
+  created_at: string;
+  school: string;
+};
+
 // Get Requests
 export const fetchSchoolClasses = async (): Promise<ClassType[]> => {
   const response = await schoolClient.get(SCHOOL_API.CLASSES_LIST);
@@ -289,7 +300,7 @@ export const fetchTermById = async (id: string): Promise<TermType> => {
   const response = await schoolClient.get(SCHOOL_API.TERMS_BY_ID.replace('{id}', id));
   return response.data;
 };
-export const createTerm = async (data: TermType): Promise<TermType> => {
+export const createTerm = async (data: CreateTermPayload): Promise<TermType> => {
   const response = await schoolClient.post(SCHOOL_API.TERMS_CREATE, data);
   return response.data;
 };

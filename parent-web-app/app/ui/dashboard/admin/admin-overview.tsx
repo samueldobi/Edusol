@@ -18,7 +18,7 @@ const initialAdminData = [
 
 export default function AdminOverview(){
     const [adminData, setAdminData] = useState(initialAdminData);
-    // 0 is view, 1 is edit
+    // 0 is to view, 1 is to edit
     const [activeTab, setActiveTab] = useState(0); 
 
     const handleEditSave = (newData: typeof adminData) => {

@@ -1,13 +1,30 @@
 "use client"
 import { performanceTable } from "@/app/lib/placeholder-data"
-export default function StudentPerformanceTable(){
+
+interface StudentData {
+  id: string;
+  name: string;
+  parent_name: string;
+  gender: string;
+  phone_number: string;
+  class: string;
+  session: string;
+  term: string;
+  classId: string;
+}
+
+interface Props {
+  studentData?: StudentData;
+}
+
+export default function StudentPerformanceTable({ studentData }: Props){
     return(
     <>
 
             <div className="my-8">
               <div className="h-1 w-60 mx-auto bg-[#5695DC] rounded-full mb-4"></div>
-              <h2 className="text-3xl md:text-5xl font-bold text-center text-[#5695DC] tracking-wide">
-                ACADEMIC PERFORMANCE
+              <h2 className="text-3xl md:text-3xl font-bold text-center text-[#5695DC] tracking-wide">
+                ACADEMIC PERFORMANCE - {studentData?.name || "Student"}
               </h2>
               <div className="h-1 w-60 mx-auto bg-[#5695DC] rounded-full mt-4"></div>
             </div>

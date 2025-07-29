@@ -6,24 +6,46 @@ import { Bars3CenterLeftIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { useState,useRef, useEffect } from 'react';
 import Image from 'next/image';
+import { useAuth } from '@/app/contexts/AuthContext';
+import { useRouter } from 'next/navigation';
+
 interface HeaderProps {
   onMenuToggle: () => void;
 }
 
 export default function Header({ onMenuToggle }: HeaderProps) {
-  const [isOpen, setIsOpen] =  useState(false)
+  const [isOpen, setIsOpen] =  useState(false);
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
   const dropDownRef = useRef<HTMLDivElement>(null);
-useEffect(() => {
-  function handleClickOutside(event: MouseEvent) {
-    if (dropDownRef.current && !dropDownRef.current.contains(event.target as Node)) {
-      setIsOpen(false);
+  const { logout, user } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (dropDownRef.current && !dropDownRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
     }
-  }
-  document.addEventListener("click", handleClickOutside);
-  return () => {
-    document.removeEventListener("click", handleClickOutside);
+    document.addEventListener("click", handleClickOutside);
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
+
+  const handleLogout = async () => {
+    try {
+      setIsLoggingOut(true);
+      await logout();
+      router.push('/');
+    } catch (error) {
+      console.error('Logout failed:', error);
+      // Still redirect even if logout API fails
+      router.push('/');
+    } finally {
+      setIsLoggingOut(false);
+    }
   };
-}, []);
+
   return (
     <header className="bg-[#1AA939] fixed inset-x-0 top-0 z-10 md:left-0 md:w-full">
       <nav className="flex items-center justify-between p-4">
@@ -85,6 +107,9 @@ useEffect(() => {
 
         >
           <div className="py-2">
+            <div className="px-4 py-2 text-sm text-gray-700 border-b border-gray-100">
+              {user?.name || 'User'}
+            </div>
             <Link
               href="/dashboard/admin"
               className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-green-600"
@@ -92,10 +117,11 @@ useEffect(() => {
               Profile
             </Link>
             <button
-              onClick={() => alert("Logging out...")}
-              className="w-full text-left block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-red-600"
+              onClick={handleLogout}
+              disabled={isLoggingOut}
+              className="w-full text-left block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-red-600 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Logout
+              {isLoggingOut ? 'Logging out...' : 'Logout'}
             </button>
           </div>
         </div>
