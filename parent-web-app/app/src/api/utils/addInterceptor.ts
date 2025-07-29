@@ -9,18 +9,18 @@ export const addInterceptor = (client: AxiosInstance) => {
         const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
         const refreshToken = typeof window !== 'undefined' ? localStorage.getItem('refreshToken') : null;
   
-        console.log('🔐 Interceptor running for:', config.url);
-        console.log('   Token found:', token ? 'YES' : 'NO');
-        console.log('   Refresh token found:', refreshToken ? 'YES' : 'NO');
-        console.log('   Token preview:', token ? `${token.substring(0, 20)}...` : 'NONE');
+        // console.log('🔐 Interceptor running for:', config.url);
+        // console.log('   Token found:', token ? 'YES' : 'NO');
+        // console.log('   Refresh token found:', refreshToken ? 'YES' : 'NO');
+        // console.log('   Token preview:', token ? `${token.substring(0, 20)}...` : 'NONE');
   
         if (token) {
           // Try different authorization header formats
           config.headers.Authorization = `Bearer ${token}`;
           // Some APIs might use different header names
-          config.headers['Authorization'] = `Bearer ${token}`;
-          config.headers['authorization'] = `Bearer ${token}`;
-          console.log('   ✅ Authorization header set');
+          // config.headers['Authorization'] = `Bearer ${token}`;
+          // config.headers['authorization'] = `Bearer ${token}`;
+          // console.log('   ✅ Authorization header set');
         } else {
           console.log('   ❌ No token found, skipping Authorization header');
         }
@@ -38,7 +38,7 @@ export const addInterceptor = (client: AxiosInstance) => {
         config.headers['Content-Type'] = 'application/json';
         config.headers['Accept'] = 'application/json';
   
-        console.log('   Final headers:', config.headers);
+        // console.log('   Final headers:', config.headers);
         return config;
       },
       (error) => {

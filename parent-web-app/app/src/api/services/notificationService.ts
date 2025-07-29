@@ -3,7 +3,8 @@ import { NOTIFICATION_API } from '../endpoints/notificationEndpoints';
 
 // --- Types ---
 export interface NotificationType {
-  id: string;
+  id?: string;
+  _id?: string;
   title?: string;        
   subject?: string;      
   message?: string;      
@@ -225,10 +226,182 @@ export const testNotificationCreation = async (data: SendNotificationPayload): P
   throw new Error('All test payloads failed with 500 errors. This suggests a backend issue.');
 };
 
+// --- Test Functions for Debugging ---
+export const testFetchNotifications = async (): Promise<void> => {
+  console.log('🔍 Testing notification fetch...');
+  
+  try {
+    // Test 1: Direct axios call to see raw response
+    console.log('📡 Making direct API call...');
+    const response = await notificationClient.get(NOTIFICATION_API.NOTIFICATIONS_LIST);
+    
+    console.log('📊 Full Response Object:', response);
+    console.log('📊 Response Status:', response.status);
+    console.log('📊 Response Headers:', response.headers);
+    console.log('📊 Response Data Type:', typeof response.data);
+    console.log('📊 Response Data:', response.data);
+    
+    if (response.data && typeof response.data === 'object') {
+      console.log('📊 Response Data Keys:', Object.keys(response.data));
+      console.log('📊 Response Data Values:', Object.values(response.data));
+      
+      // Check if it's an array
+      if (Array.isArray(response.data)) {
+        console.log('📊 Data is an array with length:', response.data.length);
+        response.data.forEach((item, index) => {
+          console.log(`📊 Item ${index}:`, item);
+        });
+      }
+      
+      // Check nested properties
+      if (response.data.data) {
+        console.log('📊 Nested data property:', response.data.data);
+        console.log('📊 Nested data type:', typeof response.data.data);
+        if (Array.isArray(response.data.data)) {
+          console.log('📊 Nested data is array with length:', response.data.data.length);
+        }
+      }
+      
+      if (response.data.notifications) {
+        console.log('📊 Nested notifications property:', response.data.notifications);
+        console.log('📊 Nested notifications type:', typeof response.data.notifications);
+        if (Array.isArray(response.data.notifications)) {
+          console.log('📊 Nested notifications is array with length:', response.data.notifications.length);
+        }
+      }
+      
+      if (response.data.results) {
+        console.log('📊 Nested results property:', response.data.results);
+        console.log('📊 Nested results type:', typeof response.data.results);
+        if (Array.isArray(response.data.results)) {
+          console.log('📊 Nested results is array with length:', response.data.results.length);
+        }
+      }
+    }
+    
+    // Test 2: Check if there are any query parameters we should be using
+    console.log('🔍 Checking if we need query parameters...');
+    const schoolContext = getSchoolContext();
+    console.log('🔍 School context:', schoolContext);
+    
+    if (schoolContext) {
+      console.log('🔍 Testing with school context parameters...');
+      const params = {
+        schoolId: schoolContext.schoolId,
+        userId: schoolContext.userId
+      };
+      console.log('🔍 Testing with params:', params);
+      
+      const responseWithParams = await notificationClient.get(NOTIFICATION_API.NOTIFICATIONS_LIST, { params });
+      console.log('📊 Response with params:', responseWithParams.data);
+    }
+    
+  } catch (error: any) {
+    console.error('❌ Test fetch failed:', {
+      message: error.message,
+      status: error.response?.status,
+      data: error.response?.data,
+      url: error.config?.url
+    });
+  }
+};
+
+// --- Helper Functions ---
+const getSchoolContext = () => {
+  if (typeof window !== 'undefined') {
+    const userData = localStorage.getItem('user');
+    if (userData) {
+      try {
+        const user = JSON.parse(userData);
+        return {
+          schoolId: user.schoolId || user.school_id,
+          userId: user.id,
+          userRole: user.role
+        };
+      } catch (error) {
+        console.error('Error parsing user data:', error);
+      }
+    }
+  }
+  return null;
+};
+
 // --- Notification Functions ---
 export const fetchNotificationsList = async (): Promise<NotificationType[]> => {
-  const response = await notificationClient.get(NOTIFICATION_API.NOTIFICATIONS_LIST);
-  return response.data;
+  try {
+    console.log('[fetchNotificationsList] Fetching notifications...');
+    console.log('[fetchNotificationsList] Endpoint:', NOTIFICATION_API.NOTIFICATIONS_LIST);
+    
+    // Get school context for parameters
+    const schoolContext = getSchoolContext();
+    console.log('[fetchNotificationsList] School context:', schoolContext);
+    
+    // Add query parameters including pagination
+    const params: any = {
+      page: 1,
+      per_page: 100, // Get more notifications per page
+      limit: 100     // Alternative parameter name
+    };
+    
+    if (schoolContext?.schoolId) {
+      params.schoolId = schoolContext.schoolId;
+    }
+    if (schoolContext?.userId) {
+      params.userId = schoolContext.userId;
+    }
+    
+    console.log('[fetchNotificationsList] Request params:', params);
+    
+    const response = await notificationClient.get(NOTIFICATION_API.NOTIFICATIONS_LIST, { params });
+    console.log('[fetchNotificationsList] Full response:', response);
+    console.log('[fetchNotificationsList] Response data:', response.data);
+    console.log('[fetchNotificationsList] Response data keys:', Object.keys(response.data));
+    
+    // Handle different response structures
+    let notificationsData: NotificationType[] = [];
+    
+    if (Array.isArray(response.data)) {
+      notificationsData = response.data;
+    } else if (response.data && typeof response.data === 'object') {
+      if (Array.isArray(response.data.data)) {
+        notificationsData = response.data.data;
+      } else if (Array.isArray(response.data.notifications)) {
+        notificationsData = response.data.notifications;
+      } else if (Array.isArray(response.data.results)) {
+        notificationsData = response.data.results;
+      } else {
+        console.warn('[fetchNotificationsList] Unexpected response structure:', response.data);
+        notificationsData = [];
+      }
+    }
+    
+    console.log('[fetchNotificationsList] Extracted notifications:', notificationsData);
+    console.log('[fetchNotificationsList] Number of notifications:', notificationsData.length);
+    
+    // Log each notification for debugging
+    notificationsData.forEach((notification, index) => {
+      console.log(`[fetchNotificationsList] Notification ${index + 1}:`, {
+        id: notification.id || notification._id,
+        title: notification.title || notification.subject,
+        message: notification.message || notification.body,
+        type: notification.type,
+        recipient: notification.recipient_id || notification.receipient,
+        created_at: notification.created_at
+      });
+    });
+    
+    return notificationsData;
+  } catch (error: any) {
+    console.error('[fetchNotificationsList] Error fetching notifications:', {
+      message: error.message,
+      status: error.response?.status,
+      statusText: error.response?.statusText,
+      data: error.response?.data,
+      url: error.config?.url,
+      headers: error.config?.headers
+    });
+    throw error;
+  }
 };
 
 export const fetchNotificationById = async (id: string): Promise<NotificationType> => {

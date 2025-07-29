@@ -1,98 +1,76 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import AllNotifications from "../../ui/notifications/all-notifications";
-import { fetchNotificationsList, NotificationType } from "../../src/api/services/notificationService";
+import { fetchNotificationsList, testFetchNotifications } from '../../src/api/services/notificationService';
+import { NotificationType } from '../../src/api/services/notificationService';
+import AllNotifications from '../../ui/notifications/all-notifications';
 
-export default function Page() {
-    const [notifications, setNotifications] = useState<NotificationType[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
+export default function NotificationsPage() {
+  const [notifications, setNotifications] = useState<NotificationType[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-    useEffect(() => {
-        const loadNotifications = async () => {
-            try {
-                setLoading(true);
-                const response = await fetchNotificationsList();
-                
-                // Ensure we have an array of notifications
-                let notificationsData: NotificationType[] = [];
-                
-                if (Array.isArray(response)) {
-                    notificationsData = response;
-                } else if (response && typeof response === 'object') {
-                    const responseObj = response as any;
-                    if ('data' in responseObj && Array.isArray(responseObj.data)) {
-                        notificationsData = responseObj.data;
-                    } else if ('notifications' in responseObj && Array.isArray(responseObj.notifications)) {
-                        notificationsData = responseObj.notifications;
-                    } else {
-                        console.warn('Unexpected API response structure:', response);
-                        notificationsData = [];
-                    }
-                } else {
-                    console.warn('Unexpected API response structure:', response);
-                    notificationsData = [];
-                }
-                
-                setNotifications(notificationsData);
-                setError(null);
-            } catch (err) {
-                console.error('Failed to load notifications:', err);
-                setError('Failed to load notifications. Please try again later.');
-                setNotifications([]);
-            } finally {
-                setLoading(false);
-            }
-        };
+  const loadNotifications = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      console.log('[NotificationsPage] Loading notifications...');
+      
+      const data = await fetchNotificationsList();
+      console.log('[NotificationsPage] Raw data received:', data);
+      
+      // Ensure data is an array
+      const notificationsArray = Array.isArray(data) ? data : [];
+      console.log('[NotificationsPage] Processed notifications array:', notificationsArray);
+      console.log('[NotificationsPage] Number of notifications:', notificationsArray.length);
+      
+      setNotifications(notificationsArray);
+    } catch (err: any) {
+      console.error('[NotificationsPage] Failed to load notifications:', err);
+      setError(err.message || 'Failed to load notifications');
+    } finally {
+      setLoading(false);
+    }
+  };
 
-        loadNotifications();
-    }, []);
+  const handleRefresh = async () => {
+    console.log('[NotificationsPage] Refreshing notifications...');
+    await loadNotifications();
+  };
 
-    const handleRefresh = async () => {
-        try {
-            setLoading(true);
-            const response = await fetchNotificationsList();
-            
-            // Ensure we have an array of notifications
-            let notificationsData: NotificationType[] = [];
-            
-            if (Array.isArray(response)) {
-                notificationsData = response;
-            } else if (response && typeof response === 'object') {
-                const responseObj = response as any;
-                if ('data' in responseObj && Array.isArray(responseObj.data)) {
-                    notificationsData = responseObj.data;
-                } else if ('notifications' in responseObj && Array.isArray(responseObj.notifications)) {
-                    notificationsData = responseObj.notifications;
-                } else {
-                    console.warn('Unexpected API response structure:', response);
-                    notificationsData = [];
-                }
-            } else {
-                console.warn('Unexpected API response structure:', response);
-                notificationsData = [];
-            }
-            
-            setNotifications(notificationsData);
-            setError(null);
-        } catch (err) {
-            console.error('Failed to refresh notifications:', err);
-            setError('Failed to refresh notifications. Please try again later.');
-            setNotifications([]);
-        } finally {
-            setLoading(false);
-        }
-    };
+  const handleNotificationCreated = async () => {
+    console.log('[NotificationsPage] Notification created, refreshing list...');
+    await loadNotifications();
+  };
 
-    return (
-        <>
-            <AllNotifications 
-                notifications={notifications}
-                loading={loading}
-                error={error}
-                onRefresh={handleRefresh}
-            />
-        </>
-    );
+  const handleTestFetch = async () => {
+    console.log('[NotificationsPage] Running test fetch...');
+    await testFetchNotifications();
+  };
+
+  useEffect(() => {
+    loadNotifications();
+  }, []);
+
+  return (
+    <div className="p-6">
+      <div className="mb-4 flex justify-between items-center">
+        <h1 className="text-2xl font-bold text-gray-900">Notifications</h1>
+        <button
+          onClick={handleTestFetch}
+          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+        >
+          Test Fetch
+        </button>
+      </div>
+      
+      <AllNotifications
+        notifications={notifications}
+        loading={loading}
+        error={error}
+        onRefresh={handleRefresh}
+        onNotificationCreated={handleNotificationCreated}
+      />
+    </div>
+  );
 }

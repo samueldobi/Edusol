@@ -6,9 +6,10 @@ import ComposeNotificationModal from "./compose-notification";
 
 interface NotificationNavProps {
   onRefresh: () => Promise<void>;
+  onNotificationCreated: () => Promise<void>;
 }
 
-export default function NotificationNav({ onRefresh }: NotificationNavProps) {
+export default function NotificationNav({ onRefresh, onNotificationCreated }: NotificationNavProps) {
   const [manageModal, showManageModal] = useState(false);
   const [composeModal, showComposeModal] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
@@ -75,7 +76,7 @@ export default function NotificationNav({ onRefresh }: NotificationNavProps) {
       {composeModal && (
         <ComposeNotificationModal 
           onClose={() => showComposeModal(false)} 
-          onSuccess={handleRefresh}
+          onSuccess={onNotificationCreated}
         />
       )}
     </>
