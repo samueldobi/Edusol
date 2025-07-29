@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { addInterceptor } from '../utils/addInterceptor';
+import { addSchoolInterceptor } from '../utils/addSchoolInterceptor';
 
 export const schoolClient = axios.create({
   baseURL: process.env.NEXT_PUBLIC_BASE_URL,
@@ -8,4 +8,4 @@ export const schoolClient = axios.create({
     'Content-Type': 'application/json',
   },
 });
-addInterceptor(schoolClient);
+addSchoolInterceptor(schoolClient);

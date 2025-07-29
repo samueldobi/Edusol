@@ -43,9 +43,9 @@ export const AUTH_API = {
   USER_ROLES_DELETE: '/api/user-roles/{id}',
   
   // Profile Management
-  PROFILE_GET: '/api/profile',
-  PROFILE_UPDATE: '/api/profile',
-  PROFILE_PARTIAL_UPDATE: '/api/profile',
+  // PROFILE_GET: '/api/profile',
+  // PROFILE_UPDATE: '/api/profile',
+  // PROFILE_PARTIAL_UPDATE: '/api/profile',
   
   // Two-Factor Authentication
   TWO_FACTOR_ENABLE: '/api/auth/2fa/enable',
