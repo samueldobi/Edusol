@@ -99,213 +99,6 @@ export const checkEnvironment = (): void => {
   }
 };
 
-// --- API Connection Test ---
-export const testAPIConnection = async (): Promise<any> => {
-  console.log('🌐 Testing API connection...');
-  
-  const baseURL = process.env.NEXT_PUBLIC_BASE_URL;
-  console.log('📍 Base URL:', baseURL);
-  console.log('📍 Full endpoint:', `${baseURL}${NOTIFICATION_API.NOTIFICATIONS_CREATE}`);
-  
-  try {
-    // Test with a simple GET request to the list endpoint
-    const response = await notificationClient.get(NOTIFICATION_API.NOTIFICATIONS_LIST);
-    console.log('✅ API connection successful:', response.status);
-    return response.data;
-  } catch (error: any) {
-    console.log('❌ API connection failed:', {
-      status: error.response?.status,
-      statusText: error.response?.statusText,
-      data: error.response?.data,
-      message: error.message,
-      url: error.config?.url
-    });
-    throw error;
-  }
-};
-
-// --- My Test Function for Debugging ---
-export const testNotificationCreation = async (data: SendNotificationPayload): Promise<any> => {
-  console.log(' Testing notification creation with different payloads...');
-  
-  // First, check authentication status
-  const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
-  const refreshToken = typeof window !== 'undefined' ? localStorage.getItem('refreshToken') : null;
-  
-  console.log('🔐 Authentication check:');
-  console.log('   Token exists:', !!token);
-  console.log('   Refresh token exists:', !!refreshToken);
-  console.log('   Token preview:', token ? `${token.substring(0, 20)}...` : 'NONE');
-  
-  // Test GET request first to check if the endpoint is accessible
-  try {
-    console.log('🔍 Testing endpoint availability...');
-    const testResponse = await notificationClient.get(NOTIFICATION_API.NOTIFICATIONS_LIST);
-    console.log('✅ Endpoint is accessible:', testResponse.status);
-  } catch (error: any) {
-    console.log('❌ Endpoint test failed:', {
-      status: error.response?.status,
-      data: error.response?.data,
-      message: error.message
-    });
-  }
-  
-  const testPayloads = [
-    // Test 1: Minimal payload
-    {
-      tag: "General",
-      subject: data.title.trim(),
-      receipient: data.recipient_id.trim(),
-      body: data.message.trim(),
-    },
-    // Test 2: With type
-    {
-      tag: "General",
-      subject: data.title.trim(),
-      receipient: data.recipient_id.trim(),
-      body: data.message.trim(),
-      type: data.type,
-    },
-    // Test 3: With timestamps
-    {
-      tag: "General",
-      subject: data.title.trim(),
-      receipient: data.recipient_id.trim(),
-      body: data.message.trim(),
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString(),
-    },
-    // Test 4: Full payload
-    {
-      tag: data.metadata?.tag || "General",
-      subject: data.title.trim(),
-      receipient: data.recipient_id.trim(),
-      body: data.message.trim(),
-      type: data.type,
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString(),
-    }
-  ];
-
-  for (let i = 0; i < testPayloads.length; i++) {
-    const payload = testPayloads[i];
-    console.log(`🧪 Test ${i + 1}:`, payload);
-    
-    try {
-      // Log the full request details
-      console.log(`📤 Sending request to: ${NOTIFICATION_API.NOTIFICATIONS_CREATE}`);
-      console.log(`📤 Method: POST`);
-      console.log(`📤 Headers:`, {
-        'Content-Type': 'application/json',
-        'Authorization': token ? `Bearer ${token}` : 'None',
-        'x-refresh-token': refreshToken || 'None'
-      });
-      
-      const response = await notificationClient.post(NOTIFICATION_API.NOTIFICATIONS_CREATE, payload);
-      console.log(`✅ Test ${i + 1} SUCCESS:`, response.data);
-      return response.data;
-    } catch (error: any) {
-      console.log(`❌ Test ${i + 1} FAILED:`, {
-        status: error.response?.status,
-        statusText: error.response?.statusText,
-        data: error.response?.data,
-        message: error.message,
-        url: error.config?.url,
-        method: error.config?.method,
-        headers: error.config?.headers
-      });
-      
-      // If we get a 401/403, stop testing as it's an auth issue
-      if (error.response?.status === 401 || error.response?.status === 403) {
-        console.log('🔑 Authentication error detected, stopping tests');
-        throw new Error('Authentication failed. Please check your login status.');
-      }
-    }
-  }
-  
-  throw new Error('All test payloads failed with 500 errors. This suggests a backend issue.');
-};
-
-// --- Test Functions for Debugging ---
-export const testFetchNotifications = async (): Promise<void> => {
-  console.log('🔍 Testing notification fetch...');
-  
-  try {
-    // Test 1: Direct axios call to see raw response
-    console.log('📡 Making direct API call...');
-    const response = await notificationClient.get(NOTIFICATION_API.NOTIFICATIONS_LIST);
-    
-    console.log('📊 Full Response Object:', response);
-    console.log('📊 Response Status:', response.status);
-    console.log('📊 Response Headers:', response.headers);
-    console.log('📊 Response Data Type:', typeof response.data);
-    console.log('📊 Response Data:', response.data);
-    
-    if (response.data && typeof response.data === 'object') {
-      console.log('📊 Response Data Keys:', Object.keys(response.data));
-      console.log('📊 Response Data Values:', Object.values(response.data));
-      
-      // Check if it's an array
-      if (Array.isArray(response.data)) {
-        console.log('📊 Data is an array with length:', response.data.length);
-        response.data.forEach((item, index) => {
-          console.log(`📊 Item ${index}:`, item);
-        });
-      }
-      
-      // Check nested properties
-      if (response.data.data) {
-        console.log('📊 Nested data property:', response.data.data);
-        console.log('📊 Nested data type:', typeof response.data.data);
-        if (Array.isArray(response.data.data)) {
-          console.log('📊 Nested data is array with length:', response.data.data.length);
-        }
-      }
-      
-      if (response.data.notifications) {
-        console.log('📊 Nested notifications property:', response.data.notifications);
-        console.log('📊 Nested notifications type:', typeof response.data.notifications);
-        if (Array.isArray(response.data.notifications)) {
-          console.log('📊 Nested notifications is array with length:', response.data.notifications.length);
-        }
-      }
-      
-      if (response.data.results) {
-        console.log('📊 Nested results property:', response.data.results);
-        console.log('📊 Nested results type:', typeof response.data.results);
-        if (Array.isArray(response.data.results)) {
-          console.log('📊 Nested results is array with length:', response.data.results.length);
-        }
-      }
-    }
-    
-    // Test 2: Check if there are any query parameters we should be using
-    console.log('🔍 Checking if we need query parameters...');
-    const schoolContext = getSchoolContext();
-    console.log('🔍 School context:', schoolContext);
-    
-    if (schoolContext) {
-      console.log('🔍 Testing with school context parameters...');
-      const params = {
-        schoolId: schoolContext.schoolId,
-        userId: schoolContext.userId
-      };
-      console.log('🔍 Testing with params:', params);
-      
-      const responseWithParams = await notificationClient.get(NOTIFICATION_API.NOTIFICATIONS_LIST, { params });
-      console.log('📊 Response with params:', responseWithParams.data);
-    }
-    
-  } catch (error: any) {
-    console.error('❌ Test fetch failed:', {
-      message: error.message,
-      status: error.response?.status,
-      data: error.response?.data,
-      url: error.config?.url
-    });
-  }
-};
-
 // --- Helper Functions ---
 const getSchoolContext = () => {
   if (typeof window !== 'undefined') {
@@ -329,12 +122,12 @@ const getSchoolContext = () => {
 // --- Notification Functions ---
 export const fetchNotificationsList = async (): Promise<NotificationType[]> => {
   try {
-    console.log('[fetchNotificationsList] Fetching notifications...');
-    console.log('[fetchNotificationsList] Endpoint:', NOTIFICATION_API.NOTIFICATIONS_LIST);
+    // console.log('[fetchNotificationsList] Fetching notifications...');
+    // console.log('[fetchNotificationsList] Endpoint:', NOTIFICATION_API.NOTIFICATIONS_LIST);
     
     // Get school context for parameters
     const schoolContext = getSchoolContext();
-    console.log('[fetchNotificationsList] School context:', schoolContext);
+    // console.log('[fetchNotificationsList] School context:', schoolContext);
     
     // Add query parameters including pagination
     const params: any = {
@@ -350,12 +143,12 @@ export const fetchNotificationsList = async (): Promise<NotificationType[]> => {
       params.userId = schoolContext.userId;
     }
     
-    console.log('[fetchNotificationsList] Request params:', params);
+    // console.log('[fetchNotificationsList] Request params:', params);
     
     const response = await notificationClient.get(NOTIFICATION_API.NOTIFICATIONS_LIST, { params });
-    console.log('[fetchNotificationsList] Full response:', response);
-    console.log('[fetchNotificationsList] Response data:', response.data);
-    console.log('[fetchNotificationsList] Response data keys:', Object.keys(response.data));
+    // console.log('[fetchNotificationsList] Full response:', response);
+    // console.log('[fetchNotificationsList] Response data:', response.data);
+    // console.log('[fetchNotificationsList] Response data keys:', Object.keys(response.data));
     
     // Handle different response structures
     let notificationsData: NotificationType[] = [];
@@ -370,13 +163,13 @@ export const fetchNotificationsList = async (): Promise<NotificationType[]> => {
       } else if (Array.isArray(response.data.results)) {
         notificationsData = response.data.results;
       } else {
-        console.warn('[fetchNotificationsList] Unexpected response structure:', response.data);
+        // console.warn('[fetchNotificationsList] Unexpected response structure:', response.data);
         notificationsData = [];
       }
     }
     
-    console.log('[fetchNotificationsList] Extracted notifications:', notificationsData);
-    console.log('[fetchNotificationsList] Number of notifications:', notificationsData.length);
+    // console.log('[fetchNotificationsList] Extracted notifications:', notificationsData);
+    // console.log('[fetchNotificationsList] Number of notifications:', notificationsData.length);
     
     // Log each notification for debugging
     notificationsData.forEach((notification, index) => {
@@ -426,14 +219,17 @@ export const createNotification = async (data: SendNotificationPayload & { tag?:
       subject: data.title.trim(),
       receipient: data.recipient_id.trim(),
       body: data.message.trim(),
+      type: data.type, // Add the type field
     };
     
+    console.log('[createNotification] Input data:', data);
     console.log('[createNotification] Sending payload to backend:', payload);
     console.log('[createNotification] Payload JSON:', JSON.stringify(payload, null, 2));
     console.log('[createNotification] Endpoint:', NOTIFICATION_API.NOTIFICATIONS_CREATE);
     
     const response = await notificationClient.post(NOTIFICATION_API.NOTIFICATIONS_CREATE, payload);
-    console.log('[createNotification] Backend response:', response);
+    console.log('[createNotification] Backend response:', response.data);
+    console.log('[createNotification] Response type field:', response.data?.type);
     
     return response.data;
   } catch (error: any) {
@@ -453,13 +249,57 @@ export const createNotification = async (data: SendNotificationPayload & { tag?:
 };
 
 export const partialUpdateNotification = async (id: string, data: Partial<NotificationType>): Promise<NotificationType> => {
-  const response = await notificationClient.patch(NOTIFICATION_API.NOTIFICATIONS_PARTIAL_UPDATE.replace('{id}', id), data);
-  return response.data;
+  try {
+    console.log('[partialUpdateNotification] Updating notification:', { id, data });
+    
+    // Transform the data to match backend expectations
+    const backendPayload: any = {};
+    
+    // Map frontend fields to backend fields
+    if (data.title !== undefined) {
+      backendPayload.subject = data.title;
+    }
+    if (data.message !== undefined) {
+      backendPayload.body = data.message;
+    }
+    if (data.recipient_id !== undefined) {
+      backendPayload.receipient = data.recipient_id;
+    }
+    if (data.type !== undefined) {
+      backendPayload.type = data.type;
+    }
+    
+    console.log('[partialUpdateNotification] Backend payload:', backendPayload);
+    
+    const response = await notificationClient.patch(NOTIFICATION_API.NOTIFICATIONS_PARTIAL_UPDATE.replace('{id}', id), backendPayload);
+    console.log('[partialUpdateNotification] Update successful:', response.data);
+    return response.data;
+  } catch (error: any) {
+    console.error('[partialUpdateNotification] Error updating notification:', {
+      message: error.message,
+      status: error.response?.status,
+      data: error.response?.data,
+      url: error.config?.url
+    });
+    throw new Error(`Failed to update notification: ${error.response?.data?.message || error.message}`);
+  }
 };
 
 export const deleteNotification = async (id: string): Promise<NotificationType> => {
-  const response = await notificationClient.delete(NOTIFICATION_API.NOTIFICATIONS_DELETE.replace('{id}', id));
-  return response.data;
+  try {
+    console.log('[deleteNotification] Deleting notification:', { id });
+    const response = await notificationClient.delete(NOTIFICATION_API.NOTIFICATIONS_DELETE.replace('{id}', id));
+    console.log('[deleteNotification] Delete successful:', response.data);
+    return response.data;
+  } catch (error: any) {
+    console.error('[deleteNotification] Error deleting notification:', {
+      message: error.message,
+      status: error.response?.status,
+      data: error.response?.data,
+      url: error.config?.url
+    });
+    throw new Error(`Failed to delete notification: ${error.response?.data?.message || error.message}`);
+  }
 };
 
 // --- Template Functions ---

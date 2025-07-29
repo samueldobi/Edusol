@@ -54,10 +54,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         console.log('Checking auth with token:', token.substring(0, 20) + '...');
         console.log('Auth service URL:', process.env.NEXT_PUBLIC_AUTH_SERVICE_URL);
         
-        // Try to fetch user profile to validate token
+        // Parse user data first
+        const parsedUserData = JSON.parse(userData);
+        
+        // Try to fetch user profile to validate token, but don't fail if it doesn't work
         try {
           const profile = await fetchProfile();
-          const parsedUserData = JSON.parse(userData);
           
           setUser({
             id: parsedUserData.id || profile.user_id,
@@ -65,20 +67,26 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             name: parsedUserData.name || `${profile.first_name} ${profile.last_name}`,
             profile,
           });
-          console.log('User authenticated successfully');
+          console.log('User authenticated successfully with profile');
         } catch (profileError) {
-          console.error('Profile fetch failed, clearing invalid tokens:', profileError);
-          // Clear invalid tokens
+          console.warn('Profile fetch failed, but keeping user logged in with basic data:', profileError);
+          // Don't clear tokens on profile fetch failure - user might still be valid
+          setUser({
+            id: parsedUserData.id,
+            email: parsedUserData.email || '',
+            name: parsedUserData.name || 'User',
+          });
+          console.log('User authenticated with basic data (no profile)');
+        }
+      } catch (error) {
+        console.error('Auth check failed:', error);
+        // Only clear tokens if there's a serious auth error, not just profile fetch failure
+        if (error instanceof Error && error.message.includes('401')) {
+          console.log('Authentication failed (401), clearing tokens');
           localStorage.removeItem('token');
           localStorage.removeItem('refreshToken');
           localStorage.removeItem('user');
         }
-      } catch (error) {
-        console.error('Auth check failed:', error);
-        // Clear invalid tokens
-        localStorage.removeItem('token');
-        localStorage.removeItem('refreshToken');
-        localStorage.removeItem('user');
       } finally {
         setIsLoading(false);
       }
@@ -195,9 +203,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         profile,
       });
     } catch (error) {
-      console.error('Failed to refresh user:', error);
-      // If profile fetch fails, user might be logged out
-      await logout();
+      console.warn('Failed to refresh user profile, but keeping user logged in:', error);
+      // Don't automatically logout on profile fetch failure
+      // User can still use the app with basic data
     }
   };
 

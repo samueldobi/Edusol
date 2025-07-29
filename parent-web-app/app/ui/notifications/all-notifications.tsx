@@ -33,12 +33,13 @@ export default function AllNotifications({
       const title = notification.title || notification.subject || '';
       const message = notification.message || notification.body || '';
       const recipient = notification.recipient_id || notification.receipient || '';
+      const type = notification.type || '';
       
       return (
         title.toLowerCase().includes(searchLower) ||
         message.toLowerCase().includes(searchLower) ||
         recipient.toLowerCase().includes(searchLower) ||
-        notification.type.toLowerCase().includes(searchLower)
+        type.toLowerCase().includes(searchLower)
       );
     });
   }, [notifications, searchTerm]);

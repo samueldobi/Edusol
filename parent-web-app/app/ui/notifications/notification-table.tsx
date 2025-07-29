@@ -1,10 +1,15 @@
+"use client";
+import { useState } from "react";
 import { NotificationType } from "../../src/api/services/notificationService";
+import NotificationDetailsModal from "./notification-detail-modal";
 
 export default function NotificationTable({
   notificationsData,
 }: {
   notificationsData: NotificationType[];
 }) {
+  const [selectedNotification, setSelectedNotification] = useState<NotificationType | null>(null);
+
   function getTypeColor(type: string) {
     switch (type) {
       case 'warning':
@@ -53,6 +58,14 @@ export default function NotificationTable({
     }
   }
 
+  const handleNotificationClick = (notification: NotificationType) => {
+    setSelectedNotification(notification);
+  };
+
+  const handleCloseModal = () => {
+    setSelectedNotification(null);
+  };
+
   // Ensure notificationsData is an array
   const notifications = Array.isArray(notificationsData) ? notificationsData : [];
 
@@ -69,23 +82,34 @@ export default function NotificationTable({
   return (
     <>
       {notifications.map((item, index) => {
+        // Debug: Log the raw item data
+        console.log(`Notification ${index + 1} raw data:`, item);
+        
         // Ensure item has required properties
         const notification = {
-          id: item?.id || `notification-${index}`,
+          id: item?.id || item?._id || `notification-${index}`,
+          _id: item?._id,
           title: item?.title || item?.subject || 'No title',
           message: item?.message || item?.body || 'No message',
           type: item?.type || 'info',
           is_read: item?.is_read || false,
           created_at: item?.created_at || new Date().toISOString(),
+          updated_at: item?.updated_at,
           recipient_id: item?.recipient_id || item?.receipient || '',
+          sender_id: item?.sender_id,
+          metadata: item?.metadata,
         };
+
+        // Debug: Log the processed notification
+        console.log(`Notification ${index + 1} processed:`, notification);
 
         return (
           <div
             key={notification.id}
-            className={`flex items-start p-4 md:p-5 border-b border-gray-100 gap-4 hover:bg-gray-50 transition-colors ${
+            className={`flex items-start p-4 md:p-5 border-b border-gray-100 gap-4 hover:bg-gray-50 transition-colors cursor-pointer ${
               !notification.is_read ? 'bg-blue-50' : ''
             }`}
+            onClick={() => handleNotificationClick(item)}
           >
             <div className="w-9 h-9 md:w-10 md:h-10 bg-green-600 text-white rounded-full flex items-center justify-center text-sm md:text-base flex-shrink-0">
               {getTypeIcon(notification.type)}
@@ -124,9 +148,20 @@ export default function NotificationTable({
                 )}
               </div>
             </div>
+
+            {/* Click indicator */}
+            <div className="text-gray-400 text-xs opacity-0 group-hover:opacity-100 transition-opacity">
+              Click to view details →
+            </div>
           </div>
         );
       })}
+
+      {/* Notification Detail Modal */}
+      <NotificationDetailsModal
+        notification={selectedNotification}
+        onClose={handleCloseModal}
+      />
     </>
   );
 }
