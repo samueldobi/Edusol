@@ -1,7 +1,6 @@
 "use client";
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { login as authLogin, logout as authLogout, AuthResponse } from '@/app/src/api/services/authService';
-import { fetchProfile, ProfileType } from '@/app/src/api/services/authServiceService';
+import { login as authLogin, logout as authLogout, AuthResponse, fetchProfile, ProfileType } from '@/app/src/api/services/authService';
 
 interface User {
   id: string;

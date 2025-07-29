@@ -7,7 +7,6 @@ const links = [
   { name: 'Payment', href: '/dashboard/payment' },
   { name: 'Result', href: '/dashboard/result' },
   { name: 'Assignment', href: '/dashboard/assignment' },
-  { name: 'Teacher', href: '/dashboard/teacher' },
   { name: 'Users', href: '/dashboard/users' },
   { name: 'Subjects', href: '/dashboard/subjects' },
   { name: 'Classes', href: '/dashboard/classes' },

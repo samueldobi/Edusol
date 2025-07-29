@@ -1,8 +1,13 @@
 "use client"
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import UserStats from "@/app/ui/dashboard/users/user-stats";
 import UserTable from "@/app/ui/dashboard/users/user-table";
+import StudentTable from "@/app/ui/dashboard/users/student-table";
+import TeacherTable from "@/app/ui/dashboard/users/teacher-table";
+import AdminTable from "@/app/ui/dashboard/users/admin-table";
 import UserEntries from "@/app/ui/dashboard/users/user-entries";
+import { teachersTable } from '@/app/lib/placeholder-data';
 
 // Mock data for demonstration (should be replaced with real API data)
 const mockStudents = [
@@ -19,23 +24,100 @@ const mockStudents = [
 ];
 
 export default function Page() {
+  const searchParams = useSearchParams();
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
   const [search, setSearch] = useState("");
+  const [activeTab, setActiveTab] = useState("students");
+
+  // Get the filter from URL params
+  useEffect(() => {
+    const filter = searchParams.get('filter') || 'students';
+    setActiveTab(filter);
+  }, [searchParams]);
 
   const updateRowsPerPage = (newRowsPerPage: number) => {
     setRowsPerPage(newRowsPerPage);
     setCurrentPage(1);
   };
 
-  // Filter students based on search
-  const filteredStudents = mockStudents.filter(student =>
-    student.student_name.toLowerCase().includes(search.toLowerCase()) ||
-    student.parent_name.toLowerCase().includes(search.toLowerCase()) ||
-    student.class.toLowerCase().includes(search.toLowerCase()) ||
-    student.gender.toLowerCase().includes(search.toLowerCase()) ||
-    student.phone_number.includes(search)
-  );
+  // Filter data based on search and active tab
+  const getFilteredData = () => {
+    let data = [];
+    
+    switch (activeTab) {
+      case 'students':
+        data = mockStudents.filter(student =>
+          student.student_name.toLowerCase().includes(search.toLowerCase()) ||
+          student.parent_name.toLowerCase().includes(search.toLowerCase()) ||
+          student.class.toLowerCase().includes(search.toLowerCase()) ||
+          student.gender.toLowerCase().includes(search.toLowerCase()) ||
+          student.phone_number.includes(search)
+        );
+        break;
+      case 'teachers':
+        data = teachersTable.filter(teacher =>
+          (teacher.name && teacher.name.toLowerCase().includes(search.toLowerCase())) ||
+          (teacher.subject && teacher.subject.toLowerCase().includes(search.toLowerCase())) ||
+          (teacher.class && teacher.class.toLowerCase().includes(search.toLowerCase())) ||
+          (teacher.arm && teacher.arm.toLowerCase().includes(search.toLowerCase()))
+        );
+        break;
+      case 'admin':
+        // For admin, we'll use the same data structure but filter differently
+        data = mockStudents.filter(student =>
+          student.student_name.toLowerCase().includes(search.toLowerCase())
+        );
+        break;
+      default:
+        data = mockStudents;
+    }
+    
+    return data;
+  };
+
+  const filteredData = getFilteredData();
+
+  const renderTable = () => {
+    switch (activeTab) {
+      case 'students':
+        return (
+          <StudentTable
+            rowsPerPage={rowsPerPage}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+            data={filteredData}
+          />
+        );
+      case 'teachers':
+        return (
+          <TeacherTable
+            rowsPerPage={rowsPerPage}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+            data={filteredData}
+          />
+        );
+      case 'admin':
+        return (
+          <AdminTable
+            rowsPerPage={rowsPerPage}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+            data={filteredData}
+          />
+        );
+      default:
+        return (
+          <UserTable 
+            rowsPerPage={rowsPerPage}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+            data={filteredData}
+          />
+        );
+    }
+  };
 
   return(
     <>
@@ -46,12 +128,7 @@ export default function Page() {
         search={search}
         setSearch={setSearch}
       />
-      <UserTable 
-        rowsPerPage={rowsPerPage}
-        currentPage={currentPage}
-        setCurrentPage={setCurrentPage}
-        data={filteredStudents}
-      />
+      {renderTable()}
     </>
   );
 }
