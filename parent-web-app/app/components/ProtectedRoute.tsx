@@ -29,7 +29,9 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
   }
 
   if (!isAuthenticated) {
-    return null; // Will redirect to login
+    // if not authenticated, redirect to login
+    router.push('/auth/login');
+    return null;
   }
 
   return <>{children}</>;

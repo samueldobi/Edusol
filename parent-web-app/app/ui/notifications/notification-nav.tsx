@@ -55,7 +55,7 @@ export default function NotificationNav({ onRefresh, onNotificationCreated }: No
           >
             <span>
               <Image
-                src="/plus.png"
+                src="/images/plus.png"
                 width={20}
                 height={20}
                 alt="plus icon"

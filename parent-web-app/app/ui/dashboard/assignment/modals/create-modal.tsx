@@ -1,115 +1,95 @@
-"use client"
-import Image from "next/image";
-import { useState, useEffect } from "react";
-import { createAssignment, CreateAssignmentPayload, fetchAssignmentsList, AssignmentType } from "@/app/src/api/services/schoolService";
+"use client";
+import { useState, useEffect } from 'react';
+import { createAssignment, fetchAssignmentsList, CreateAssignmentPayload, AssignmentType } from '@/app/src/api/services/schoolService';
 
 interface CreateAssignmentModalProps {
   onClose: () => void;
   onSuccess: () => void;
 }
 
-const CreateAssignmentModal: React.FC<CreateAssignmentModalProps> =({ onClose, onSuccess })=>{
+export default function CreateAssignmentModal({ onClose, onSuccess }: CreateAssignmentModalProps) {
   const [form, setForm] = useState({
-    title: "",
-    description: "",
-    due_date: "",
-    assignment_type: "classwork" as const,
-    status: "submitted" as const, // Changed from "pending" to "submitted"
+    title: '',
+    description: '',
+    due_date: '',
+    assignment_type: '',
+    status: 'submitted' as const,
   });
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState<string | null>(null);
   const [existingAssignment, setExistingAssignment] = useState<AssignmentType | null>(null);
 
-  // Fetch an existing assignment to get required field values
   useEffect(() => {
-    const fetchExistingAssignment = async () => {
+    const fetchTemplate = async () => {
       try {
         const assignments = await fetchAssignmentsList();
         if (assignments.length > 0) {
           setExistingAssignment(assignments[0]);
-          console.log("Using existing assignment as template:", assignments[0]);
         }
-      } catch (error) {
-        console.error("Error fetching existing assignment:", error);
+      } catch (err) {
+        // Silently fail - template is optional
       }
     };
-    fetchExistingAssignment();
+    fetchTemplate();
   }, []);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setForm(prev => ({ ...prev, [name]: value }));
+  const handleInputChange = (field: keyof typeof form, value: string) => {
+    setForm(prev => ({
+      ...prev,
+      [field]: value
+    }));
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
     if (!form.title.trim() || !form.description.trim() || !form.due_date) {
-      setError("Please fill all required fields.");
-      return;
-    }
-
-    if (!existingAssignment) {
-      setError("Unable to get assignment template. Please try again.");
+      setError('Please fill in all required fields');
       return;
     }
 
     setLoading(true);
-    setError("");
+    setError(null);
 
     try {
-      console.log("Creating assignment with payload:", form);
-      console.log("Using template assignment:", existingAssignment);
-      
       const payload: CreateAssignmentPayload = {
-        title: form.title,
-        description: form.description,
-        due_date: form.due_date, // Send as YYYY-MM-DD format
-        assignment_type: form.assignment_type,
-        status: "submitted", // Always use "submitted" regardless of form status
-        // Add required fields from existing assignment
-        term: existingAssignment.term || "",
-        subject: existingAssignment.subject || "",
-        created_by_teacher_cache: existingAssignment.created_by_teacher_cache || "",
+        title: form.title.trim(),
+        description: form.description.trim(),
+        due_date: new Date(form.due_date).toISOString().split('T')[0],
+        assignment_type: form.assignment_type || 'Homework',
+        status: 'submitted',
+        term: existingAssignment?.term || 'First Term',
+        subject: existingAssignment?.subject || 'General',
+        created_by_teacher_cache: existingAssignment?.created_by_teacher_cache || 'Teacher',
       };
 
-      console.log("Sending create payload:", payload);
-
-      const newAssignment = await createAssignment(payload);
-      console.log("Successfully created assignment:", newAssignment);
+      await createAssignment(payload);
       
-      onSuccess();
-      onClose();
-    } catch (err: any) {
-      console.error("Error creating assignment:", err);
-      console.error("Create error details:", {
-        message: err.message,
-        response: err.response?.data,
-        status: err.response?.status,
-        config: err.config
+      setForm({
+        title: '',
+        description: '',
+        due_date: '',
+        assignment_type: '',
+        status: 'submitted',
       });
       
-      if (err.response?.data) {
-        console.error("Full create error response:", JSON.stringify(err.response.data, null, 2));
-      }
-      
-      setError(`Failed to create assignment: ${err.message}`);
+      onSuccess();
+    } catch (err: any) {
+      setError(err.message || 'Failed to create assignment. Please try again.');
     } finally {
       setLoading(false);
     }
   };
 
-  const assignmentTypes = [
-    { value: "classwork", label: "Classwork" },
-    { value: "homework", label: "Homework" },
-    { value: "quiz", label: "Quiz" },
-    { value: "project", label: "Project" },
-  ];
- 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-      <div className="bg-white p-6 md:p-8 rounded-lg shadow-lg w-full max-w-xl">
-        <div className="flex justify-between items-center mb-5">
-          <h3 className="text-[#1AA939] font-bold text-xl uppercase">Create Assignment</h3>
-          <button 
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4">
+      <div 
+        onClick={(e) => e.stopPropagation()}
+        className="bg-white rounded-lg shadow-lg w-full max-w-2xl max-h-[90vh] overflow-y-auto"
+      >
+        <div className="flex justify-between items-center p-6 border-b border-gray-200">
+          <h2 className="text-xl font-bold text-gray-800">Create New Assignment</h2>
+          <button
             onClick={onClose}
             className="text-gray-500 hover:text-gray-700 text-2xl font-bold"
           >
@@ -117,80 +97,88 @@ const CreateAssignmentModal: React.FC<CreateAssignmentModalProps> =({ onClose, o
           </button>
         </div>
 
-        {error && <div className="text-red-500 text-sm mb-4">{error}</div>}
-
-        {/* Form Fields */}
-        <form onSubmit={(e) => { e.preventDefault(); }}>
-          <div className="space-y-4">
-            <div>
-              <label className="block font-medium mb-1">Title</label>
-              <input 
-                type="text" 
-                name="title"
-                value={form.title}
-                onChange={handleChange}
-                placeholder="Enter assignment title"
-                className="w-full border border-gray-300 px-4 py-2 rounded" 
-              />
+        <form onSubmit={handleSubmit} className="p-6">
+          {error && (
+            <div className="mb-4 p-3 bg-red-50 border border-red-200 text-red-700 rounded">
+              {error}
             </div>
+          )}
 
-            <div>
-              <label className="block font-medium mb-1">Description</label>
-              <textarea 
-                name="description"
-                value={form.description}
-                onChange={handleChange}
-                placeholder="Enter assignment description"
-                rows={3}
-                className="w-full border border-gray-300 px-4 py-2 rounded" 
-              />
-            </div>
-
-            <div>
-              <label className="block font-medium mb-1">Assignment Type</label>
-              <select 
-                name="assignment_type"
-                value={form.assignment_type}
-                onChange={handleChange}
-                className="w-full border border-gray-300 px-4 py-2 rounded"
-              >
-                {assignmentTypes.map((type) => (
-                  <option key={type.value} value={type.value}>
-                    {type.label}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div>
-              <label className="block font-medium mb-1">Due Date</label>
-              <input 
-                type="date" 
-                name="due_date"
-                value={form.due_date}
-                onChange={handleChange}
-                className="w-full border border-gray-300 px-4 py-2 rounded" 
-              />
-            </div>
+          <div className="mb-6">
+            <label className="block mb-2 font-semibold text-gray-700">
+              Title *
+            </label>
+            <input
+              type="text"
+              value={form.title}
+              onChange={(e) => handleInputChange('title', e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+              placeholder="Enter assignment title"
+              required
+            />
           </div>
 
-          {/* Action Buttons */}
-          <div className="flex justify-end gap-3 mt-6">
+          <div className="mb-6">
+            <label className="block mb-2 font-semibold text-gray-700">
+              Description *
+            </label>
+            <textarea
+              value={form.description}
+              onChange={(e) => handleInputChange('description', e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+              placeholder="Enter assignment description"
+              rows={3}
+              required
+            />
+          </div>
+
+          <div className="mb-6">
+            <label className="block mb-2 font-semibold text-gray-700">
+              Due Date *
+            </label>
+            <input
+              type="date"
+              value={form.due_date}
+              onChange={(e) => handleInputChange('due_date', e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+              required
+            />
+          </div>
+
+          <div className="mb-6">
+            <label className="block mb-2 font-semibold text-gray-700">
+              Assignment Type
+            </label>
+            <input
+              type="text"
+              value={form.assignment_type}
+              onChange={(e) => handleInputChange('assignment_type', e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+              placeholder="e.g., Homework, Quiz, Project"
+            />
+          </div>
+
+          <div className="flex justify-end gap-3 pt-4 border-t border-gray-200">
             <button
               type="button"
               onClick={onClose}
-              disabled={loading}
-              className="px-4 py-2 bg-gray-200 text-gray-700 font-semibold rounded hover:bg-gray-300 disabled:opacity-50"
+              className="px-4 py-2 text-gray-600 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
             >
               Cancel
             </button>
             <button
-              type="button"
-              onClick={handleSubmit}
-              disabled={loading || !existingAssignment}
-              className="px-6 py-2 bg-[#1AA939] text-white font-bold rounded hover:bg-[#1d5329] disabled:opacity-50"
+              type="submit"
+              disabled={loading}
+              className="px-6 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
             >
-              {loading ? "Creating..." : "Create Assignment"}
+              {loading ? (
+                <>
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                  Creating...
+                </>
+              ) : (
+                'Create Assignment'
+              )}
             </button>
           </div>
         </form>
@@ -198,5 +186,3 @@ const CreateAssignmentModal: React.FC<CreateAssignmentModalProps> =({ onClose, o
     </div>
   );
 }
-
-export default CreateAssignmentModal;

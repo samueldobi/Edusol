@@ -10,7 +10,7 @@ interface AddFeeModalProps {
 export default function AddFeeModal({ onClose, onSuccess }: AddFeeModalProps) {
   const [formData, setFormData] = useState({
     fee_type: '',
-    fee_amount: 0,
+    fee_amount: '',
   });
 
   const [loading, setLoading] = useState(false);
@@ -121,9 +121,7 @@ export default function AddFeeModal({ onClose, onSuccess }: AddFeeModalProps) {
                 value={formData.fee_amount}
                 onChange={(e) => handleInputChange('fee_amount', e.target.value)}
                 className="w-full pl-8 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                placeholder="0.00"
-                min="0"
-                step="0.01"
+                placeholder=""
                 required
               />
             </div>

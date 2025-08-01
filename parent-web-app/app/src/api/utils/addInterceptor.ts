@@ -31,13 +31,13 @@ export const addInterceptor = (client: AxiosInstance) => {
       }
     );
 
-    // Add response interceptor to handle auth errors
+   
     client.interceptors.response.use(
       (response) => {
         return response;
       },
       (error) => {
-        // Only log errors that aren't 401/403 to avoid spam
+      
         if (error.response?.status !== 401 && error.response?.status !== 403) {
           console.error('🚨 API Error:', {
             url: error.config?.url,
@@ -46,7 +46,7 @@ export const addInterceptor = (client: AxiosInstance) => {
           });
         }
         
-        // Don't automatically redirect on auth errors - let the component handle it
+       
         return Promise.reject(error);
       }
     );

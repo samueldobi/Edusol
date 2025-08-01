@@ -34,7 +34,7 @@ export default function StudentOverviewCard({ studentData }: Props){
     <div className="flex flex-col items-center text-center mb-6 md:mb-0 flex-shrink-0">
       <div className="w-24 h-24 rounded-full mb-3 flex justify-center items-center overflow-hidden bg-gray-100">
         {/* Avatar Image */}
-         <Image src="/graduate.png"
+         <Image src="/images/graduate.png"
          width={150}
          height={150}
          alt="student image avatar"

@@ -30,7 +30,7 @@ export default function AddTeacherModal({onClose}: AddTeacherModalProps){
                 +
               </span>
               <Image
-                src="/teacher.png"
+                src="/images/teacher.png"
                 width={40}
                 height={40}
                 className="w-[56px] h-[70px] object-contain"
@@ -76,7 +76,7 @@ export default function AddTeacherModal({onClose}: AddTeacherModalProps){
             {/* File Upload */}
             <div className="flex items-center gap-3 bg-gray-100 w-full sm:w-[67%] border border-gray-300 rounded-md p-3">
               <Image
-                src="/teacher.png"
+                src="/images/teacher.png"
                 width={40}
                 height={40}
                 className="w-[35px] h-[36px] object-contain"

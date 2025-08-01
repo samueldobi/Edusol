@@ -25,7 +25,6 @@ export default function UserStats(){
       const counts = await fetchUserCounts(schoolId);
       setUserCounts(counts);
     } catch (err: any) {
-      console.error('Failed to fetch user counts:', err);
       setError(err.message || 'Failed to fetch user counts');
     } finally {
       setLoading(false);
@@ -59,40 +58,40 @@ export default function UserStats(){
     {
       label: 'Students',
       value: userCounts?.student_count || 0,
-      color: 'bg-[#FFB400]',
+      color: 'bg-[#65F765]',
       bg: 'bg-[#f3c65e]',
-      src: '/student-card.png',
+      src: '/student.png',
       filter: 'students'
     },
     {
       label: 'Teachers',
       value: userCounts?.teacher_count || 0,
       color: 'bg-[#726DCF]',
-      bg: 'bg-[#1D81CE]',
-      src: '/teacher-card.png',
+      bg: 'bg-[#8b88ca]',
+      src: '/teacher.png',
       filter: 'teachers'
     },
     {
       label: 'Guardians',
       value: userCounts?.guardian_count || 0,
-      color: 'bg-[#FF6B6B]',
-      bg: 'bg-[#ff8a8a]',
+      color: 'bg-[#1AA939]',
+      bg: 'bg-[#79c88a]',
       src: '/Person.png',
       filter: 'guardians'
     },
     {
       label: 'Admin',
       value: userCounts?.admin_count || 0,
-      color: 'bg-[#1AA939]',
-      bg: 'bg-[#79c88a]',
-      src: '/geolocation.png',
+      color: 'bg-[#2a2ad180]',
+      bg: 'bg-[#b3b3d480]',
+      src: '/admin.png',
       filter: 'admin'
     },
   ];
 
   if (loading) {
     return (
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-7 mb-6 mt-2">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-7 mb-6 mt-20">
         {[1, 2, 3, 4].map((idx) => (
           <div key={idx} className="p-4 rounded-xl shadow-md flex flex-col items-center animate-pulse">
             <div className="w-15 h-15 bg-gray-300 rounded-full mb-2"></div>
@@ -120,32 +119,31 @@ export default function UserStats(){
 
   return(
     <>
-     <div className="grid grid-cols-1 md:grid-cols-3 gap-7 mb-6 mt-2">
-        {userStats.map((item, idx) => (
-          <div 
-            key={idx}
-            className={`p-4 rounded-xl shadow-md flex flex-col items-center cursor-pointer transition-all duration-300
-                      ${item.color} ${
-                        activeFilter === item.filter
-                          ? 'ring-4 ring-offset-2 ring-blue-500'
-                          : ''
-                      }`}
-            onClick={() => handleStatClick(item.filter)}
+     <div className="grid grid-cols-1 md:grid-cols-4 gap-7 mb-6 mt-20">
+        {userStats.map((stat, index) => (
+          <div
+            key={index}
+            className={`p-4 rounded-xl shadow-md flex flex-col items-center ${
+              stat.color
+            } py-8  text-white cursor-pointer 
+              transition-all duration-300 ${
+                activeFilter === stat.filter
+                  ? 'ring-4 ring-offset-2 ring-blue-500'
+                  : ''
+              }`}
+            onClick={() => handleStatClick(stat.filter)}
           >
-            <div>
-              <Image
-                src={item.src}
-                width={60}
-                height={60}
-                alt={item.label.toLowerCase()}
-              />
+            <div className="flex items-center justify-center w-full p-4 space-x-7">
+              <div
+                className={`w-16 h-16 ${stat.bg} rounded-full overflow-hidden flex items-center justify-center`}
+              >
+                <img src={stat.src} className="w-28 h-28 object-cover" />
+              </div>
+
+              <h2 className="text-4xl font-normal">{stat.value}</h2>
             </div>
-            <div className="text-white text-3xl">
-              {item.label}
-            </div>
-            <div className="text-white text-2xl">
-              {item.value}
-            </div>
+
+            <p className="text-lg font-normal">{stat.label}</p>
           </div>
         ))}
      </div>
@@ -163,7 +161,7 @@ export default function UserStats(){
            >
              <span className="w-6 sm:w-7 h-6 sm:h-7">
                <Image
-                 src="/plus.png"
+                 src="/images/plus.png"
                  width={30}
                  height={30}
                  alt="plus icon"

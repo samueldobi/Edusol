@@ -66,7 +66,7 @@ export default function ClassDetailsInfo({ studentSize, classData, teacherData }
               <div className="flex items-center space-x-4 mb-4">
                 <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
                   <Image
-                    src="/teacher.png"
+                    src="/images/teacher.png"
                     width={24}
                     height={24}
                     className="rounded-full"

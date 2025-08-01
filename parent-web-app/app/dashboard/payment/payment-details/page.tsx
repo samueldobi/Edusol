@@ -14,7 +14,7 @@ export default function PaymentDetails() {
   return (
     <div className=" mx-auto bg-white rounded-xl shadow-lg overflow-hidden p-0 sm:p-0 mt-8">
       <div className="flex items-center gap-3 bg-gray-50 px-6 py-5 border-b border-gray-200">
-        <Image src="/cart.png" alt="Logo" width={50} height={50} className="rounded-md object-cover" />
+        <Image src="/images/cart.png" alt="Logo" width={50} height={50} className="rounded-md object-cover" />
         <h1 className="text-green-600 text-lg font-semibold tracking-wide">PAYMENT DETAILS</h1>
       </div>
       <div className="w-full">
@@ -33,7 +33,7 @@ export default function PaymentDetails() {
             <tr>
               <td className="px-6 py-4 border-b border-gray-100">
                 <div className="flex items-center gap-3">
-                  <Image src="/person.png" alt={userId || "User"} width={40} height={40} className="w-10 h-10 rounded-full object-cover" />
+                  <Image src="/images/person.png" alt={userId || "User"} width={40} height={40} className="w-10 h-10 rounded-full object-cover" />
                   <span className="text-gray-800">{userId || "User"}</span>
                 </div>
               </td>
@@ -43,7 +43,7 @@ export default function PaymentDetails() {
                 <div className="flex items-center">
                   <span className="relative w-10 h-10 rounded-full bg-gradient-to-br from-blue-200 to-blue-100 border-2 border-blue-100 flex items-center justify-center mr-3">
                     <span >
-                        <Image src="/tuition-icon.png" alt="tuition" width={40} height={30} />
+                        <Image src="/images/tuition-icon.png" alt="tuition" width={40} height={30} />
                     </span>
                   </span>
                   <span className="text-gray-700">Tuition fee</span>
@@ -61,7 +61,7 @@ export default function PaymentDetails() {
               <td className="px-6 py-4 border-b border-gray-100">
                 <div className="flex items-center">
                   <span className="relative w-10 h-10 rounded-full bg-gradient-to-br from-yellow-100 to-yellow-200 border-2 border-yellow-100 flex items-center justify-center mr-3">
-                    <Image src="/brick-icon.png" alt="Logo" width={50} height={50} className="rounded-md object-cover" />
+                    <Image src="/images/brick-icon.png" alt="Logo" width={50} height={50} className="rounded-md object-cover" />
                   </span>
                   <span className="text-gray-700">Registration fee</span>
                 </div>
@@ -76,7 +76,7 @@ export default function PaymentDetails() {
                 <div className="flex items-center">
                   <div className="relative w-10 h-10 rounded-full bg-gradient-to-br from-purple-200 to-purple-100 border-2 border-purple-100 flex items-center justify-center mr-3">
                     <span >
-                        <Image src="/house-icon.png" alt="tuition" width={40} height={30} />
+                        <Image src="/images/house-icon.png" alt="tuition" width={40} height={30} />
                     </span>
                   </div>
                   <span className="text-gray-700">Admission fee</span>

@@ -32,7 +32,6 @@ const [studentData, setStudentData] = useState<Student[]>([]);
 const[studentSize, setStudentSize] =  useState(0);
 const router = useRouter();
 const searchParams = useSearchParams();
-console.log(studentSize, studentData)
 
     useEffect(()=>{
         const fetchStudents =async()=>{
@@ -43,7 +42,7 @@ console.log(studentSize, studentData)
                 setStudentData(studentEntries)
                 setStudentSize(studentEntries.length)
             }catch(err){
-                console.log(err)
+                // Handle error silently
             }
         }
         fetchStudents();
@@ -123,7 +122,7 @@ console.log(studentSize, studentData)
                             <Image 
                             width={40}
                             height={40}
-                            src="/teacher.png" 
+                            src="/images/teacher.png" 
                             alt="avatar of a teacher" />
                         </div>
                         </div>
@@ -160,7 +159,7 @@ console.log(studentSize, studentData)
                             }}
                         >
                             <Image
-                            src = "/userview.png"
+                            src = "/images/userview.png"
                             width={40}
                             height={40}
                             alt = "view button"
@@ -168,7 +167,7 @@ console.log(studentSize, studentData)
                         </button>
                         <button className="p-2">
                             <Image
-                            src = "/useredit.png"
+                            src = "/images/useredit.png"
                             width={40}
                             height={40}
                             alt = "view button"
@@ -176,7 +175,7 @@ console.log(studentSize, studentData)
                         </button>
                         <button className="p-2">
                             <Image
-                            src = "/userdelete.png"
+                            src = "/images/userdelete.png"
                             width={40}
                             height={40}
                             alt = "view button"
@@ -201,7 +200,7 @@ console.log(studentSize, studentData)
         <Image
           width={60}
           height={60}
-          src="/teacher.png"
+          src="/images/teacher.png"
           alt="avatar"
           className="rounded-full object-cover"
         />
@@ -222,13 +221,13 @@ console.log(studentSize, studentData)
                 handleStudentClick(item);
             }}
         >
-          <Image src="/userview.png" width={32} height={32} alt="view" />
+          <Image src="/images/userview.png" width={32} height={32} alt="view" />
         </button>
         <button>
-          <Image src="/useredit.png" width={32} height={32} alt="edit" />
+          <Image src="/images/useredit.png" width={32} height={32} alt="edit" />
         </button>
         <button>
-          <Image src="/userdelete.png" width={32} height={32} alt="delete" />
+          <Image src="/images/userdelete.png" width={32} height={32} alt="delete" />
         </button>
       </div>
     </div>

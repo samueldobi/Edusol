@@ -7,7 +7,7 @@ const stats = [
   {
     label: 'Total Payments',
     value: 207,
-    color: 'bg-[#FFB400]',
+    color: 'bg-[#65F765]',
     bg: 'bg-[#f3c65e]',
     src: '/total-payment-icon.png',
   },

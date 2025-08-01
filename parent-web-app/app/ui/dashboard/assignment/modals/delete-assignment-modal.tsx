@@ -1,88 +1,101 @@
 "use client";
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { deleteAssignment, AssignmentType } from '@/app/src/api/services/schoolService';
 
 interface DeleteConfirmModalProps {
   assignment: AssignmentType;
+  isOpen: boolean;
   onClose: () => void;
-  onDelete: () => void;
+  onSuccess: () => void;
 }
 
-const DeleteConfirmModal: React.FC<DeleteConfirmModalProps> = ({ assignment, onClose, onDelete }) => {
+export default function DeleteConfirmModal({ assignment, isOpen, onClose, onSuccess }: DeleteConfirmModalProps) {
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState<string | null>(null);
 
   const handleDelete = async () => {
+    if (!assignment.id) {
+      setError('Assignment ID not found');
+      return;
+    }
+
     setLoading(true);
-    setError("");
+    setError(null);
 
     try {
-      console.log("Attempting to delete assignment with ID:", assignment.id);
-      console.log("Delete URL will be:", `${process.env.NEXT_PUBLIC_BASE_URL}/api/schools/assignments/${assignment.id}/`);
-      
       await deleteAssignment(assignment.id);
-      console.log("Successfully deleted assignment with ID:", assignment.id);
-      
-      onDelete();
+      onSuccess();
     } catch (err: any) {
-      console.error("Error deleting assignment:", err);
-      console.error("Delete error details:", {
-        message: err.message,
-        response: err.response?.data,
-        status: err.response?.status,
-        config: err.config,
-        url: err.config?.url,
-        method: err.config?.method,
-        headers: err.config?.headers
-      });
-      
-      if (err.response?.data) {
-        console.error("Full delete error response:", JSON.stringify(err.response.data, null, 2));
-      }
-      
-      setError(`Failed to delete assignment: ${err.message}`);
+      setError(err.message || 'Failed to delete assignment. Please try again.');
     } finally {
       setLoading(false);
     }
   };
 
+  if (!isOpen) return null;
+
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-      <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full text-center">
-        <h2 className="text-red-600 text-lg font-bold mb-2">Delete Assignment?</h2>
-        <p className="text-gray-600 mb-4">Are you sure you want to delete this assignment?</p>
-        
-        <div className="bg-gray-50 p-3 rounded mb-4 text-left">
-          <p className="text-sm font-medium text-gray-800">Assignment Details:</p>
-          <p className="text-sm text-gray-600">Title: {assignment.title}</p>
-          <p className="text-sm text-gray-600">Due Date: {new Date(assignment.due_date).toLocaleDateString()}</p>
-          <p className="text-sm text-gray-600">Type: {assignment.assignment_type}</p>
-          <p className="text-sm text-gray-600">Status: {assignment.status || 'active'}</p>
-        </div>
-        
-        <p className="text-gray-500 text-sm mb-6">This action cannot be undone.</p>
-        
-        {error && <div className="text-red-500 text-sm mb-4">{error}</div>}
-        
-        <div className="flex justify-center gap-4">
-          <button
-            onClick={onClose}
-            disabled={loading}
-            className="px-4 py-2 bg-gray-200 text-gray-800 font-semibold rounded hover:bg-gray-300 disabled:opacity-50"
-          >
-            Cancel
-          </button>
-          <button
-            onClick={handleDelete}
-            disabled={loading}
-            className="px-4 py-2 bg-red-600 text-white font-bold rounded hover:bg-red-700 disabled:opacity-50"
-          >
-            {loading ? "Deleting..." : "Delete"}
-          </button>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4">
+      <div 
+        onClick={(e) => e.stopPropagation()}
+        className="bg-white rounded-lg shadow-lg w-full max-w-md"
+      >
+        <div className="p-6">
+          <div className="flex items-center mb-4">
+            <div className="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100">
+              <svg className="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
+              </svg>
+            </div>
+          </div>
+          
+          <div className="text-center">
+            <h3 className="text-lg font-medium text-gray-900 mb-2">
+              Delete Assignment
+            </h3>
+            <div className="text-sm text-gray-500 mb-6">
+              <p>Are you sure you want to delete this assignment?</p>
+              <div className="mt-2 text-left bg-gray-50 p-3 rounded">
+                <p><strong>Title:</strong> {assignment.title}</p>
+                <p><strong>Due Date:</strong> {new Date(assignment.due_date).toLocaleDateString()}</p>
+                <p><strong>Type:</strong> {assignment.assignment_type}</p>
+                <p><strong>Status:</strong> {assignment.status}</p>
+              </div>
+              <p className="mt-2 text-red-600">This action cannot be undone.</p>
+            </div>
+          </div>
+
+          {error && (
+            <div className="mb-4 p-3 bg-red-50 border border-red-200 text-red-700 rounded text-sm">
+              {error}
+            </div>
+          )}
+
+          <div className="flex justify-end space-x-3">
+            <button
+              onClick={onClose}
+              disabled={loading}
+              className="px-4 py-2 text-gray-600 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors disabled:opacity-50"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={handleDelete}
+              disabled={loading}
+              className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+            >
+              {loading ? (
+                <>
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                  Deleting...
+                </>
+              ) : (
+                'Delete'
+              )}
+            </button>
+          </div>
         </div>
       </div>
     </div>
   );
-};
-
-export default DeleteConfirmModal;
+}

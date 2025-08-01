@@ -27,7 +27,7 @@ export default function SideNav({ isOpen, onClose }: SideNavProps) {
         <div className="bg-[#1AA939] flex items-center justify-between p-5">
           <div className="flex items-center">
             <img
-              src="/logo-white-better.png"
+              src="/images/logo-white-better.png"
               alt="Educesol logo"
               className="w-8 h-8 mr-2"
             />

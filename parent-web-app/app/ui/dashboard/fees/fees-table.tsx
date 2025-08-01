@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { FeeType } from '@/app/src/api/services/schoolService';
 import { fetchFeesList, updateFee, deleteFee } from '@/app/src/api/services/schoolService';
 import FeeDetailsModal from './fee-details-modal';
+import Image from 'next/image';
 
 interface FeesTableProps {
   onFeeUpdated?: () => void;
@@ -75,15 +76,14 @@ export default function FeesTable({ onFeeUpdated }: FeesTableProps) {
     return (
       <div className="bg-white rounded-lg shadow-md overflow-hidden">
         <div className="p-8 text-center">
-          <div className="text-6xl mb-4">💰</div>
+          <div className="text-6xl mb-4">
+            <Image src="/images/fees_two.png" alt="fee-icon" width={60} height={60} />
+          </div>
           <h3 className="text-xl font-semibold text-gray-900 mb-2">No Fees Created</h3>
           <p className="text-gray-600 mb-6">
             There are no fees configured for this school yet. Click "Add New Fee" to get started.
           </p>
           <div className="text-gray-400">
-            <svg className="mx-auto h-12 w-12 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-            </svg>
             <p className="text-sm">Start by adding your first fee</p>
           </div>
         </div>
@@ -120,7 +120,11 @@ export default function FeesTable({ onFeeUpdated }: FeesTableProps) {
                     <div className="flex items-center">
                       <div className="flex-shrink-0 h-10 w-10">
                         <div className="h-10 w-10 rounded-full bg-green-100 flex items-center justify-center">
-                          <span className="text-green-600 font-semibold">💰</span>
+                          <span className="text-green-600 font-semibold">
+                          <Image 
+                     
+                          src="/images/fees_two.png" alt="fee-icon" width={40} height={40} />
+                          </span>
                         </div>
                       </div>
                       <div className="ml-4">
@@ -147,12 +151,9 @@ export default function FeesTable({ onFeeUpdated }: FeesTableProps) {
                   <td className="px-6 py-4 whitespace-nowrap">
                     <button
                       onClick={() => handleManageClick(fee)}
-                      className="inline-flex items-center px-3 py-1 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                      className="inline-flex items-center px-3 py-1 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
                     >
-                      <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                      </svg>
+                   
                       Manage
                     </button>
                   </td>
@@ -169,7 +170,9 @@ export default function FeesTable({ onFeeUpdated }: FeesTableProps) {
               <div className="flex items-center justify-between">
                 <div className="flex items-center">
                   <div className="h-10 w-10 rounded-full bg-green-100 flex items-center justify-center mr-3">
-                    <span className="text-green-600 font-semibold">💰</span>
+                    <span className="text-green-600 font-semibold">
+                    <Image src="/images/fees_two.png" alt="fee-icon" width={25} height={25} />
+                    </span>
                   </div>
                   <div>
                     <div className="text-sm font-medium text-gray-900">
@@ -185,12 +188,9 @@ export default function FeesTable({ onFeeUpdated }: FeesTableProps) {
                 </div>
                 <button
                   onClick={() => handleManageClick(fee)}
-                  className="inline-flex items-center px-3 py-1 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700"
+                  className="inline-flex items-center px-3 py-1 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-green-600 hover:bg-green-700"
                 >
-                  <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                  </svg>
+                 
                   Manage
                 </button>
               </div>

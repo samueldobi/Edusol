@@ -47,7 +47,7 @@ export function NotificationItem({
       <div
         className={`flex-shrink-0 ${backgroundColor} w-16 h-16 rounded-full`}
       >
-        <img src="/teacher.png" alt="avatar of a teacher" />
+        <img src="/images/teacher.png" alt="avatar of a teacher" />
       </div>
 
       <div className="flex flex-col w-full">

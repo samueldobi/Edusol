@@ -47,7 +47,7 @@ export default function Table({ data }: TableProps) {
               <div className="flex items-center">
                 <div className="flex-shrink-0 h-16 w-16">
                   <div className={`flex-shrink-0 bg-[#1AA939] rounded-full`}>
-                    <img src="/teacher.png" alt="avatar of a teacher" />
+                    <img src="/images/teacher.png" alt="avatar of a teacher" />
                   </div>
                 </div>
               </div>
@@ -70,17 +70,17 @@ export default function Table({ data }: TableProps) {
                 {item.paymentDetails === '(3)' ? (
                   <div className="flex">
                     <img
-                      src="/house-icon.png"
+                      src="/images/house-icon.png"
                       alt="Tuition"
                       className="h-6 w-6 mr-1"
                     />
                     <img
-                      src="/tuition-icon.png"
+                      src="/images/tuition-icon.png"
                       alt="Tuition"
                       className="h-6 w-6 mr-1"
                     />
                     <img
-                      src="/brick-icon.png"
+                      src="/images/brick-icon.png"
                       alt="Tuition"
                       className="h-6 w-6 mr-1"
                     />
@@ -88,12 +88,12 @@ export default function Table({ data }: TableProps) {
                 ) : item.paymentDetails === '(2)' ? (
                   <div className="flex">
                     <img
-                      src="/house-icon.png"
+                      src="/images/house-icon.png"
                       alt="Tuition"
                       className="h-6 w-6 mr-1"
                     />
                     <img
-                      src="/tuition-icon.png"
+                      src="/images/tuition-icon.png"
                       alt="Tuition"
                       className="h-6 w-6 mr-1"
                     />
@@ -101,7 +101,7 @@ export default function Table({ data }: TableProps) {
                 ) : (
                   <div className="flex">
                     <img
-                      src="/brick-icon.png"
+                      src="/images/brick-icon.png"
                       alt="Tuition"
                       className="h-6 w-6 mr-1"
                     />

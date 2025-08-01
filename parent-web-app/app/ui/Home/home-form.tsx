@@ -11,12 +11,7 @@ export default function HomePage() {
       <div className="bg-white rounded-lg shadow-lg w-[40%] max-w-[500px] min-w-[320px] flex flex-col p-6 sm:w-[90%] sm:p-11 md:w-[85%] lg:w-[60%] xl:w-[35%]">
       {/*Logo section*/}
       <div className="flex justify-center items-center">
-        <Image
-        width={50}
-        height={50}
-        alt="company logo" 
-        src="/logo.png" 
-        className="w-24 h-24" />
+        <img src="/images/logo.png" alt="Logo" className="w-32 h-32" />
       </div>
       {/*Title and Subtitle*/}
       <h2 className="text-4xl font-bold leading-[3.75rem] text-lime-600">

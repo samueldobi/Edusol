@@ -44,7 +44,7 @@ export default function TeacherUI() {
             className="shadow-md rounded-full pl-12 py-3 w-full font-normal text-xl text-[#2C2C2C] focus:outline-[#2C2C2C]"
           />
           <span className="absolute left-3 top-3 w-6 h-6 text-[#AEAEAE]">
-            <Image src="/file.svg" alt="search" width={24} height={24} />
+            <Image src="/images/file.svg" alt="search" width={24} height={24} />
           </span>
         </div>
         <div className="flex items-center space-x-4">
@@ -66,7 +66,7 @@ export default function TeacherUI() {
             className="flex items-center gap-2 sm:gap-3 bg-white px-3 sm:px-4 py-2 rounded-lg border border-white shadow-sm hover:shadow-md transition-shadow ml-4"
           >
             <span className="w-6 sm:w-7 h-6 sm:h-7">
-              <Image src="/plus.png" width={30} height={30} alt="plus icon" />
+              <Image src="/images/plus.png" width={30} height={30} alt="plus icon" />
             </span>
             <span className="text-[16px] sm:text-[18px] md:text-[20px] text-[#2eb24c] font-semibold tracking-wide">
               Add Teacher
@@ -104,9 +104,9 @@ export default function TeacherUI() {
                 <td className="px-6 py-4 whitespace-nowrap">{item.arm}</td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="flex gap-2">
-                    <button className="p-2"><Image src="/userview.png" width={32} height={32} alt="view" /></button>
-                    <button className="p-2"><Image src="/useredit.png" width={32} height={32} alt="edit" /></button>
-                    <button className="p-2"><Image src="/userdelete.png" width={32} height={32} alt="delete" /></button>
+                    <button className="p-2"><Image src="/images/userview.png" width={32} height={32} alt="view" /></button>
+                    <button className="p-2"><Image src="/images/useredit.png" width={32} height={32} alt="edit" /></button>
+                    <button className="p-2"><Image src="/images/userdelete.png" width={32} height={32} alt="delete" /></button>
                   </div>
                 </td>
               </tr>
@@ -128,9 +128,9 @@ export default function TeacherUI() {
               <p><span className="font-medium p-2">Arm:</span> {item.arm}</p>
             </div>
             <div className="mt-4 flex justify-center gap-4">
-              <button><Image src="/userview.png" width={32} height={32} alt="view" /></button>
-              <button><Image src="/useredit.png" width={32} height={32} alt="edit" /></button>
-              <button><Image src="/userdelete.png" width={32} height={32} alt="delete" /></button>
+              <button><Image src="/images/userview.png" width={32} height={32} alt="view" /></button>
+              <button><Image src="/images/useredit.png" width={32} height={32} alt="edit" /></button>
+              <button><Image src="/images/userdelete.png" width={32} height={32} alt="delete" /></button>
             </div>
           </div>
         ))}

@@ -48,23 +48,17 @@ export default function ComposeNotificationModal({ onClose, onSuccess }: Compose
       const tagName = selectedTag || customTag || "General";
       const tagColor = customColor;
 
-      // 1. Create the tag and get its ID
-      console.log('🏷️ Creating tag:', { name: tagName, color: tagColor });
       const tagId = await createTagAndReturnId(tagName, tagColor);
-      console.log('✅ Tag created with ID:', tagId);
 
-      // 2. Create the notification with the tag ID
       const notificationPayload = {
         title: title.trim(),
         message: message.trim(),
         type: notificationType,
         recipient_id: recipientId.trim() || selectedRecipient || "all",
-        tag: tagId, // Pass the tag ID directly
+        tag: tagId,
       };
 
-      console.log('📝 Creating notification with payload:', notificationPayload);
       await createNotification(notificationPayload);
-      console.log('✅ Notification created successfully');
 
       // Reset form
       setTitle("");
@@ -78,7 +72,6 @@ export default function ComposeNotificationModal({ onClose, onSuccess }: Compose
       onSuccess?.();
       onClose();
     } catch (err) {
-      console.error('Failed to create notification:', err);
       setError("Failed to create notification. Please try again.");
     } finally {
       setLoading(false);

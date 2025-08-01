@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import FeesTable from "@/app/ui/dashboard/fees/fees-table";
 import AddFeeModal from "@/app/ui/dashboard/fees/add-fee-modal";
+import Image from "next/image";
 
 export default function FeesDetails() {
   const [showAddFee, setShowAddFee] = useState(false);
@@ -34,22 +35,24 @@ export default function FeesDetails() {
         </div>
 
         {/* School Info Card */}
-        <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg p-6 text-white mb-6">
+        <div className="bg-gradient-to-r from-[#1AA939] to-[#2eb24c] rounded-lg p-6 text-white mb-6">
           <div className="flex items-center justify-between">
             <div>
               <h2 className="text-xl font-semibold mb-2">
                 School Name
               </h2>
-              <p className="text-blue-100">
+              <p className="text-green-100">
                 school@example.com
               </p>
-              <p className="text-blue-100">
+              <p className="text-green-100">
                 Phone: N/A
               </p>
             </div>
             <div className="text-right">
-              <div className="text-2xl font-bold">💰</div>
-              <p className="text-blue-100 text-sm">Fees Management</p>
+              <div className="text-2xl font-bold">
+              <Image src="/images/fees.png" alt="fee-icon" width={60} height={60} />
+              </div>
+              <p className="text-green-100 text-sm">Fees Management</p>
             </div>
           </div>
         </div>

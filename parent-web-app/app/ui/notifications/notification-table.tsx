@@ -83,25 +83,21 @@ export default function NotificationTable({
     <>
       {notifications.map((item, index) => {
         // Debug: Log the raw item data
-        console.log(`Notification ${index + 1} raw data:`, item);
+        // console.log(`Notification ${index + 1} raw data:`, item);
         
         // Ensure item has required properties
         const notification = {
-          id: item?.id || item?._id || `notification-${index}`,
-          _id: item?._id,
-          title: item?.title || item?.subject || 'No title',
-          message: item?.message || item?.body || 'No message',
-          type: item?.type || 'info',
-          is_read: item?.is_read || false,
-          created_at: item?.created_at || new Date().toISOString(),
-          updated_at: item?.updated_at,
-          recipient_id: item?.recipient_id || item?.receipient || '',
-          sender_id: item?.sender_id,
-          metadata: item?.metadata,
+          id: item.id,
+          title: item.title || `Notification ${index + 1}`,
+          message: item.message || item.content || 'No message available',
+          type: item.type || 'info',
+          status: item.status || 'unread',
+          created_at: item.created_at || new Date().toISOString(),
+          updated_at: item.updated_at || new Date().toISOString(),
         };
 
         // Debug: Log the processed notification
-        console.log(`Notification ${index + 1} processed:`, notification);
+        // console.log(`Notification ${index + 1} processed:`, notification);
 
         return (
           <div

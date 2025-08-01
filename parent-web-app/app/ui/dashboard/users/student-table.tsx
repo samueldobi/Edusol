@@ -93,7 +93,7 @@ export default function StudentTable({
                       <div className="flex-shrink-0 h-10 w-10">
                         <Image
                           className="h-10 w-10 rounded-full"
-                          src="/Person.png"
+                          src="/images/Person.png"
                           alt={`${student.first_name} ${student.last_name}`}
                           width={40}
                           height={40}
@@ -146,7 +146,7 @@ export default function StudentTable({
                 <div className="flex items-center">
                   <Image
                     className="h-10 w-10 rounded-full"
-                    src="/Person.png"
+                    src="/images/Person.png"
                     alt={`${student.first_name} ${student.last_name}`}
                     width={40}
                     height={40}

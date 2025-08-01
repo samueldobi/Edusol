@@ -1,6 +1,6 @@
 "use client";
-import { useState } from "react";
-import { createSubject, CreateSubjectPayload } from "@/app/src/api/services/schoolService";
+import { useState } from 'react';
+import { createSubject, CreateSubjectPayload } from '@/app/src/api/services/schoolService';
 
 interface AddSubjectModalProps {
   onClose: () => void;
@@ -9,71 +9,66 @@ interface AddSubjectModalProps {
 
 export default function AddSubjectModal({ onClose, onSuccess }: AddSubjectModalProps) {
   const [form, setForm] = useState({
-    subject_name: "",
-    subject_code: "",
-    description: "",
+    subject_name: '',
+    subject_code: '',
+    description: '',
   });
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState<string | null>(null);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setForm(prev => ({ ...prev, [name]: value }));
+  const handleInputChange = (field: keyof typeof form, value: string) => {
+    setForm(prev => ({
+      ...prev,
+      [field]: value
+    }));
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
     if (!form.subject_name.trim() || !form.subject_code.trim()) {
-      setError("Please fill all required fields.");
+      setError('Subject name and code are required');
       return;
     }
 
     setLoading(true);
-    setError("");
+    setError(null);
 
     try {
-      console.log("Creating subject with payload:", form);
-      
       const payload: CreateSubjectPayload = {
-        subject_name: form.subject_name,
-        subject_code: form.subject_code,
-        description: form.description || null,
-        created_by: "ee824cad-d7a6-4f48-87dc-e8461a9201c4", // Default user ID
+        subject_name: form.subject_name.trim(),
+        subject_code: form.subject_code.trim(),
+        description: form.description.trim() || null,
+        created_by: "cdddc611-1fd3-4730-a819-9206c69b39d7",
         created_at: new Date().toISOString(),
-        school: "cdddc611-1fd3-4730-a819-9206c69b39d7" // Correct school ID
+        school: "cdddc611-1fd3-4730-a819-9206c69b39d7",
       };
 
-      console.log("Sending create payload:", payload);
-
-      const newSubject = await createSubject(payload);
-      console.log("Successfully created subject:", newSubject);
+      await createSubject(payload);
       
-      onSuccess();
-      onClose();
-    } catch (err: any) {
-      console.error("Error creating subject:", err);
-      console.error("Create error details:", {
-        message: err.message,
-        response: err.response?.data,
-        status: err.response?.status,
-        config: err.config
+      setForm({
+        subject_name: '',
+        subject_code: '',
+        description: '',
       });
       
-      if (err.response?.data) {
-        console.error("Full create error response:", JSON.stringify(err.response.data, null, 2));
-      }
-      
-      setError(`Failed to create subject: ${err.message}`);
+      onSuccess();
+    } catch (err: any) {
+      setError(err.message || 'Failed to create subject. Please try again.');
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-      <div className="bg-white p-6 md:p-8 rounded-lg shadow-lg w-full max-w-xl">
-        <div className="flex justify-between items-center mb-5">
-          <h3 className="text-[#1AA939] font-bold text-xl uppercase">Add New Subject</h3>
-          <button 
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4">
+      <div 
+        onClick={(e) => e.stopPropagation()}
+        className="bg-white rounded-lg shadow-lg w-full max-w-2xl max-h-[90vh] overflow-y-auto"
+      >
+        <div className="flex justify-between items-center p-6 border-b border-gray-200">
+          <h2 className="text-xl font-bold text-gray-800">Add New Subject</h2>
+          <button
             onClick={onClose}
             className="text-gray-500 hover:text-gray-700 text-2xl font-bold"
           >
@@ -81,67 +76,75 @@ export default function AddSubjectModal({ onClose, onSuccess }: AddSubjectModalP
           </button>
         </div>
 
-        {error && <div className="text-red-500 text-sm mb-4">{error}</div>}
-
-        {/* Form Fields */}
-        <form onSubmit={(e) => { e.preventDefault(); }}>
-          <div className="space-y-4">
-            <div>
-              <label className="block font-medium mb-1">Subject Name *</label>
-              <input 
-                type="text" 
-                name="subject_name"
-                value={form.subject_name}
-                onChange={handleChange}
-                placeholder="Enter subject name"
-                className="w-full border border-gray-300 px-4 py-2 rounded" 
-                required
-              />
+        <form onSubmit={handleSubmit} className="p-6">
+          {error && (
+            <div className="mb-4 p-3 bg-red-50 border border-red-200 text-red-700 rounded">
+              {error}
             </div>
+          )}
 
-            <div>
-              <label className="block font-medium mb-1">Subject Code *</label>
-              <input 
-                type="text" 
-                name="subject_code"
-                value={form.subject_code}
-                onChange={handleChange}
-                placeholder="Enter subject code"
-                className="w-full border border-gray-300 px-4 py-2 rounded" 
-                required
-              />
-            </div>
-
-            <div>
-              <label className="block font-medium mb-1">Description (Optional)</label>
-              <textarea 
-                name="description"
-                value={form.description}
-                onChange={handleChange}
-                placeholder="Enter subject description"
-                rows={3}
-                className="w-full border border-gray-300 px-4 py-2 rounded" 
-              />
-            </div>
+          <div className="mb-6">
+            <label className="block mb-2 font-semibold text-gray-700">
+              Subject Name *
+            </label>
+            <input
+              type="text"
+              value={form.subject_name}
+              onChange={(e) => handleInputChange('subject_name', e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+              placeholder="Enter subject name"
+              required
+            />
           </div>
 
-          {/* Action Buttons */}
-          <div className="flex justify-end gap-3 mt-6">
+          <div className="mb-6">
+            <label className="block mb-2 font-semibold text-gray-700">
+              Subject Code *
+            </label>
+            <input
+              type="text"
+              value={form.subject_code}
+              onChange={(e) => handleInputChange('subject_code', e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+              placeholder="Enter subject code"
+              required
+            />
+          </div>
+
+          <div className="mb-6">
+            <label className="block mb-2 font-semibold text-gray-700">
+              Description
+            </label>
+            <textarea
+              value={form.description}
+              onChange={(e) => handleInputChange('description', e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+              placeholder="Enter subject description"
+              rows={3}
+            />
+          </div>
+
+          <div className="flex justify-end gap-3 pt-4 border-t border-gray-200">
             <button
               type="button"
               onClick={onClose}
-              disabled={loading}
-              className="px-4 py-2 bg-gray-200 text-gray-700 font-semibold rounded hover:bg-gray-300 disabled:opacity-50"
+              className="px-4 py-2 text-gray-600 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
             >
               Cancel
             </button>
             <button
-              type="button"
-              onClick={handleSubmit}
+              type="submit"
               disabled={loading}
-              className="px-6 py-2 bg-[#1AA939] text-white font-bold rounded hover:bg-[#1d5329] disabled:opacity-50"
+              className="px-6 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
             >
-              {loading ? "Creating..." : "Create Subject"}
+              {loading ? (
+                <>
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                  Creating...
+                </>
+              ) : (
+                'Create Subject'
+              )}
             </button>
           </div>
         </form>

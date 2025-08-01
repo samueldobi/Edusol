@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from 'react';
 import { FeeType, updateFee, deleteFee } from '@/app/src/api/services/schoolService';
+import Image from 'next/image';
 
 interface FeeDetailsModalProps {
   fee: FeeType | null;
@@ -92,11 +93,11 @@ export default function FeeDetailsModal({
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
       <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
         {/* Header */}
-        <div className="bg-gradient-to-r from-green-600 to-blue-600 px-6 py-4 rounded-t-2xl">
+        <div className="bg-[#1AA939] px-6 py-4 rounded-t-2xl">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
               <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center text-2xl">
-                💰
+                <Image src="/images/fees.png" alt="fee-icon" width={24} height={24} />
               </div>
               <div>
                 <h2 className="text-white text-xl font-bold">Fee Details</h2>
@@ -109,7 +110,7 @@ export default function FeeDetailsModal({
               onClick={onClose}
               className="text-white/80 hover:text-white text-2xl font-bold"
             >
-              ×
+              x
             </button>
           </div>
         </div>

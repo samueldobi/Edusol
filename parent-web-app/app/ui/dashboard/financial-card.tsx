@@ -6,14 +6,14 @@ export default function FinancialCardWrapper() {
       <FinancialCard
         title="Tuition"
         value="5,276,000"
-        iconSrc="/up-icon.png"
+        iconSrc="/images/up-icon.png"
         color="#1AA939"
         bgColor="#1AA939"
       />
       <FinancialCard
         title="Other Payments"
         value="5,567,476"
-        iconSrc="/up-icon.png"
+        iconSrc="/images/up-icon.png"
         color="#FFB400"
         bgColor="#FFB400"
       />
