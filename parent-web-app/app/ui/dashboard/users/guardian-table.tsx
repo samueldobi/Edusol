@@ -1,386 +1,190 @@
 "use client";
 import { useState } from 'react';
-
-interface GuardianData {
-  id: number;
-  guardian_name: string;
-  student_name: string;
-  relationship: string;
-  phone_number: string;
-  email: string;
-  address: string;
-  image: string;
-}
+import Image from 'next/image';
+import { UserType } from '@/app/src/api/services/userService';
+import UserDetailsModal from './user-details-modal';
 
 interface GuardianTableProps {
   rowsPerPage: number;
   currentPage: number;
   setCurrentPage: (page: number) => void;
-  data: GuardianData[];
+  data: UserType[];
+  onUserUpdated?: () => void;
+  onUserDeleted?: () => void;
 }
 
-// Hardcoded dummy data for guardians
-const mockGuardians: GuardianData[] = [
-  {
-    id: 1,
-    guardian_name: "Jane Doe",
-    student_name: "John Doe",
-    relationship: "Mother",
-    phone_number: "1234567890",
-    email: "jane.doe@email.com",
-    address: "123 Main St, City",
-    image: "/Person.png"
-  },
-  {
-    id: 2,
-    guardian_name: "Robert Smith",
-    student_name: "Mary Smith",
-    relationship: "Father",
-    phone_number: "2345678901",
-    email: "robert.smith@email.com",
-    address: "456 Oak Ave, Town",
-    image: "/Person.png"
-  },
-  {
-    id: 3,
-    guardian_name: "Michael Johnson",
-    student_name: "Alice Johnson",
-    relationship: "Father",
-    phone_number: "3456789012",
-    email: "michael.johnson@email.com",
-    address: "789 Pine Rd, Village",
-    image: "/Person.png"
-  },
-  {
-    id: 4,
-    guardian_name: "Linda Brown",
-    student_name: "Bob Brown",
-    relationship: "Mother",
-    phone_number: "4567890123",
-    email: "linda.brown@email.com",
-    address: "321 Elm St, Borough",
-    image: "/Person.png"
-  },
-  {
-    id: 5,
-    guardian_name: "Nancy Green",
-    student_name: "Charlie Green",
-    relationship: "Mother",
-    phone_number: "5678901234",
-    email: "nancy.green@email.com",
-    address: "654 Maple Dr, District",
-    image: "/Person.png"
-  },
-  {
-    id: 6,
-    guardian_name: "Paul White",
-    student_name: "Diana White",
-    relationship: "Father",
-    phone_number: "6789012345",
-    email: "paul.white@email.com",
-    address: "987 Cedar Ln, County",
-    image: "/Person.png"
-  },
-  {
-    id: 7,
-    guardian_name: "George Black",
-    student_name: "Eve Black",
-    relationship: "Father",
-    phone_number: "7890123456",
-    email: "george.black@email.com",
-    address: "147 Birch Way, State",
-    image: "/Person.png"
-  },
-  {
-    id: 8,
-    guardian_name: "Helen Blue",
-    student_name: "Frank Blue",
-    relationship: "Mother",
-    phone_number: "8901234567",
-    email: "helen.blue@email.com",
-    address: "258 Spruce Ct, Province",
-    image: "/Person.png"
-  },
-  {
-    id: 9,
-    guardian_name: "Ian Red",
-    student_name: "Grace Red",
-    relationship: "Father",
-    phone_number: "9012345678",
-    email: "ian.red@email.com",
-    address: "369 Willow Pl, Region",
-    image: "/Person.png"
-  },
-  {
-    id: 10,
-    guardian_name: "Olivia Yellow",
-    student_name: "Henry Yellow",
-    relationship: "Mother",
-    phone_number: "0123456789",
-    email: "olivia.yellow@email.com",
-    address: "741 Aspen Blvd, Territory",
-    image: "/Person.png"
-  }
-];
-
-export default function GuardianTable({
-  rowsPerPage,
-  currentPage,
-  setCurrentPage,
-  data
+export default function GuardianTable({ 
+  rowsPerPage, 
+  currentPage, 
+  setCurrentPage, 
+  data,
+  onUserUpdated,
+  onUserDeleted
 }: GuardianTableProps) {
-  const [editingId, setEditingId] = useState<number | null>(null);
-  const [editForm, setEditForm] = useState<GuardianData | null>(null);
+  const [selectedUser, setSelectedUser] = useState<UserType | null>(null);
+  const [showModal, setShowModal] = useState(false);
 
-  // Use mock data if no data is provided
-  const guardiansData = data.length > 0 ? data : mockGuardians;
+  const handleManageClick = (e: React.MouseEvent, guardian: UserType) => {
+    e.stopPropagation();
+    setSelectedUser(guardian);
+    setShowModal(true);
+  };
 
-  const totalPages = Math.ceil(guardiansData.length / rowsPerPage);
+  const totalPages = Math.ceil(data.length / rowsPerPage);
   const startIndex = (currentPage - 1) * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
-  const currentData = guardiansData.slice(startIndex, endIndex);
+  const currentData = data.slice(startIndex, endIndex);
 
-  const handleEdit = (guardian: GuardianData) => {
-    setEditingId(guardian.id);
-    setEditForm(guardian);
+  const handleUserUpdated = () => {
+    onUserUpdated?.();
   };
 
-  const handleSave = (id: number) => {
-    // Here you would typically save to the backend
-    console.log('Saving guardian:', editForm);
-    setEditingId(null);
-    setEditForm(null);
-  };
-
-  const handleCancel = () => {
-    setEditingId(null);
-    setEditForm(null);
-  };
-
-  const handleDelete = (id: number) => {
-    if (confirm('Are you sure you want to delete this guardian?')) {
-      console.log('Deleting guardian:', id);
-      // Here you would typically delete from the backend
-    }
+  const handleUserDeleted = () => {
+    onUserDeleted?.();
+    setShowModal(false);
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-md overflow-hidden">
-      <div className="overflow-x-auto">
-        <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-gray-50">
-            <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Guardian
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Student
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Relationship
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Contact
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Address
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Actions
-              </th>
-            </tr>
-          </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
-            {currentData.map((guardian) => (
-              <tr key={guardian.id} className="hover:bg-gray-50">
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <div className="flex items-center">
-                    <div className="flex-shrink-0 h-10 w-10">
-                      <img
-                        className="h-10 w-10 rounded-full"
-                        src={guardian.image}
-                        alt={guardian.guardian_name}
+    <>
+      <div className="bg-white rounded-lg shadow-md overflow-hidden">
+        {/* Desktop Table */}
+        <div className="hidden md:block">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-[#D1DFFF] shadow-md">
+              <tr>
+                <th className="px-6 py-5 text-left text-xs font-medium text-[#2C2C2C] uppercase tracking-wider">
+                  Guardian
+                </th>
+                <th className="px-6 py-5 text-left text-xs font-medium text-[#2C2C2C] uppercase tracking-wider">
+                  Contact
+                </th>
+                <th className="px-6 py-5 text-left text-xs font-medium text-[#2C2C2C] uppercase tracking-wider">
+                  Created
+                </th>
+                <th className="px-6 py-5 text-left text-xs font-medium text-[#2C2C2C] uppercase tracking-wider">
+                  Actions
+                </th>
+              </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+              {currentData.map((guardian) => (
+                <tr key={guardian.id}>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <div className="flex items-center gap-3">
+                      <Image 
+                        src="/Person.png" 
+                        alt={`${guardian.first_name} ${guardian.last_name} profile picture`}
+                        width={40} 
+                        height={40} 
+                        className="w-10 h-10 rounded-full object-cover" 
                       />
-                    </div>
-                    <div className="ml-4">
-                      <div className="text-sm font-medium text-gray-900">
-                        {editingId === guardian.id ? (
-                          <input
-                            type="text"
-                            value={editForm?.guardian_name || ''}
-                            onChange={(e) => setEditForm(prev => prev ? {...prev, guardian_name: e.target.value} : null)}
-                            className="border border-gray-300 rounded px-2 py-1 text-sm"
-                          />
-                        ) : (
-                          guardian.guardian_name
+                      <div>
+                        <span className="text-[#4A4C51] font-semibold">
+                          {guardian.first_name} {guardian.last_name}
+                        </span>
+                        {guardian.middle_name && (
+                          <div className="text-sm text-gray-500">{guardian.middle_name}</div>
                         )}
                       </div>
                     </div>
-                  </div>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                  {editingId === guardian.id ? (
-                    <input
-                      type="text"
-                      value={editForm?.student_name || ''}
-                      onChange={(e) => setEditForm(prev => prev ? {...prev, student_name: e.target.value} : null)}
-                      className="border border-gray-300 rounded px-2 py-1 text-sm"
-                    />
-                  ) : (
-                    guardian.student_name
-                  )}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                  {editingId === guardian.id ? (
-                    <input
-                      type="text"
-                      value={editForm?.relationship || ''}
-                      onChange={(e) => setEditForm(prev => prev ? {...prev, relationship: e.target.value} : null)}
-                      className="border border-gray-300 rounded px-2 py-1 text-sm"
-                    />
-                  ) : (
-                    guardian.relationship
-                  )}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <div className="text-sm text-gray-900">
-                    {editingId === guardian.id ? (
-                      <div className="space-y-1">
-                        <input
-                          type="tel"
-                          value={editForm?.phone_number || ''}
-                          onChange={(e) => setEditForm(prev => prev ? {...prev, phone_number: e.target.value} : null)}
-                          className="border border-gray-300 rounded px-2 py-1 text-sm w-full"
-                          placeholder="Phone"
-                        />
-                        <input
-                          type="email"
-                          value={editForm?.email || ''}
-                          onChange={(e) => setEditForm(prev => prev ? {...prev, email: e.target.value} : null)}
-                          className="border border-gray-300 rounded px-2 py-1 text-sm w-full"
-                          placeholder="Email"
-                        />
-                      </div>
-                    ) : (
-                      <>
-                        <div>{guardian.phone_number}</div>
-                        <div className="text-gray-500">{guardian.email}</div>
-                      </>
-                    )}
-                  </div>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                  {editingId === guardian.id ? (
-                    <input
-                      type="text"
-                      value={editForm?.address || ''}
-                      onChange={(e) => setEditForm(prev => prev ? {...prev, address: e.target.value} : null)}
-                      className="border border-gray-300 rounded px-2 py-1 text-sm w-full"
-                    />
-                  ) : (
-                    guardian.address
-                  )}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                  {editingId === guardian.id ? (
-                    <div className="flex space-x-2">
-                      <button
-                        onClick={() => handleSave(guardian.id)}
-                        className="text-green-600 hover:text-green-900"
-                      >
-                        Save
-                      </button>
-                      <button
-                        onClick={handleCancel}
-                        className="text-gray-600 hover:text-gray-900"
-                      >
-                        Cancel
-                      </button>
-                    </div>
-                  ) : (
-                    <div className="flex space-x-2">
-                      <button
-                        onClick={() => handleEdit(guardian)}
-                        className="text-indigo-600 hover:text-indigo-900"
-                      >
-                        Edit
-                      </button>
-                      <button
-                        onClick={() => handleDelete(guardian.id)}
-                        className="text-red-600 hover:text-red-900"
-                      >
-                        Delete
-                      </button>
-                    </div>
-                  )}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <div className="text-sm text-gray-900">{guardian.email || 'N/A'}</div>
+                    <div className="text-sm text-gray-500">{guardian.phone || 'N/A'}</div>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {new Date(guardian.created_at).toLocaleDateString()}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <button
+                      onClick={(e) => handleManageClick(e, guardian)}
+                      className="inline-flex items-center px-3 py-1 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                    >
+                      <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                      </svg>
+                      Manage
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        {/* Mobile Cards */}
+        <div className="block md:hidden space-y-4">
+          {currentData.map((guardian) => (
+            <div key={guardian.id} className="bg-white shadow rounded-lg p-4 border border-gray-100 w-full">
+              <div className="flex flex-col items-center justify-center gap-4">
+                <Image 
+                  src="/Person.png" 
+                  alt={`${guardian.first_name} ${guardian.last_name} profile picture`}
+                  width={56} 
+                  height={56} 
+                  className="rounded-full object-cover" 
+                />
+                <div className="text-base font-semibold text-[#1AA939]">
+                  {guardian.first_name} {guardian.last_name}
+                </div>
+              </div>
+              <div className="mt-3 text-sm flex flex-col items-center justify-center">
+                <p><span className="font-medium p-2">Email:</span> {guardian.email || 'N/A'}</p>
+                <p><span className="font-medium p-2">Phone:</span> {guardian.phone || 'N/A'}</p>
+                <p><span className="font-medium p-2">Created:</span> {new Date(guardian.created_at).toLocaleDateString()}</p>
+              </div>
+              <div className="mt-4 flex justify-center">
+                <button
+                  onClick={(e) => handleManageClick(e, guardian)}
+                  className="inline-flex items-center px-3 py-1 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700"
+                >
+                  <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
+                  Manage
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div className="flex flex-col md:flex-row md:justify-between md:items-center mt-4 px-6 gap-2">
+            <div>
+              Showing {startIndex + 1} to {Math.min(endIndex, data.length)} of {data.length} entries
+            </div>
+            <div className="flex items-center space-x-4">
+              <button
+                onClick={() => setCurrentPage(currentPage - 1)}
+                disabled={currentPage === 1}
+                className="px-4 py-2 font-bold bg-transparent rounded text-[#1AA939] border border-[#1AA939] hover:bg-[#1AA939] hover:text-white disabled cursor-pointer disabled:opacity-50"
+              >
+                Previous
+              </button>
+              <span>Page</span>
+              <button
+                onClick={() => setCurrentPage(currentPage + 1)}
+                disabled={endIndex >= data.length}
+                className="px-4 py-2 bg-[#1AA939] text-white font-bold rounded border border-[#1AA939] hover:bg-transparent hover:text-[#1AA939] disabled cursor-pointer"
+              >
+                Next
+              </button>
+            </div>
+          </div>
+        )}
       </div>
 
-      {/* Pagination */}
-      {totalPages > 1 && (
-        <div className="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
-          <div className="flex-1 flex justify-between sm:hidden">
-            <button
-              onClick={() => setCurrentPage(currentPage - 1)}
-              disabled={currentPage === 1}
-              className="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50"
-            >
-              Previous
-            </button>
-            <button
-              onClick={() => setCurrentPage(currentPage + 1)}
-              disabled={currentPage === totalPages}
-              className="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50"
-            >
-              Next
-            </button>
-          </div>
-          <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
-            <div>
-              <p className="text-sm text-gray-700">
-                Showing <span className="font-medium">{startIndex + 1}</span> to{' '}
-                <span className="font-medium">{Math.min(endIndex, guardiansData.length)}</span> of{' '}
-                <span className="font-medium">{guardiansData.length}</span> results
-              </p>
-            </div>
-            <div>
-              <nav className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px">
-                <button
-                  onClick={() => setCurrentPage(currentPage - 1)}
-                  disabled={currentPage === 1}
-                  className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50"
-                >
-                  Previous
-                </button>
-                {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                  <button
-                    key={page}
-                    onClick={() => setCurrentPage(page)}
-                    className={`relative inline-flex items-center px-4 py-2 border text-sm font-medium ${
-                      currentPage === page
-                        ? 'z-10 bg-green-50 border-green-500 text-green-600'
-                        : 'bg-white border-gray-300 text-gray-500 hover:bg-gray-50'
-                    }`}
-                  >
-                    {page}
-                  </button>
-                ))}
-                <button
-                  onClick={() => setCurrentPage(currentPage + 1)}
-                  disabled={currentPage === totalPages}
-                  className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50"
-                >
-                  Next
-                </button>
-              </nav>
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
+      {/* User Details Modal */}
+      <UserDetailsModal
+        user={selectedUser}
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+        onUserUpdated={handleUserUpdated}
+        onUserDeleted={handleUserDeleted}
+      />
+    </>
   );
 } 

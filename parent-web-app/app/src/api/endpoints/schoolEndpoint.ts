@@ -1,62 +1,33 @@
 export const SCHOOL_API = {
-    CLASSES_LIST: '/api/schools/classes',
-    SCHOOLS_CLASSES_RETRIEVES: '/api/schools/classes/retrieves',
-    SCHOOLS_CLASSES_LIST: '/api/schools/classes/list',
-    SCHOOLS_CLASSES_CREATE: '/api/schools/classes/create',
-    CLASSES_BY_ID: '/api/schools/classes/{id}',
-    FEES_LIST: '/api/schools/fees',
-    FEES_BY_ID: '/api/schools/fees/{id}',
-    RESULTS_LIST: '/api/schools/results',
-    RESULTS_BY_ID: '/api/schools/results/{id}',
-    SCHOOL_INFORMATION: '/api/schools/school-information',
-    SCHOOL_INFORMATION_BY_ID: '/api/schools/school-information/{id}',
-    SCHOOLS_LIST: '/api/schools/schools',
-    SCHOOLS_BY_ID: '/api/schools/schools/{id}',
-    // Subjects
-    SUBJECTS_LIST: '/api/schools/subjects/',
-    SUBJECTS_CREATE: '/api/schools/subjects/',
-    SUBJECTS_BY_ID: '/api/schools/subjects/{id}/',
-    SUBJECTS_UPDATE: '/api/schools/subjects/{id}/',
-    SUBJECTS_PARTIAL_UPDATE: '/api/schools/subjects/{id}/',
-    SUBJECTS_DELETE: '/api/schools/subjects/{id}/',
-    // Terms
-    TERMS_LIST: '/api/schools/terms',
-    TERMS_CREATE: '/api/schools/terms',
-    TERMS_BY_ID: '/api/schools/terms/{id}',
-    TERMS_UPDATE: '/api/schools/terms/{id}',
-    TERMS_PARTIAL_UPDATE: '/api/schools/terms/{id}',
-    TERMS_DELETE: '/api/schools/terms/{id}',
-    // Assignments
-    ASSIGNMENTS_LIST: '/api/schools/assignments/',
-    ASSIGNMENTS_CREATE: '/api/schools/assignments/',
-    ASSIGNMENTS_BY_ID: '/api/schools/assignments/{id}/',
-    ASSIGNMENTS_UPDATE: '/api/schools/assignments/{id}/',
-    ASSIGNMENTS_PARTIAL_UPDATE: '/api/schools/assignments/{id}/',
-    ASSIGNMENTS_DELETE: '/api/schools/assignments/{id}/',
-  
-    CLASSES_CREATE: '/api/schools/classes/',
-    CLASSES_UPDATE: '/api/schools/classes/{id}',
-    CLASSES_PARTIAL_UPDATE: '/api/schools/classes/{id}',
-    CLASSES_DELETE: '/api/schools/classes/{id}',
-
-    FEES_CREATE: '/api/schools/fees',
-    FEES_UPDATE: '/api/schools/fees/{id}',
-    FEES_PARTIAL_UPDATE: '/api/schools/fees/{id}',
-    FEES_DELETE: '/api/schools/fees/{id}',
+    // Classes
+    CLASSES: '/api/schools/classes/',
+    CLASSES_BY_ID: '/api/schools/classes/{id}/',
     
-    RESULTS_CREATE: '/api/schools/results',
-    RESULTS_UPDATE: '/api/schools/results/{id}',
-    RESULTS_PARTIAL_UPDATE: '/api/schools/results/{id}',
-    RESULTS_DELETE: '/api/schools/results/{id}',
-
-    SCHOOL_INFORMATION_CREATE: '/api/schools/school-information/',
-    SCHOOL_INFORMATION_RETRIEVE: '/api/schools/school-information/{id}/',
-    SCHOOL_INFORMATION_UPDATE: '/api/schools/school-information/{id}/',
-    SCHOOL_INFORMATION_PARTIAL_UPDATE: '/api/schools/school-information/{id}/',
-    SCHOOL_INFORMATION_DELETE: '/api/schools/school-information/{id}/',
-
-    SCHOOLS_CREATE: '/api/schools/schools',
-    SCHOOLS_UPDATE: '/api/schools/schools/{id}',
-    SCHOOLS_PARTIAL_UPDATE: '/api/schools/schools/{id}',
-    SCHOOLS_DELETE: '/api/schools/schools/{id}',
+    // Fees
+    FEES: '/api/schools/fees/',
+    FEES_BY_ID: '/api/schools/fees/{id}/',
+    
+    // Results
+    RESULTS: '/api/schools/results/',
+    RESULTS_BY_ID: '/api/schools/results/{id}/',
+    
+    // School Information
+    SCHOOL_INFORMATION: '/api/schools/school-information/',
+    SCHOOL_INFORMATION_BY_ID: '/api/schools/school-information/{id}/',
+    
+    // Schools
+    SCHOOLS: '/api/schools/schools/',
+    SCHOOLS_BY_ID: '/api/schools/schools/{id}/',
+    
+    // Subjects
+    SUBJECTS: '/api/schools/subjects/',
+    SUBJECTS_BY_ID: '/api/schools/subjects/{id}/',
+    
+    // Terms
+    TERMS: '/api/schools/terms/',
+    TERMS_BY_ID: '/api/schools/terms/{id}/',
+    
+    // Assignments
+    ASSIGNMENTS: '/api/schools/assignments/',
+    ASSIGNMENTS_BY_ID: '/api/schools/assignments/{id}/',
 }

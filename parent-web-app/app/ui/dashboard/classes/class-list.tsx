@@ -6,7 +6,7 @@ import { fetchSchoolClasses, ClassType } from "@/app/src/api/services/schoolServ
 
 type LevelGroup = {
   level: string;
-  classes: string[];
+  classes: ClassType[];
 };
 
 export default function ClassGroups() {
@@ -17,14 +17,14 @@ export default function ClassGroups() {
   const [error, setError] = useState("");
 
   const groupClassesByLevel = (classes: ClassType[]): LevelGroup[] => {
-    const grouped: { [key: string]: string[] } = {};
+    const grouped: { [key: string]: ClassType[] } = {};
     
     classes.forEach((classItem) => {
       const level = classItem.class_level.toLowerCase();
       if (!grouped[level]) {
         grouped[level] = [];
       }
-      grouped[level].push(classItem.class_name);
+      grouped[level].push(classItem);
     });
 
     return Object.entries(grouped).map(([level, classes]) => ({
@@ -85,8 +85,8 @@ export default function ClassGroups() {
     }
   }, [searchParams]);
 
-  const handleClassClick = (className: string) => {
-    router.push(`/dashboard/classes/class-details?classId=${encodeURIComponent(className)}`);
+  const handleClassClick = (classItem: ClassType) => {
+    router.push(`/dashboard/classes/class-details?classId=${encodeURIComponent(classItem.id)}`);
   };
 
   if (loading) {
@@ -130,13 +130,13 @@ export default function ClassGroups() {
               </h2>
               
               <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-2 md:gap-4 w-full mt-5 mb-5">
-                {group.classes.map((className) => (
+                {group.classes.map((classItem) => (
                   <div
-                    key={className}
-                    onClick={() => handleClassClick(className)}
+                    key={classItem.id}
+                    onClick={() => handleClassClick(classItem)}
                     className="border-2 border-[#00000024] p-2 flex items-center justify-center cursor-pointer hover:bg-gray-50 hover:border-[#1AA939] transition-colors"
                   >
-                    {className.toUpperCase()}
+                    {classItem.class_name.toUpperCase()}
                   </div>
                 ))}
               </div>

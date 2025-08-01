@@ -96,6 +96,8 @@ export default function Page() {
       
       const fetchedSubjects = await fetchSubjectsList();
       setSubjects(fetchedSubjects);
+      // Reset to first page when data is refreshed
+      setCurrentPage(1);
       console.log("Fetched subjects:", fetchedSubjects);
     } catch (error: any) {
       console.error("Error fetching subjects:", error);
@@ -124,6 +126,11 @@ export default function Page() {
   useEffect(() => {
     fetchSubjects();
   }, []);
+
+  // Reset to first page when search changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [search]);
 
   // Check if we should refresh (e.g., when returning from add-subject page)
   useEffect(() => {

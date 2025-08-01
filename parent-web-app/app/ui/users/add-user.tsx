@@ -26,6 +26,7 @@ export default function AddUserModal({ onClose, onSuccess }: AddUserModalProps) 
     { value: 'TEACHER', label: 'Teacher' },
     { value: 'GUARDIAN', label: 'Guardian' },
     { value: 'ADMIN', label: 'Admin' },
+    { value: 'SUPER_ADMIN', label: 'Super Admin' },
   ];
 
   const handleInputChange = (field: keyof CreateUserPayload, value: string) => {

@@ -13,11 +13,10 @@ export default function AddClassUI({ onClassAdded }: AddClassUIProps) {
     class_name: "",
     class_level: "",
     class_arm: "",
-    form_teacher_id: "774ee9c9-a23a-413c-85dc-36ac8f19a256",
-    capacity: 30,
-    created_by: "ee824cad-d7a6-4f48-87dc-e8461a9201c4", 
-    created_at: new Date().toISOString(),
-    school: "997b5388-c4ee-4b64-8b19-f252d6b255e7"
+    form_teacher_id: "92a3ff05-d633-4420-b552-c49dfa365946", // Using the provided teacher ID
+    capacity: 50,
+    created_by: "cdddc611-1fd3-4730-a819-9206c69b39d7", // School admin ID
+    school: "cdddc611-1fd3-4730-a819-9206c69b39d7" // School ID
   });
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
@@ -34,20 +33,29 @@ export default function AddClassUI({ onClassAdded }: AddClassUIProps) {
     e.preventDefault();
     setError("");
     setSuccess("");
+    
     // Basic validation
-    if (!form.class_name || !form.class_level || !form.created_by || !form.school) {
+    if (!form.class_name || !form.class_level) {
       setError("Please fill all required fields.");
       return;
     }
+    
     setLoading(true);
     try {
-      await createSchoolClass({
-        ...form,
-        id: Date.now().toString(),
-        updated_at: new Date().toISOString(),
-        class_arm: form.class_arm || null,
+      // Create payload matching the expected structure
+      const payload = {
+        created_by: form.created_by,
+        class_name: form.class_name,
+        class_level: form.class_level,
+        class_arm: form.class_arm.toUpperCase(), // Convert to uppercase as expected
+        form_teacher_id: form.form_teacher_id,
         capacity: Number(form.capacity),
-      });
+        school: form.school
+      };
+
+      console.log("Sending payload:", payload);
+      
+      await createSchoolClass(payload);
       setSuccess("Class added successfully!");
       
       // Reset form
@@ -55,11 +63,10 @@ export default function AddClassUI({ onClassAdded }: AddClassUIProps) {
         class_name: "",
         class_level: "",
         class_arm: "",
-        form_teacher_id: "",
-        capacity: 30,
-        created_by: "", 
-        created_at: new Date().toISOString(),
-        school: ""
+        form_teacher_id: "92a3ff05-d633-4420-b552-c49dfa365946",
+        capacity: 50,
+        created_by: "cdddc611-1fd3-4730-a819-9206c69b39d7",
+        school: "cdddc611-1fd3-4730-a819-9206c69b39d7"
       });
 
       // Call the callback to refresh classes list
@@ -71,9 +78,10 @@ export default function AddClassUI({ onClassAdded }: AddClassUIProps) {
       setTimeout(() => {
         router.push("/dashboard/classes?refresh=true");
       }, 1500);
-    } catch (err) {
-      setError("Failed to add class. Please try again.");
-      console.log(err)
+    } catch (err: any) {
+      console.error("Error adding class:", err);
+      console.error("Error response:", err.response?.data);
+      setError(`Failed to add class: ${err.response?.data?.message || err.message || 'Unknown error'}`);
     } finally {
       setLoading(false);
     }
@@ -84,6 +92,7 @@ export default function AddClassUI({ onClassAdded }: AddClassUIProps) {
       <h2 className="text-lg font-semibold mb-2">Add New Class</h2>
       {error && <div className="text-red-500 text-sm">{error}</div>}
       {success && <div className="text-green-600 text-sm">{success}</div>}
+      
       <div>
         <label className="block font-medium">Class Name<span className="text-red-500">*</span></label>
         <input
@@ -94,8 +103,10 @@ export default function AddClassUI({ onClassAdded }: AddClassUIProps) {
           onChange={handleChange}
           className="w-full border rounded px-2 py-1"
           required
+          placeholder="e.g., SS1A"
         />
       </div>
+      
       <div>
         <label className="block font-medium">Class Level<span className="text-red-500">*</span></label>
         <select
@@ -106,23 +117,24 @@ export default function AddClassUI({ onClassAdded }: AddClassUIProps) {
           required
         >
           <option value="">Select class level</option>
-          <option value="jss1">JSS1</option>
-          <option value="jss2">JSS2</option>
-          <option value="jss3">JSS3</option>
-          <option value="ss1">SS1</option>
-          <option value="ss2">SS2</option>
-          <option value="ss3">SS3</option>
-          <option value="primary 1">Primary 1</option>
-          <option value="primary 2">Primary 2</option>
-          <option value="primary 3">Primary 3</option>
-          <option value="primary 4">Primary 4</option>
-          <option value="primary 5">Primary 5</option>
-          <option value="primary 6">Primary 6</option>
-          <option value="nursery 1">Nursery 1</option>
-          <option value="nursery 2">Nursery 2</option>
-          <option value="nursery 3">Nursery 3</option>
+          <option value="JSS1">JSS1</option>
+          <option value="JSS2">JSS2</option>
+          <option value="JSS3">JSS3</option>
+          <option value="SS1">SS1</option>
+          <option value="SS2">SS2</option>
+          <option value="SS3">SS3</option>
+          <option value="PRIMARY1">Primary 1</option>
+          <option value="PRIMARY2">Primary 2</option>
+          <option value="PRIMARY3">Primary 3</option>
+          <option value="PRIMARY4">Primary 4</option>
+          <option value="PRIMARY5">Primary 5</option>
+          <option value="PRIMARY6">Primary 6</option>
+          <option value="NURSERY1">Nursery 1</option>
+          <option value="NURSERY2">Nursery 2</option>
+          <option value="NURSERY3">Nursery 3</option>
         </select>
       </div>
+      
       <div>
         <label className="block font-medium">Class Arm</label>
         <select
@@ -132,12 +144,13 @@ export default function AddClassUI({ onClassAdded }: AddClassUIProps) {
           className="w-full border rounded px-2 py-1"
         >
           <option value="">Select class arm</option>
-          <option value="nursery">Nursery</option>
-          <option value="primary">Primary</option>
-          <option value="junior">Junior</option>
-          <option value="senior">Senior</option>
+          <option value="NURSERY">Nursery</option>
+          <option value="PRIMARY">Primary</option>
+          <option value="JUNIOR">Junior</option>
+          <option value="SENIOR">Senior</option>
         </select>
       </div>
+      
       <div>
         <label className="block font-medium">Capacity</label>
         <input
@@ -146,23 +159,12 @@ export default function AddClassUI({ onClassAdded }: AddClassUIProps) {
           value={form.capacity}
           onChange={handleChange}
           className="w-full border rounded px-2 py-1"
+          min="1"
+          max="100"
         />
       </div>
-      {/* Hidden fields with default values */}
-      <input type="hidden" name="created_by" value={form.created_by} />
-      <input type="hidden" name="school" value={form.school} />
-      <div>
-        <label className="block font-medium">Created At</label>
-        <input
-          type="datetime-local"
-          name="created_at"
-          value={form.created_at.slice(0, 16)}
-          onChange={handleChange}
-          className="w-full border rounded px-2 py-1"
-          disabled
-        />
-      </div>
-      <button type="submit" className="bg-[#1AA939] text-white px-4 py-2 rounded mt-2" disabled={loading}>
+      
+      <button type="submit" className="bg-[#1AA939] text-white px-4 py-2 rounded mt-2 w-full" disabled={loading}>
         {loading ? "Adding..." : "Add Class"}
       </button>
     </form>

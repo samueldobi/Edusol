@@ -10,7 +10,7 @@ const links = [
   { name: 'Users', href: '/dashboard/users' },
   { name: 'Subjects', href: '/dashboard/subjects' },
   { name: 'Classes', href: '/dashboard/classes' },
-  // { name: 'Admin', href: '/dashboard/admin' },
+  { name: 'Fees', href: '/dashboard/fees' },
   // { name: 'Calendar', href: '/dashboard/calendar' },
   // { name: 'Activities', href: '/dashboard/activities' },
   // { name: 'Lesson Notes', href: '/dashboard/lesson-notes' },

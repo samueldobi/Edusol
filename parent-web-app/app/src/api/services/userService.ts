@@ -1,4 +1,5 @@
 import { userClient } from "../clients/userClient";
+import { USER_API } from "../endpoints/userEndpoints";
 
 // --- Types ---
 export interface UserType {
@@ -25,7 +26,6 @@ export interface CreateUserPayload {
   email?: string | null;
   user_type: "TEACHER" | "GUARDIAN" | "ADMIN" | "SUPER_ADMIN" | "STUDENT";
   created_at: string;
-
 }
 
 export interface UserCountResponse {
@@ -36,43 +36,119 @@ export interface UserCountResponse {
   guardian_count: number;
 }
 
-const USER_API = {
-  USERS_LIST: "/api/users/users/",
-  USERS_DETAIL: (id: string) => `/api/users/users/${id}/`,
-  USERS_COUNT: (school_id: string) => `/api/users/users/user_count/${school_id}/`,
+// Helper function to get the correct endpoint based on user type
+const getUserEndpoint = (userType: string) => {
+  switch (userType) {
+    case 'STUDENT':
+      return USER_API.STUDENTS;
+    case 'TEACHER':
+      return USER_API.TEACHERS;
+    case 'GUARDIAN':
+      return USER_API.GUARDIANS;
+    case 'ADMIN':
+    case 'SUPER_ADMIN':
+      return USER_API.ADMINS;
+    default:
+      throw new Error(`Invalid user type: ${userType}`);
+  }
 };
 
-// List all users
+// List all users - we'll need to fetch from all endpoints and combine
 export const fetchUsersList = async (): Promise<UserType[]> => {
-  const response = await userClient.get(USER_API.USERS_LIST);
-  return response.data;
+  try {
+    const [students, teachers, guardians, admins] = await Promise.all([
+      userClient.get(USER_API.STUDENTS).catch(() => ({ data: [] })),
+      userClient.get(USER_API.TEACHERS).catch(() => ({ data: [] })),
+      userClient.get(USER_API.GUARDIANS).catch(() => ({ data: [] })),
+      userClient.get(USER_API.ADMINS).catch(() => ({ data: [] })),
+    ]);
+
+    const allUsers = [
+      ...students.data.map((user: any) => ({ ...user, user_type: 'STUDENT' as const })),
+      ...teachers.data.map((user: any) => ({ ...user, user_type: 'TEACHER' as const })),
+      ...guardians.data.map((user: any) => ({ ...user, user_type: 'GUARDIAN' as const })),
+      ...admins.data.map((user: any) => ({ ...user, user_type: 'ADMIN' as const })),
+    ];
+
+    return allUsers;
+  } catch (error) {
+    console.error('Error fetching users:', error);
+    return [];
+  }
 };
 
-// Create a new user
+// Create a new user - route to the appropriate endpoint based on user type
 export const createUser = async (data: CreateUserPayload): Promise<UserType> => {
-  const response = await userClient.post(USER_API.USERS_LIST, data);
-  return response.data;
+  const endpoint = getUserEndpoint(data.user_type);
+  const response = await userClient.post(endpoint, data);
+  return { ...response.data, user_type: data.user_type };
 };
 
-// Get user by ID
+// Get user by ID - we'll need to try different endpoints
 export const fetchUserById = async (id: string): Promise<UserType> => {
-  const response = await userClient.get(USER_API.USERS_DETAIL(id));
-  return response.data;
+  // Try each endpoint to find the user
+  const endpoints = [
+    USER_API.STUDENTS,
+    USER_API.TEACHERS,
+    USER_API.GUARDIANS,
+    USER_API.ADMINS,
+  ];
+
+  for (const endpoint of endpoints) {
+    try {
+      const response = await userClient.get(`${endpoint}/${id}`);
+      return response.data;
+    } catch (error) {
+      // Continue to next endpoint if user not found
+      continue;
+    }
+  }
+  
+  throw new Error(`User with ID ${id} not found`);
 };
 
-// Update user by ID (PATCH)
+// Update user by ID (PATCH) - route to the appropriate endpoint
 export const updateUser = async (id: string, data: Partial<CreateUserPayload>): Promise<UserType> => {
-  const response = await userClient.patch(USER_API.USERS_DETAIL(id), data);
+  // First, we need to get the user to determine their type
+  const user = await fetchUserById(id);
+  const endpoint = getUserEndpoint(user.user_type);
+  const response = await userClient.patch(`${endpoint}/${id}`, data);
   return response.data;
 };
 
-// Delete user by ID
+// Delete user by ID - route to the appropriate endpoint
 export const deleteUser = async (id: string): Promise<void> => {
-  await userClient.delete(USER_API.USERS_DETAIL(id));
+  // First, we need to get the user to determine their type
+  const user = await fetchUserById(id);
+  const endpoint = getUserEndpoint(user.user_type);
+  await userClient.delete(`${endpoint}/${id}`);
 };
 
 // Get user counts for a school
 export const fetchUserCounts = async (school_id: string): Promise<UserCountResponse> => {
-  const response = await userClient.get(USER_API.USERS_COUNT(school_id));
-  return response.data;
+  try {
+    const [students, teachers, guardians, admins] = await Promise.all([
+      userClient.get(USER_API.STUDENTS).catch(() => ({ data: [] })),
+      userClient.get(USER_API.TEACHERS).catch(() => ({ data: [] })),
+      userClient.get(USER_API.GUARDIANS).catch(() => ({ data: [] })),
+      userClient.get(USER_API.ADMINS).catch(() => ({ data: [] })),
+    ]);
+
+    return {
+      users_count: students.data.length + teachers.data.length + guardians.data.length + admins.data.length,
+      student_count: students.data.length,
+      teacher_count: teachers.data.length,
+      guardian_count: guardians.data.length,
+      admin_count: admins.data.length,
+    };
+  } catch (error) {
+    console.error('Error fetching user counts:', error);
+    return {
+      users_count: 0,
+      student_count: 0,
+      teacher_count: 0,
+      guardian_count: 0,
+      admin_count: 0,
+    };
+  }
 };

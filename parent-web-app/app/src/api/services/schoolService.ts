@@ -17,8 +17,8 @@ export interface ClassType {
 
 export interface FeeType {
   id: string;
-  name: string;
-  amount: string;
+  fee_type: string;
+  fee_amount: number;
   image_url?: string | null;
   status: 'active' | 'inactive';
   created_at: string;
@@ -142,9 +142,17 @@ export type CreateTermPayload = {
   school: string;
 };
 
+export type CreateFeePayload = {
+  fee_type: string;
+  fee_amount: number;
+  status?: 'active' | 'inactive';
+  created_by?: string;
+  school?: string;
+};
+
 // Get Requests
 export const fetchSchoolClasses = async (): Promise<ClassType[]> => {
-  const response = await schoolClient.get(SCHOOL_API.CLASSES_LIST);
+  const response = await schoolClient.get(SCHOOL_API.CLASSES);
   return response.data;
 };
 export const fetchSchoolClassById = async (id: string): Promise<ClassType> => {
@@ -152,7 +160,7 @@ export const fetchSchoolClassById = async (id: string): Promise<ClassType> => {
   return response.data;
 };
 export const fetchSchoolFeesList= async (): Promise<FeeType[]> => {
-  const response = await schoolClient.get(SCHOOL_API.FEES_LIST);
+  const response = await schoolClient.get(SCHOOL_API.FEES);
   return response.data;
 };
 export const fetchSchoolFeesListById= async (id: string): Promise<FeeType> => {
@@ -160,7 +168,7 @@ export const fetchSchoolFeesListById= async (id: string): Promise<FeeType> => {
   return response.data;
 };
 export const fetchSchoolResultList= async (): Promise<ResultType[]> => {
-  const response = await schoolClient.get(SCHOOL_API.RESULTS_LIST);
+  const response = await schoolClient.get(SCHOOL_API.RESULTS);
   return response.data;
 };
 export const fetchSchoolResultById= async (id: string): Promise<ResultType> => {
@@ -172,11 +180,11 @@ export const fetchSchoolInformation= async (): Promise<SchoolInformationType> =>
   return response.data;
 };
 export const fetchSchoolInformationById= async (id: string): Promise<SchoolInformationType> => {
-  const response = await schoolClient.get(SCHOOL_API.SCHOOL_INFORMATION_RETRIEVE.replace('{id}', id));
+  const response = await schoolClient.get(SCHOOL_API.SCHOOL_INFORMATION_BY_ID.replace('{id}', id));
   return response.data;
 };
 export const fetchSchoolsList= async (): Promise<SchoolType[]> => {
-  const response = await schoolClient.get(SCHOOL_API.SCHOOLS_LIST);
+  const response = await schoolClient.get(SCHOOL_API.SCHOOLS);
   return response.data;
 };
 export const fetchSchoolsListById= async (id: string): Promise<SchoolType> => {
@@ -186,97 +194,104 @@ export const fetchSchoolsListById= async (id: string): Promise<SchoolType> => {
 
 // -------------------- CLASSES --------------------
 export const createSchoolClass = async (data: ClassType): Promise<ClassType> => {
-  const response = await schoolClient.post(SCHOOL_API.CLASSES_CREATE, data);
+  const response = await schoolClient.post(SCHOOL_API.CLASSES, data);
   return response.data;
 };
 export const updateSchoolClass = async (id: string, data: ClassType): Promise<ClassType> => {
-  const response = await schoolClient.put(SCHOOL_API.CLASSES_UPDATE.replace('{id}', id), data);
+  const response = await schoolClient.put(SCHOOL_API.CLASSES_BY_ID.replace('{id}', id), data);
   return response.data;
 };
 export const partialUpdateSchoolClass = async (id: string, data: Partial<ClassType>): Promise<ClassType> => {
-  const response = await schoolClient.patch(SCHOOL_API.CLASSES_PARTIAL_UPDATE.replace('{id}', id), data);
+  const response = await schoolClient.patch(SCHOOL_API.CLASSES_BY_ID.replace('{id}', id), data);
   return response.data;
 };
 export const deleteSchoolClass = async (id: string): Promise<ClassType> => {
-  const response = await schoolClient.delete(SCHOOL_API.CLASSES_DELETE.replace('{id}', id));
+  const response = await schoolClient.delete(SCHOOL_API.CLASSES_BY_ID.replace('{id}', id));
   return response.data;
 };
 
 // -------------------- FEES --------------------
-export const createSchoolFee = async (data: FeeType): Promise<FeeType> => {
-  const response = await schoolClient.post(SCHOOL_API.FEES_CREATE, data);
+export const fetchFeesList = async (): Promise<FeeType[]> => {
+  const response = await schoolClient.get(SCHOOL_API.FEES);
   return response.data;
 };
-export const updateSchoolFee = async (id: string, data: FeeType): Promise<FeeType> => {
-  const response = await schoolClient.put(SCHOOL_API.FEES_UPDATE.replace('{id}', id), data);
+
+export const fetchFeeById = async (id: string): Promise<FeeType> => {
+  const response = await schoolClient.get(SCHOOL_API.FEES_BY_ID.replace('{id}', id));
   return response.data;
 };
-export const partialUpdateSchoolFee = async (id: string, data: Partial<FeeType>): Promise<FeeType> => {
-  const response = await schoolClient.patch(SCHOOL_API.FEES_PARTIAL_UPDATE.replace('{id}', id), data);
+
+export const createFee = async (data: CreateFeePayload): Promise<FeeType> => {
+  const response = await schoolClient.post(SCHOOL_API.FEES, data);
   return response.data;
 };
-export const deleteSchoolFee = async (id: string): Promise<FeeType> => {
-  const response = await schoolClient.delete(SCHOOL_API.FEES_DELETE.replace('{id}', id));
+
+export const updateFee = async (id: string, data: Partial<CreateFeePayload>): Promise<FeeType> => {
+  const response = await schoolClient.patch(SCHOOL_API.FEES_BY_ID.replace('{id}', id), data);
   return response.data;
+};
+
+export const deleteFee = async (id: string): Promise<void> => {
+  await schoolClient.delete(SCHOOL_API.FEES_BY_ID.replace('{id}', id));
 };
 
 // -------------------- RESULTS --------------------
 export const createSchoolResult = async (data: ResultType): Promise<ResultType> => {
-  const response = await schoolClient.post(SCHOOL_API.RESULTS_CREATE, data);
+  const response = await schoolClient.post(SCHOOL_API.RESULTS, data);
   return response.data;
 };
 export const updateSchoolResult = async (id: string, data: ResultType): Promise<ResultType> => {
-  const response = await schoolClient.put(SCHOOL_API.RESULTS_UPDATE.replace('{id}', id), data);
+  const response = await schoolClient.put(SCHOOL_API.RESULTS_BY_ID.replace('{id}', id), data);
   return response.data;
 };
 export const partialUpdateSchoolResult = async (id: string, data: Partial<ResultType>): Promise<ResultType> => {
-  const response = await schoolClient.patch(SCHOOL_API.RESULTS_PARTIAL_UPDATE.replace('{id}', id), data);
+  const response = await schoolClient.patch(SCHOOL_API.RESULTS_BY_ID.replace('{id}', id), data);
   return response.data;
 };
 export const deleteSchoolResult = async (id: string): Promise<ResultType> => {
-  const response = await schoolClient.delete(SCHOOL_API.RESULTS_DELETE.replace('{id}', id));
+  const response = await schoolClient.delete(SCHOOL_API.RESULTS_BY_ID.replace('{id}', id));
   return response.data;
 };
 
 // -------------------- SCHOOL INFORMATION --------------------
 export const createSchoolInformation = async (data: SchoolInformationType): Promise<SchoolInformationType> => {
-  const response = await schoolClient.post(SCHOOL_API.SCHOOL_INFORMATION_CREATE, data);
+  const response = await schoolClient.post(SCHOOL_API.SCHOOL_INFORMATION, data);
   return response.data;
 };
 export const updateSchoolInformation = async (id: string, data: SchoolInformationType): Promise<SchoolInformationType> => {
-  const response = await schoolClient.put(SCHOOL_API.SCHOOL_INFORMATION_UPDATE.replace('{id}', id), data);
+  const response = await schoolClient.put(SCHOOL_API.SCHOOL_INFORMATION_BY_ID.replace('{id}', id), data);
   return response.data;
 };
 export const partialUpdateSchoolInformation = async (id: string, data: Partial<SchoolInformationType>): Promise<SchoolInformationType> => {
-  const response = await schoolClient.patch(SCHOOL_API.SCHOOL_INFORMATION_PARTIAL_UPDATE.replace('{id}', id), data);
+  const response = await schoolClient.patch(SCHOOL_API.SCHOOL_INFORMATION_BY_ID.replace('{id}', id), data);
   return response.data;
 };
 export const deleteSchoolInformation = async (id: string): Promise<SchoolInformationType> => {
-  const response = await schoolClient.delete(SCHOOL_API.SCHOOL_INFORMATION_DELETE.replace('{id}', id));
+  const response = await schoolClient.delete(SCHOOL_API.SCHOOL_INFORMATION_BY_ID.replace('{id}', id));
   return response.data;
 };
 
 // -------------------- SCHOOLS --------------------
 export const createSchool = async (data: SchoolType): Promise<SchoolType> => {
-  const response = await schoolClient.post(SCHOOL_API.SCHOOLS_CREATE, data);
+  const response = await schoolClient.post(SCHOOL_API.SCHOOLS, data);
   return response.data;
 };
 export const updateSchool = async (id: string, data: SchoolType): Promise<SchoolType> => {
-  const response = await schoolClient.put(SCHOOL_API.SCHOOLS_UPDATE.replace('{id}', id), data);
+  const response = await schoolClient.put(SCHOOL_API.SCHOOLS_BY_ID.replace('{id}', id), data);
   return response.data;
 };
 export const partialUpdateSchool = async (id: string, data: Partial<SchoolType>): Promise<SchoolType> => {
-  const response = await schoolClient.patch(SCHOOL_API.SCHOOLS_PARTIAL_UPDATE.replace('{id}', id), data);
+  const response = await schoolClient.patch(SCHOOL_API.SCHOOLS_BY_ID.replace('{id}', id), data);
   return response.data;
 };
 export const deleteSchool = async (id: string): Promise<SchoolType> => {
-  const response = await schoolClient.delete(SCHOOL_API.SCHOOLS_DELETE.replace('{id}', id));
+  const response = await schoolClient.delete(SCHOOL_API.SCHOOLS_BY_ID.replace('{id}', id));
   return response.data;
 };
 
 // -------------------- SUBJECTS --------------------
 export const fetchSubjectsList = async (): Promise<SubjectType[]> => {
-  const response = await schoolClient.get(SCHOOL_API.SUBJECTS_LIST);
+  const response = await schoolClient.get(SCHOOL_API.SUBJECTS);
   return response.data;
 };
 export const fetchSubjectById = async (id: string): Promise<SubjectType> => {
@@ -285,25 +300,25 @@ export const fetchSubjectById = async (id: string): Promise<SubjectType> => {
 };
 
 export const createSubject = async (data: CreateSubjectPayload): Promise<SubjectType> => {
-  const response = await schoolClient.post(SCHOOL_API.SUBJECTS_CREATE, data);
+  const response = await schoolClient.post(SCHOOL_API.SUBJECTS, data);
   return response.data;
 };
 export const updateSubject = async (id: string, data: SubjectType): Promise<SubjectType> => {
-  const response = await schoolClient.put(SCHOOL_API.SUBJECTS_UPDATE.replace('{id}', id), data);
+  const response = await schoolClient.put(SCHOOL_API.SUBJECTS_BY_ID.replace('{id}', id), data);
   return response.data;
 };
 export const partialUpdateSubject = async (id: string, data: Partial<SubjectType>): Promise<SubjectType> => {
-  const response = await schoolClient.patch(SCHOOL_API.SUBJECTS_PARTIAL_UPDATE.replace('{id}', id), data);
+  const response = await schoolClient.patch(SCHOOL_API.SUBJECTS_BY_ID.replace('{id}', id), data);
   return response.data;
 };
 export const deleteSubject = async (id: string): Promise<SubjectType> => {
-  const response = await schoolClient.delete(SCHOOL_API.SUBJECTS_DELETE.replace('{id}', id));
+  const response = await schoolClient.delete(SCHOOL_API.SUBJECTS_BY_ID.replace('{id}', id));
   return response.data;
 };
 
 // -------------------- TERMS --------------------
 export const fetchTermsList = async (): Promise<TermType[]> => {
-  const response = await schoolClient.get(SCHOOL_API.TERMS_LIST);
+  const response = await schoolClient.get(SCHOOL_API.TERMS);
   return response.data;
 };
 export const fetchTermById = async (id: string): Promise<TermType> => {
@@ -311,25 +326,25 @@ export const fetchTermById = async (id: string): Promise<TermType> => {
   return response.data;
 };
 export const createTerm = async (data: CreateTermPayload): Promise<TermType> => {
-  const response = await schoolClient.post(SCHOOL_API.TERMS_CREATE, data);
+  const response = await schoolClient.post(SCHOOL_API.TERMS, data);
   return response.data;
 };
 export const updateTerm = async (id: string, data: TermType): Promise<TermType> => {
-  const response = await schoolClient.put(SCHOOL_API.TERMS_UPDATE.replace('{id}', id), data);
+  const response = await schoolClient.put(SCHOOL_API.TERMS_BY_ID.replace('{id}', id), data);
   return response.data;
 };
 export const partialUpdateTerm = async (id: string, data: Partial<TermType>): Promise<TermType> => {
-  const response = await schoolClient.patch(SCHOOL_API.TERMS_PARTIAL_UPDATE.replace('{id}', id), data);
+  const response = await schoolClient.patch(SCHOOL_API.TERMS_BY_ID.replace('{id}', id), data);
   return response.data;
 };
 export const deleteTerm = async (id: string): Promise<TermType> => {
-  const response = await schoolClient.delete(SCHOOL_API.TERMS_DELETE.replace('{id}', id));
+  const response = await schoolClient.delete(SCHOOL_API.TERMS_BY_ID.replace('{id}', id));
   return response.data;
 };
 
 // -------------------- ASSIGNMENTS --------------------
 export const fetchAssignmentsList = async (): Promise<AssignmentType[]> => {
-  const response = await schoolClient.get(SCHOOL_API.ASSIGNMENTS_LIST);
+  const response = await schoolClient.get(SCHOOL_API.ASSIGNMENTS);
   return response.data;
 };
 export const fetchAssignmentById = async (id: string): Promise<AssignmentType> => {
@@ -337,18 +352,18 @@ export const fetchAssignmentById = async (id: string): Promise<AssignmentType> =
   return response.data;
 };
 export const createAssignment = async (data: CreateAssignmentPayload): Promise<AssignmentType> => {
-  const response = await schoolClient.post(SCHOOL_API.ASSIGNMENTS_CREATE, data);
+  const response = await schoolClient.post(SCHOOL_API.ASSIGNMENTS, data);
   return response.data;
 };
 export const updateAssignment = async (id: string, data: AssignmentType): Promise<AssignmentType> => {
-  const response = await schoolClient.put(SCHOOL_API.ASSIGNMENTS_UPDATE.replace('{id}', id), data);
+  const response = await schoolClient.put(SCHOOL_API.ASSIGNMENTS_BY_ID.replace('{id}', id), data);
   return response.data;
 };
 export const partialUpdateAssignment = async (id: string, data: Partial<AssignmentType>): Promise<AssignmentType> => {
-  const response = await schoolClient.patch(SCHOOL_API.ASSIGNMENTS_PARTIAL_UPDATE.replace('{id}', id), data);
+  const response = await schoolClient.patch(SCHOOL_API.ASSIGNMENTS_BY_ID.replace('{id}', id), data);
   return response.data;
 };
 export const deleteAssignment = async (id: string): Promise<AssignmentType> => {
-  const response = await schoolClient.delete(SCHOOL_API.ASSIGNMENTS_DELETE.replace('{id}', id));
+  const response = await schoolClient.delete(SCHOOL_API.ASSIGNMENTS_BY_ID.replace('{id}', id));
   return response.data;
 };

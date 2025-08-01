@@ -258,7 +258,7 @@ export const logout = async (): Promise<{ message: string }> => {
 // ===== USER MANAGEMENT FUNCTIONS =====
 
 export const fetchUsersList = async (): Promise<UserType[]> => {
-  const response = await authServiceClient.get(AUTH_API.USERS_LIST);
+  const response = await authServiceClient.get(AUTH_API.USERS);
   return response.data;
 };
 
@@ -268,29 +268,29 @@ export const fetchUserById = async (id: string): Promise<UserType> => {
 };
 
 export const createUser = async (data: CreateUserPayload): Promise<UserType> => {
-  const response = await authServiceClient.post(AUTH_API.USERS_CREATE, data);
+  const response = await authServiceClient.post(AUTH_API.USERS, data);
   return response.data;
 };
 
 export const updateUser = async (id: string, data: UpdateUserPayload): Promise<UserType> => {
-  const response = await authServiceClient.put(AUTH_API.USERS_UPDATE.replace('{id}', id), data);
+  const response = await authServiceClient.put(AUTH_API.USERS_BY_ID.replace('{id}', id), data);
   return response.data;
 };
 
 export const partialUpdateUser = async (id: string, data: Partial<UpdateUserPayload>): Promise<UserType> => {
-  const response = await authServiceClient.patch(AUTH_API.USERS_PARTIAL_UPDATE.replace('{id}', id), data);
+  const response = await authServiceClient.patch(AUTH_API.USERS_BY_ID.replace('{id}', id), data);
   return response.data;
 };
 
 export const deleteUser = async (id: string): Promise<UserType> => {
-  const response = await authServiceClient.delete(AUTH_API.USERS_DELETE.replace('{id}', id));
+  const response = await authServiceClient.delete(AUTH_API.USERS_BY_ID.replace('{id}', id));
   return response.data;
 };
 
 // ===== ROLE MANAGEMENT FUNCTIONS =====
 
 export const fetchRolesList = async (): Promise<RoleType[]> => {
-  const response = await authServiceClient.get(AUTH_API.ROLES_LIST);
+  const response = await authServiceClient.get(AUTH_API.ROLES);
   return response.data;
 };
 
@@ -300,29 +300,29 @@ export const fetchRoleById = async (id: string): Promise<RoleType> => {
 };
 
 export const createRole = async (data: CreateRolePayload): Promise<RoleType> => {
-  const response = await authServiceClient.post(AUTH_API.ROLES_CREATE, data);
+  const response = await authServiceClient.post(AUTH_API.ROLES, data);
   return response.data;
 };
 
 export const updateRole = async (id: string, data: RoleType): Promise<RoleType> => {
-  const response = await authServiceClient.put(AUTH_API.ROLES_UPDATE.replace('{id}', id), data);
+  const response = await authServiceClient.put(AUTH_API.ROLES_BY_ID.replace('{id}', id), data);
   return response.data;
 };
 
 export const partialUpdateRole = async (id: string, data: Partial<RoleType>): Promise<RoleType> => {
-  const response = await authServiceClient.patch(AUTH_API.ROLES_PARTIAL_UPDATE.replace('{id}', id), data);
+  const response = await authServiceClient.patch(AUTH_API.ROLES_BY_ID.replace('{id}', id), data);
   return response.data;
 };
 
 export const deleteRole = async (id: string): Promise<RoleType> => {
-  const response = await authServiceClient.delete(AUTH_API.ROLES_DELETE.replace('{id}', id));
+  const response = await authServiceClient.delete(AUTH_API.ROLES_BY_ID.replace('{id}', id));
   return response.data;
 };
 
 // ===== PERMISSION MANAGEMENT FUNCTIONS =====
 
 export const fetchPermissionsList = async (): Promise<PermissionType[]> => {
-  const response = await authServiceClient.get(AUTH_API.PERMISSIONS_LIST);
+  const response = await authServiceClient.get(AUTH_API.PERMISSIONS);
   return response.data;
 };
 
@@ -332,29 +332,29 @@ export const fetchPermissionById = async (id: string): Promise<PermissionType> =
 };
 
 export const createPermission = async (data: CreatePermissionPayload): Promise<PermissionType> => {
-  const response = await authServiceClient.post(AUTH_API.PERMISSIONS_CREATE, data);
+  const response = await authServiceClient.post(AUTH_API.PERMISSIONS, data);
   return response.data;
 };
 
 export const updatePermission = async (id: string, data: PermissionType): Promise<PermissionType> => {
-  const response = await authServiceClient.put(AUTH_API.PERMISSIONS_UPDATE.replace('{id}', id), data);
+  const response = await authServiceClient.put(AUTH_API.PERMISSIONS_BY_ID.replace('{id}', id), data);
   return response.data;
 };
 
 export const partialUpdatePermission = async (id: string, data: Partial<PermissionType>): Promise<PermissionType> => {
-  const response = await authServiceClient.patch(AUTH_API.PERMISSIONS_PARTIAL_UPDATE.replace('{id}', id), data);
+  const response = await authServiceClient.patch(AUTH_API.PERMISSIONS_BY_ID.replace('{id}', id), data);
   return response.data;
 };
 
 export const deletePermission = async (id: string): Promise<PermissionType> => {
-  const response = await authServiceClient.delete(AUTH_API.PERMISSIONS_DELETE.replace('{id}', id));
+  const response = await authServiceClient.delete(AUTH_API.PERMISSIONS_BY_ID.replace('{id}', id));
   return response.data;
 };
 
 // ===== USER ROLE FUNCTIONS =====
 
 export const fetchUserRolesList = async (): Promise<UserRoleType[]> => {
-  const response = await authServiceClient.get(AUTH_API.USER_ROLES_LIST);
+  const response = await authServiceClient.get(AUTH_API.USER_ROLES);
   return response.data;
 };
 
@@ -364,22 +364,22 @@ export const fetchUserRoleById = async (id: string): Promise<UserRoleType> => {
 };
 
 export const createUserRole = async (data: CreateUserRolePayload): Promise<UserRoleType> => {
-  const response = await authServiceClient.post(AUTH_API.USER_ROLES_CREATE, data);
+  const response = await authServiceClient.post(AUTH_API.USER_ROLES, data);
   return response.data;
 };
 
 export const updateUserRole = async (id: string, data: UserRoleType): Promise<UserRoleType> => {
-  const response = await authServiceClient.put(AUTH_API.USER_ROLES_UPDATE.replace('{id}', id), data);
+  const response = await authServiceClient.put(AUTH_API.USER_ROLES_BY_ID.replace('{id}', id), data);
   return response.data;
 };
 
 export const partialUpdateUserRole = async (id: string, data: Partial<UserRoleType>): Promise<UserRoleType> => {
-  const response = await authServiceClient.patch(AUTH_API.USER_ROLES_PARTIAL_UPDATE.replace('{id}', id), data);
+  const response = await authServiceClient.patch(AUTH_API.USER_ROLES_BY_ID.replace('{id}', id), data);
   return response.data;
 };
 
 export const deleteUserRole = async (id: string): Promise<UserRoleType> => {
-  const response = await authServiceClient.delete(AUTH_API.USER_ROLES_DELETE.replace('{id}', id));
+  const response = await authServiceClient.delete(AUTH_API.USER_ROLES_BY_ID.replace('{id}', id));
   return response.data;
 };
 

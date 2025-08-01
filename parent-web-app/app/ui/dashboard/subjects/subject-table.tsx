@@ -25,10 +25,22 @@ export default function SubjectTable({ rowsPerPage, currentPage, setCurrentPage,
   const startIndex = (currentPage - 1) * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
   const paginatedData = data.slice(startIndex, endIndex);
-  // const totalPages = Math.ceil(data.length / rowsPerPage);
+  const totalPages = Math.ceil(data.length / rowsPerPage);
 
   const changePage = (newPage: number) => {
     setCurrentPage(newPage);
+  };
+
+  // Handle edge cases for pagination display
+  const getDisplayText = () => {
+    if (data.length === 0) {
+      return "Showing 0 to 0 of 0 entries";
+    }
+    
+    const actualStart = startIndex + 1;
+    const actualEnd = Math.min(endIndex, data.length);
+    
+    return `Showing ${actualStart} to ${actualEnd} of ${data.length} entries`;
   };
 
   return (
@@ -108,7 +120,7 @@ export default function SubjectTable({ rowsPerPage, currentPage, setCurrentPage,
       {/* Pagination */}
       <div className="flex flex-col md:flex-row md:justify-between md:items-center mt-4 px-6 gap-2">
         <div>
-          Showing {startIndex + 1} to {Math.min(endIndex, data.length)} of {data.length} entries
+          {getDisplayText()}
         </div>
         <div className="flex items-center space-x-4">
           <button
@@ -118,10 +130,10 @@ export default function SubjectTable({ rowsPerPage, currentPage, setCurrentPage,
           >
             Previous
           </button>
-          <span>Page</span>
+          <span>Page {currentPage} of {totalPages || 1}</span>
           <button
             onClick={() => changePage(currentPage + 1)}
-            disabled={endIndex >= data.length}
+            disabled={currentPage >= totalPages || data.length === 0}
             className="px-4 py-2 bg-[#1AA939] text-white font-bold rounded border border-[#1AA939] hover:bg-transparent hover:text-[#1AA939] disabled cursor-pointer"
           >
             Next
