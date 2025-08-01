@@ -1,11 +1,13 @@
 "use client"
 import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
+import { fetchUsersList, UserType } from "@/app/src/api/services/userService";
 import UserStats from "@/app/ui/dashboard/users/user-stats";
 import UserTable from "@/app/ui/dashboard/users/user-table";
 import StudentTable from "@/app/ui/dashboard/users/student-table";
 import TeacherTable from "@/app/ui/dashboard/users/teacher-table";
 import AdminTable from "@/app/ui/dashboard/users/admin-table";
+import GuardianTable from "@/app/ui/dashboard/users/guardian-table";
 import UserEntries from "@/app/ui/dashboard/users/user-entries";
 import { teachersTable } from '@/app/lib/placeholder-data';
 
@@ -29,6 +31,29 @@ export default function Page() {
   const [currentPage, setCurrentPage] = useState(1);
   const [search, setSearch] = useState("");
   const [activeTab, setActiveTab] = useState("students");
+  const [users, setUsers] = useState<UserType[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // Fetch users from API
+  const loadUsers = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const usersData = await fetchUsersList();
+      setUsers(usersData);
+    } catch (err: any) {
+      console.error('Failed to load users:', err);
+      setError(err.message || 'Failed to load users');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Load users on mount and when returning from add user page
+  useEffect(() => {
+    loadUsers();
+  }, []);
 
   // Get the filter from URL params
   useEffect(() => {
@@ -47,30 +72,51 @@ export default function Page() {
     
     switch (activeTab) {
       case 'students':
-        data = mockStudents.filter(student =>
-          student.student_name.toLowerCase().includes(search.toLowerCase()) ||
-          student.parent_name.toLowerCase().includes(search.toLowerCase()) ||
-          student.class.toLowerCase().includes(search.toLowerCase()) ||
-          student.gender.toLowerCase().includes(search.toLowerCase()) ||
-          student.phone_number.includes(search)
+        // Filter real users by student type
+        data = users.filter(user => 
+          user.user_type === 'STUDENT' && (
+            user.first_name?.toLowerCase().includes(search.toLowerCase()) ||
+            user.last_name?.toLowerCase().includes(search.toLowerCase()) ||
+            user.email?.toLowerCase().includes(search.toLowerCase()) ||
+            user.phone?.includes(search)
+          )
         );
         break;
       case 'teachers':
-        data = teachersTable.filter(teacher =>
-          (teacher.name && teacher.name.toLowerCase().includes(search.toLowerCase())) ||
-          (teacher.subject && teacher.subject.toLowerCase().includes(search.toLowerCase())) ||
-          (teacher.class && teacher.class.toLowerCase().includes(search.toLowerCase())) ||
-          (teacher.arm && teacher.arm.toLowerCase().includes(search.toLowerCase()))
+        // Filter real users by teacher type
+        data = users.filter(user => 
+          user.user_type === 'TEACHER' && (
+            user.first_name?.toLowerCase().includes(search.toLowerCase()) ||
+            user.last_name?.toLowerCase().includes(search.toLowerCase()) ||
+            user.email?.toLowerCase().includes(search.toLowerCase()) ||
+            user.phone?.includes(search)
+          )
+        );
+        break;
+      case 'guardians':
+        // Filter real users by guardian type
+        data = users.filter(user => 
+          user.user_type === 'GUARDIAN' && (
+            user.first_name?.toLowerCase().includes(search.toLowerCase()) ||
+            user.last_name?.toLowerCase().includes(search.toLowerCase()) ||
+            user.email?.toLowerCase().includes(search.toLowerCase()) ||
+            user.phone?.includes(search)
+          )
         );
         break;
       case 'admin':
-        // For admin, we'll use the same data structure but filter differently
-        data = mockStudents.filter(student =>
-          student.student_name.toLowerCase().includes(search.toLowerCase())
+        // Filter real users by admin type
+        data = users.filter(user => 
+          user.user_type === 'ADMIN' && (
+            user.first_name?.toLowerCase().includes(search.toLowerCase()) ||
+            user.last_name?.toLowerCase().includes(search.toLowerCase()) ||
+            user.email?.toLowerCase().includes(search.toLowerCase()) ||
+            user.phone?.includes(search)
+          )
         );
         break;
       default:
-        data = mockStudents;
+        data = users;
     }
     
     return data;
@@ -79,6 +125,22 @@ export default function Page() {
   const filteredData = getFilteredData();
 
   const renderTable = () => {
+    if (loading) {
+      return (
+        <div className="flex justify-center items-center p-8">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-green-600"></div>
+        </div>
+      );
+    }
+
+    if (error) {
+      return (
+        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-4">
+          {error}
+        </div>
+      );
+    }
+
     switch (activeTab) {
       case 'students':
         return (
@@ -92,6 +154,15 @@ export default function Page() {
       case 'teachers':
         return (
           <TeacherTable
+            rowsPerPage={rowsPerPage}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+            data={filteredData}
+          />
+        );
+      case 'guardians':
+        return (
+          <GuardianTable
             rowsPerPage={rowsPerPage}
             currentPage={currentPage}
             setCurrentPage={setCurrentPage}

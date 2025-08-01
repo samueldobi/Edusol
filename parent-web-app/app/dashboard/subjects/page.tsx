@@ -3,7 +3,7 @@ import SubjectTable from "@/app/ui/dashboard/subjects/subject-table";
 import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import Image from "next/image";
-import Link from "next/link";
+import AddSubjectModal from "@/app/ui/dashboard/subjects/add-subject-modal";
 import { fetchSubjectsList, SubjectType } from "@/app/src/api/services/schoolService";
 
 // Commented out mock data as requested
@@ -219,11 +219,9 @@ export default function Page() {
                 alt="plus icon"
               />
             </span>
-            <Link href="/dashboard/subjects/add-subject">
-              <span className="text-[16px] sm:text-[18px] md:text-[20px] text-[#2eb24c] font-semibold tracking-wide">
-                Add Subject
-              </span>
-            </Link>
+            <span className="text-[16px] sm:text-[18px] md:text-[20px] text-[#2eb24c] font-semibold tracking-wide">
+              Add Subject
+            </span>
           </button>
         </div>
       </div>
@@ -256,7 +254,15 @@ export default function Page() {
         setCurrentPage={setCurrentPage}
         data={filteredSubjects}
       />
-     
+      {showAddSubject && (
+        <AddSubjectModal
+          onClose={() => setShowAddSubject(false)}
+          onSuccess={() => {
+            fetchSubjects();
+            setShowAddSubject(false);
+          }}
+        />
+      )}
     </>
   );
 }

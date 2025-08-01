@@ -213,13 +213,14 @@ export const createNotification = async (data: SendNotificationPayload & { tag?:
       throw new Error('Missing required field: tag ID');
     }
 
-    // Create the payload with the tag ID
+    
     const payload = {
-      tag: data.tag, // This should be the tag ID from createTagAndReturnId
+      //  tag ID from createTagAndReturnId
+      tag: data.tag, 
       subject: data.title.trim(),
       receipient: data.recipient_id.trim(),
       body: data.message.trim(),
-      type: data.type, // Add the type field
+      type: data.type, 
     };
     
     console.log('[createNotification] Input data:', data);
@@ -243,7 +244,7 @@ export const createNotification = async (data: SendNotificationPayload & { tag?:
       headers: error.config?.headers,
     });
     
-    // Re-throw with more context
+    
     throw new Error(`Failed to create notification: ${error.response?.data?.message || error.message}`);
   }
 };
@@ -252,10 +253,10 @@ export const partialUpdateNotification = async (id: string, data: Partial<Notifi
   try {
     console.log('[partialUpdateNotification] Updating notification:', { id, data });
     
-    // Transform the data to match backend expectations
+
     const backendPayload: any = {};
     
-    // Map frontend fields to backend fields
+
     if (data.title !== undefined) {
       backendPayload.subject = data.title;
     }

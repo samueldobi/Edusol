@@ -19,8 +19,8 @@ export default function AdminNav({ activeTab, setActiveTab }: AdminNavProps) {
         />
         {/* Name and ID */}
         <div>
-          <div className="text-lg font-semibold text-gray-800">Tenderkids Secondary School Admin</div>
-          <div className="text-sm text-gray-500">Mr Ajayi</div>
+          <div className="text-lg font-semibold text-gray-800">Radiance  Secondary School Admin</div>
+          <div className="text-sm text-gray-500">Mrs  Sarah Ademola</div>
         </div>
       </div>
 

@@ -2,55 +2,46 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-
-interface Student {
-  id: number;
-  student_name: string;
-  parent_name: string;
-  gender: string;
-  phone_number: string;
-  class: string;
-  image: string;
-}
+import { UserType } from '@/app/src/api/services/userService';
 
 interface StudentTableProps {
   rowsPerPage: number;
   currentPage: number;
   setCurrentPage: (page: number) => void;
-  data: Student[];
+  data: UserType[];
 }
 
 export default function StudentTable({ rowsPerPage, currentPage, setCurrentPage, data }: StudentTableProps) {
   const router = useRouter();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [selectedStudent, setSelectedStudent] = useState<Student | null>(null);
+  const [selectedStudent, setSelectedStudent] = useState<UserType | null>(null);
 
-  const handleStudentClick = (student: Student) => {
+  const handleStudentClick = (student: UserType) => {
     const params = new URLSearchParams({
-      studentId: student.id.toString(),
-      studentName: student.student_name,
-      parentName: student.parent_name,
-      gender: student.gender,
-      phoneNumber: student.phone_number,
-      class: student.class,
+      studentId: student.id,
+      studentName: `${student.first_name} ${student.last_name}`,
+      parentName: student.middle_name || '',
+      gender: 'N/A', // Not available in UserType
+      phoneNumber: student.phone || '',
+      class: 'N/A', // Not available in UserType
       context: 'student'
     });
     router.push(`/dashboard/result/student-result?${params.toString()}`);
   };
 
-  const handleDeleteClick = (e: React.MouseEvent, student: Student) => {
+  const handleDeleteClick = (e: React.MouseEvent, student: UserType) => {
     e.stopPropagation();
     setSelectedStudent(student);
     setShowDeleteModal(true);
   };
 
-  const handleEditClick = (e: React.MouseEvent, student: Student) => {
+  const handleEditClick = (e: React.MouseEvent, student: UserType) => {
     e.stopPropagation();
     // Handle edit functionality
     console.log('Edit student:', student);
   };
 
-  const handleViewClick = (e: React.MouseEvent, student: Student) => {
+  const handleViewClick = (e: React.MouseEvent, student: UserType) => {
     e.stopPropagation();
     // Handle view functionality
     console.log('View student:', student);
@@ -72,16 +63,10 @@ export default function StudentTable({ rowsPerPage, currentPage, setCurrentPage,
                 Student
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Parent
+                Contact
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Gender
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Phone
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Class
+                Created
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Actions
@@ -100,50 +85,48 @@ export default function StudentTable({ rowsPerPage, currentPage, setCurrentPage,
                     <div className="flex-shrink-0 h-10 w-10">
                       <Image
                         className="h-10 w-10 rounded-full"
-                        src={student.image}
-                        alt={student.student_name}
+                        src="/Person.png"
+                        alt={`${student.first_name} ${student.last_name}`}
                         width={40}
                         height={40}
                       />
                     </div>
                     <div className="ml-4">
                       <div className="text-sm font-medium text-gray-900">
-                        {student.student_name}
+                        {student.first_name} {student.last_name}
+                      </div>
+                      <div className="text-sm text-gray-500">
+                        {student.middle_name && `${student.middle_name}`}
                       </div>
                     </div>
                   </div>
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                  {student.parent_name}
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <div className="text-sm text-gray-900">{student.email || 'N/A'}</div>
+                  <div className="text-sm text-gray-500">{student.phone || 'N/A'}</div>
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                  {student.gender}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                  {student.phone_number}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                  {student.class}
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  {new Date(student.created_at).toLocaleDateString()}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                   <div className="flex space-x-2">
                     <button
                       onClick={(e) => handleViewClick(e, student)}
-                      className="text-blue-600 hover:text-blue-900"
+                      className="text-indigo-600 hover:text-indigo-900"
                     >
-                      <Image src="/userview.png" width={20} height={20} alt="view" />
+                      View
                     </button>
                     <button
                       onClick={(e) => handleEditClick(e, student)}
                       className="text-green-600 hover:text-green-900"
                     >
-                      <Image src="/useredit.png" width={20} height={20} alt="edit" />
+                      Edit
                     </button>
                     <button
                       onClick={(e) => handleDeleteClick(e, student)}
                       className="text-red-600 hover:text-red-900"
                     >
-                      <Image src="/userdelete.png" width={20} height={20} alt="delete" />
+                      Delete
                     </button>
                   </div>
                 </td>
@@ -161,43 +144,42 @@ export default function StudentTable({ rowsPerPage, currentPage, setCurrentPage,
             className="p-4 border-b border-gray-200 hover:bg-gray-50 cursor-pointer"
             onClick={() => handleStudentClick(student)}
           >
-            <div className="flex items-center space-x-4">
-              <Image
-                className="h-12 w-12 rounded-full"
-                src={student.image}
-                alt={student.student_name}
-                width={48}
-                height={48}
-              />
-              <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-gray-900 truncate">
-                  {student.student_name}
-                </p>
-                <p className="text-sm text-gray-500 truncate">
-                  Parent: {student.parent_name}
-                </p>
-                <p className="text-sm text-gray-500 truncate">
-                  {student.gender} • {student.class} • {student.phone_number}
-                </p>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center">
+                <Image
+                  className="h-10 w-10 rounded-full"
+                  src="/Person.png"
+                  alt={`${student.first_name} ${student.last_name}`}
+                  width={40}
+                  height={40}
+                />
+                <div className="ml-3">
+                  <div className="text-sm font-medium text-gray-900">
+                    {student.first_name} {student.last_name}
+                  </div>
+                  <div className="text-sm text-gray-500">
+                    {student.email || 'N/A'}
+                  </div>
+                </div>
               </div>
               <div className="flex space-x-2">
                 <button
                   onClick={(e) => handleViewClick(e, student)}
-                  className="text-blue-600 hover:text-blue-900"
+                  className="text-indigo-600 hover:text-indigo-900 text-sm"
                 >
-                  <Image src="/userview.png" width={20} height={20} alt="view" />
+                  View
                 </button>
                 <button
                   onClick={(e) => handleEditClick(e, student)}
-                  className="text-green-600 hover:text-green-900"
+                  className="text-green-600 hover:text-green-900 text-sm"
                 >
-                  <Image src="/useredit.png" width={20} height={20} alt="edit" />
+                  Edit
                 </button>
                 <button
                   onClick={(e) => handleDeleteClick(e, student)}
-                  className="text-red-600 hover:text-red-900"
+                  className="text-red-600 hover:text-red-900 text-sm"
                 >
-                  <Image src="/userdelete.png" width={20} height={20} alt="delete" />
+                  Delete
                 </button>
               </div>
             </div>
@@ -241,6 +223,19 @@ export default function StudentTable({ rowsPerPage, currentPage, setCurrentPage,
                 >
                   Previous
                 </button>
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                  <button
+                    key={page}
+                    onClick={() => setCurrentPage(page)}
+                    className={`relative inline-flex items-center px-4 py-2 border text-sm font-medium ${
+                      currentPage === page
+                        ? 'z-10 bg-green-50 border-green-500 text-green-600'
+                        : 'bg-white border-gray-300 text-gray-500 hover:bg-gray-50'
+                    }`}
+                  >
+                    {page}
+                  </button>
+                ))}
                 <button
                   onClick={() => setCurrentPage(currentPage + 1)}
                   disabled={currentPage === totalPages}
@@ -249,6 +244,36 @@ export default function StudentTable({ rowsPerPage, currentPage, setCurrentPage,
                   Next
                 </button>
               </nav>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Delete Confirmation Modal */}
+      {showDeleteModal && selectedStudent && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full mx-4">
+            <h3 className="text-lg font-bold text-gray-900 mb-4">Confirm Delete</h3>
+            <p className="text-gray-600 mb-6">
+              Are you sure you want to delete {selectedStudent.first_name} {selectedStudent.last_name}? This action cannot be undone.
+            </p>
+            <div className="flex justify-end space-x-3">
+              <button
+                onClick={() => setShowDeleteModal(false)}
+                className="px-4 py-2 text-gray-600 border border-gray-300 rounded hover:bg-gray-50"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => {
+                  // Handle delete
+                  console.log('Delete student:', selectedStudent);
+                  setShowDeleteModal(false);
+                }}
+                className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+              >
+                Delete
+              </button>
             </div>
           </div>
         </div>

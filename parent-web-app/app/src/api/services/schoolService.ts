@@ -90,15 +90,20 @@ export interface TermType {
 
 export interface AssignmentType {
   id: string;
-  subject: string;
-  topic: string;
-  start_date: string;
+  title: string;
+  description: string;
   due_date: string;
-  status: 'active' | 'inactive' | 'completed';
-  created_by: string;
-  created_at: string;
-  updated_at: string;
-  school: string;
+  assignment_type: string;
+  status?: 'submitted';
+  created_by?: string;
+  created_at?: string;
+  updated_at?: string;
+  school?: string;
+  start_date?: string;
+  subject?: string;
+  topic?: string;
+  term?: string;
+  created_by_teacher_cache?: string;
 }
 
 export type CreateSubjectPayload = {
@@ -111,14 +116,19 @@ export type CreateSubjectPayload = {
 };
 
 export type CreateAssignmentPayload = {
-  subject: string;
-  topic: string;
-  start_date: string;
+  title: string;
+  description: string;
   due_date: string;
-  status: 'active' | 'inactive' | 'completed';
-  created_by: string;
-  created_at: string;
-  school: string;
+  assignment_type: string;
+  status?: 'submitted';
+  created_by?: string;
+  created_at?: string;
+  school?: string;
+  start_date?: string;
+  subject?: string;
+  topic?: string;
+  term?: string;
+  created_by_teacher_cache?: string;
 };
 
 export type CreateTermPayload = {
@@ -162,7 +172,7 @@ export const fetchSchoolInformation= async (): Promise<SchoolInformationType> =>
   return response.data;
 };
 export const fetchSchoolInformationById= async (id: string): Promise<SchoolInformationType> => {
-  const response = await schoolClient.get(SCHOOL_API.SCHOOL_INFORMATION_BY_ID.replace('{id}', id));
+  const response = await schoolClient.get(SCHOOL_API.SCHOOL_INFORMATION_RETRIEVE.replace('{id}', id));
   return response.data;
 };
 export const fetchSchoolsList= async (): Promise<SchoolType[]> => {

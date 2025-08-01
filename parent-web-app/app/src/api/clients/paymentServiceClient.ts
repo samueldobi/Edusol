@@ -12,4 +12,4 @@ export const paymentServiceClient = axios.create({
   },
 });
 
-addInterceptor(paymentServiceClient); 
+// addInterceptor(paymentServiceClient); 

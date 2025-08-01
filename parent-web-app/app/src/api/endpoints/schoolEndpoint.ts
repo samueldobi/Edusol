@@ -13,12 +13,12 @@ export const SCHOOL_API = {
     SCHOOLS_LIST: '/api/schools/schools',
     SCHOOLS_BY_ID: '/api/schools/schools/{id}',
     // Subjects
-    SUBJECTS_LIST: '/api/schools/subjects',
-    SUBJECTS_CREATE: '/api/schools/subjects',
-    SUBJECTS_BY_ID: '/api/schools/subjects/{id}',
-    SUBJECTS_UPDATE: '/api/schools/subjects/{id}',
-    SUBJECTS_PARTIAL_UPDATE: '/api/schools/subjects/{id}',
-    SUBJECTS_DELETE: '/api/schools/subjects/{id}',
+    SUBJECTS_LIST: '/api/schools/subjects/',
+    SUBJECTS_CREATE: '/api/schools/subjects/',
+    SUBJECTS_BY_ID: '/api/schools/subjects/{id}/',
+    SUBJECTS_UPDATE: '/api/schools/subjects/{id}/',
+    SUBJECTS_PARTIAL_UPDATE: '/api/schools/subjects/{id}/',
+    SUBJECTS_DELETE: '/api/schools/subjects/{id}/',
     // Terms
     TERMS_LIST: '/api/schools/terms',
     TERMS_CREATE: '/api/schools/terms',
@@ -27,33 +27,34 @@ export const SCHOOL_API = {
     TERMS_PARTIAL_UPDATE: '/api/schools/terms/{id}',
     TERMS_DELETE: '/api/schools/terms/{id}',
     // Assignments
-    ASSIGNMENTS_LIST: '/api/schools/assignments',
-    ASSIGNMENTS_CREATE: '/api/schools/assignments',
-    ASSIGNMENTS_BY_ID: '/api/schools/assignments/{id}',
-    ASSIGNMENTS_UPDATE: '/api/schools/assignments/{id}',
-    ASSIGNMENTS_PARTIAL_UPDATE: '/api/schools/assignments/{id}',
-    ASSIGNMENTS_DELETE: '/api/schools/assignments/{id}',
-    // Classes (missing CRUD)
+    ASSIGNMENTS_LIST: '/api/schools/assignments/',
+    ASSIGNMENTS_CREATE: '/api/schools/assignments/',
+    ASSIGNMENTS_BY_ID: '/api/schools/assignments/{id}/',
+    ASSIGNMENTS_UPDATE: '/api/schools/assignments/{id}/',
+    ASSIGNMENTS_PARTIAL_UPDATE: '/api/schools/assignments/{id}/',
+    ASSIGNMENTS_DELETE: '/api/schools/assignments/{id}/',
+  
     CLASSES_CREATE: '/api/schools/classes/',
     CLASSES_UPDATE: '/api/schools/classes/{id}',
     CLASSES_PARTIAL_UPDATE: '/api/schools/classes/{id}',
     CLASSES_DELETE: '/api/schools/classes/{id}',
-    // Fees (missing CRUD)
+
     FEES_CREATE: '/api/schools/fees',
     FEES_UPDATE: '/api/schools/fees/{id}',
     FEES_PARTIAL_UPDATE: '/api/schools/fees/{id}',
     FEES_DELETE: '/api/schools/fees/{id}',
-    // Results (missing CRUD)
+    
     RESULTS_CREATE: '/api/schools/results',
     RESULTS_UPDATE: '/api/schools/results/{id}',
     RESULTS_PARTIAL_UPDATE: '/api/schools/results/{id}',
     RESULTS_DELETE: '/api/schools/results/{id}',
-    // School Information (missing CRUD)
-    SCHOOL_INFORMATION_CREATE: '/api/schools/school-information',
-    SCHOOL_INFORMATION_UPDATE: '/api/schools/school-information/{id}',
-    SCHOOL_INFORMATION_PARTIAL_UPDATE: '/api/schools/school-information/{id}',
-    SCHOOL_INFORMATION_DELETE: '/api/schools/school-information/{id}',
-    // Schools (missing CRUD)
+
+    SCHOOL_INFORMATION_CREATE: '/api/schools/school-information/',
+    SCHOOL_INFORMATION_RETRIEVE: '/api/schools/school-information/{id}/',
+    SCHOOL_INFORMATION_UPDATE: '/api/schools/school-information/{id}/',
+    SCHOOL_INFORMATION_PARTIAL_UPDATE: '/api/schools/school-information/{id}/',
+    SCHOOL_INFORMATION_DELETE: '/api/schools/school-information/{id}/',
+
     SCHOOLS_CREATE: '/api/schools/schools',
     SCHOOLS_UPDATE: '/api/schools/schools/{id}',
     SCHOOLS_PARTIAL_UPDATE: '/api/schools/schools/{id}',

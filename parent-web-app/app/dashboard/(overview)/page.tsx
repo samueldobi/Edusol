@@ -44,16 +44,16 @@ export default function Page() {
         </div>
       </div>
       <div className="grid md:grid-cols-[2fr_1fr] gap-8">
-        <div>
+        {/* <div>
           <p className="font-medium text-center sm:text-left mt-8 sm:mt-0">
             TOP TEN CLASSES BY AVERAGE
           </p>
           <ClassMetricsWrapper />
-        </div>
-        <div>
+        </div> */}
+        {/* <div>
           <p className="font-medium mb-4 uppercase">CALENDER & EVENTS</p>
-          {/* <Calendar /> */}
-        </div>
+           
+        </div> */}
       </div>
       <div>
         

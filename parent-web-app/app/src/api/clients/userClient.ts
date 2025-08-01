@@ -7,4 +7,4 @@ export const userClient = axios.create({
     'Content-Type': 'application/json',
   },
 });
-addInterceptor(userClient);
+// addInterceptor(userClient);

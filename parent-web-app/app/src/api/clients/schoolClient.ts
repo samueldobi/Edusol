@@ -8,4 +8,4 @@ export const schoolClient = axios.create({
     'Content-Type': 'application/json',
   },
 });
-addSchoolInterceptor(schoolClient);
+// addSchoolInterceptor(schoolClient);

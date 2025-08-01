@@ -45,9 +45,6 @@ export default function SubjectTable({ rowsPerPage, currentPage, setCurrentPage,
                 Subject Code
               </th>
               <th className="px-6 py-5 text-left text-xs font-medium text-[#2C2C2C] uppercase tracking-wider">
-                Description
-              </th>
-              <th className="px-6 py-5 text-left text-xs font-medium text-[#2C2C2C] uppercase tracking-wider">
                 Actions (View, Edit, Delete)
               </th>
             </tr>
@@ -62,9 +59,6 @@ export default function SubjectTable({ rowsPerPage, currentPage, setCurrentPage,
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="text-sm text-gray-900">{item.subject_code}</div>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <div className="text-sm text-gray-900">{item.description || "-"}</div>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="flex justify-between">
@@ -96,7 +90,6 @@ export default function SubjectTable({ rowsPerPage, currentPage, setCurrentPage,
             </div>
             <div className="mt-3 text-sm flex flex-col items-center justify-center ">
               <p><span className="font-medium p-2">Code:</span> {item.subject_code}</p>
-              <p><span className="font-medium p-2">Description:</span> {item.description || "-"}</p>
             </div>
             <div className="mt-4 flex justify-center gap-4">
               <button>

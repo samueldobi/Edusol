@@ -1,23 +1,36 @@
 "use client";
-import { useState } from "react";
-import { updateAssignment, AssignmentType } from "@/app/src/api/services/schoolService";
+import { useState, useEffect } from "react";
+import { partialUpdateAssignment, AssignmentType } from "@/app/src/api/services/schoolService";
 
 interface EditAssignmentModalProps {
+  assignment: AssignmentType;
   onClose: () => void;
   onSuccess: () => void;
-  onDelete: () => void;
 }
 
-export default function EditAssignmentModal({ onClose, onSuccess, onDelete }: EditAssignmentModalProps) {
+export default function EditAssignmentModal({ assignment, onClose, onSuccess }: EditAssignmentModalProps) {
   const [form, setForm] = useState({
-    subject: "Mathematics",
-    topic: "",
-    start_date: "",
-    due_date: "",
-    status: "active" as const,
+    title: assignment?.title || "",
+    description: assignment?.description || "",
+    due_date: assignment?.due_date ? assignment.due_date.split('T')[0] : "",
+    assignment_type: assignment?.assignment_type || "classwork",
+    status: assignment?.status || "submitted",
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
+  // Update form when assignment changes
+  useEffect(() => {
+    if (assignment) {
+      setForm({
+        title: assignment.title || "",
+        description: assignment.description || "",
+        due_date: assignment.due_date ? assignment.due_date.split('T')[0] : "",
+        assignment_type: assignment.assignment_type || "classwork",
+        status: assignment.status || "submitted",
+      });
+    }
+  }, [assignment]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -25,7 +38,12 @@ export default function EditAssignmentModal({ onClose, onSuccess, onDelete }: Ed
   };
 
   const handleSubmit = async () => {
-    if (!form.topic.trim() || !form.start_date || !form.due_date) {
+    if (!assignment) {
+      setError("No assignment data available.");
+      return;
+    }
+
+    if (!form.title.trim() || !form.due_date) {
       setError("Please fill all required fields.");
       return;
     }
@@ -34,88 +52,106 @@ export default function EditAssignmentModal({ onClose, onSuccess, onDelete }: Ed
     setError("");
 
     try {
-      // Generate a random ID for now
-      const randomId = Math.random().toString(36).substr(2, 9);
+      console.log("Attempting to update assignment with ID:", assignment.id);
+      console.log("Update URL will be:", `${process.env.NEXT_PUBLIC_BASE_URL}/api/schools/assignments/${assignment.id}/`);
+      console.log("Update data:", form);
       
-      const assignmentData: AssignmentType = {
-        id: randomId,
-        subject: form.subject,
-        topic: form.topic,
-        start_date: form.start_date,
-        due_date: form.due_date,
+      const updatedAssignment: AssignmentType = {
+        ...assignment,
+        title: form.title,
+        description: form.description,
+        due_date: form.due_date, // Send as YYYY-MM-DD format
+        assignment_type: form.assignment_type,
         status: form.status,
-        created_by: "ee824cad-d7a6-4f48-87dc-e8461a9201c4",
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
-        school: "997b5388-c4ee-4b64-8b19-f252d6b255e7"
+        updated_at: new Date().toISOString()
       };
 
-      await updateAssignment(randomId, assignmentData);
-      console.log("Updated assignment:", assignmentData);
+      console.log("Sending update payload:", updatedAssignment);
+
+      // Only send the fields that should be updated
+      const updatePayload = {
+        title: form.title,
+        description: form.description,
+        due_date: form.due_date,
+        assignment_type: form.assignment_type,
+        status: form.status
+      };
+
+      console.log("Sending minimal update payload:", updatePayload);
+
+      await partialUpdateAssignment(assignment.id, updatePayload);
+      console.log("Successfully updated assignment with partial update");
       
       onSuccess();
     } catch (err: any) {
       console.error("Error updating assignment:", err);
-      setError("Failed to update assignment. Please try again.");
+      console.error("Update error details:", {
+        message: err.message,
+        response: err.response?.data,
+        status: err.response?.status,
+        config: err.config,
+        url: err.config?.url,
+        method: err.config?.method,
+        headers: err.config?.headers,
+        requestData: err.config?.data
+      });
+      
+      if (err.response?.data) {
+        console.error("Full update error response:", JSON.stringify(err.response.data, null, 2));
+      }
+      
+      setError(`Failed to update assignment: ${err.message}`);
     } finally {
       setLoading(false);
     }
   };
 
-  const subjectsList = [
-    { index: 1, subject: "Mathematics" },
-    { index: 2, subject: "English" },
-    { index: 3, subject: "Physics" },
-    { index: 4, subject: "Chemistry" },
-    { index: 5, subject: "Biology" },
-    { index: 6, subject: "History" },
-    { index: 7, subject: "Geography" },
-    { index: 8, subject: "Literature" },
-  ];
+  // Don't render if assignment is not available
+  if (!assignment) {
+    return null;
+  }
+
+  // Don't render if assignment doesn't have required properties
+  if (!assignment.id || !assignment.title || !assignment.due_date) {
+    console.error("Assignment missing required properties:", assignment);
+    return null;
+  }
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
       <div className="bg-white p-6 md:p-8 rounded-lg shadow-lg w-full max-w-xl">
-        <h3 className="text-[#1AA939] font-bold text-xl mb-5 uppercase">Edit Assignment</h3>
+        <div className="flex justify-between items-center mb-5">
+          <h3 className="text-[#1AA939] font-bold text-xl uppercase">Edit Assignment</h3>
+          <button 
+            onClick={onClose}
+            className="text-gray-500 hover:text-gray-700 text-2xl font-bold"
+          >
+            ×
+          </button>
+        </div>
 
         {error && <div className="text-red-500 text-sm mb-4">{error}</div>}
 
         <div className="space-y-4">
           <div>
-            <label className="block font-medium mb-1">Subject</label>
-            <select 
-              name="subject"
-              value={form.subject}
-              onChange={handleChange}
-              className="w-full border border-gray-300 px-4 py-2 rounded"
-            >
-              {subjectsList.map((item) => (
-                <option key={item.index} value={item.subject}>
-                  {item.subject.toUpperCase()}
-                </option>
-              ))}
-            </select>
-          </div>
-          
-          <div>
-            <label className="block font-medium mb-1">Topic</label>
+            <label className="block font-medium mb-1">Title</label>
             <input 
               type="text" 
-              name="topic"
-              value={form.topic}
+              name="title"
+              value={form.title}
               onChange={handleChange}
-              placeholder="Update Topic" 
+              placeholder="Enter assignment title" 
               className="w-full border border-gray-300 px-4 py-2 rounded" 
             />
           </div>
           
           <div>
-            <label className="block font-medium mb-1">Start Date</label>
-            <input 
-              type="date" 
-              name="start_date"
-              value={form.start_date}
+            <label className="block font-medium mb-1">Description</label>
+            <textarea 
+              name="description"
+              value={form.description}
               onChange={handleChange}
+              placeholder="Enter assignment description" 
               className="w-full border border-gray-300 px-4 py-2 rounded" 
             />
           </div>
@@ -132,6 +168,21 @@ export default function EditAssignmentModal({ onClose, onSuccess, onDelete }: Ed
           </div>
           
           <div>
+            <label className="block font-medium mb-1">Assignment Type</label>
+            <select 
+              name="assignment_type"
+              value={form.assignment_type}
+              onChange={handleChange}
+              className="w-full border border-gray-300 px-4 py-2 rounded"
+            >
+              <option value="classwork">Classwork</option>
+              <option value="homework">Homework</option>
+              <option value="quiz">Quiz</option>
+              <option value="project">Project</option>
+            </select>
+          </div>
+
+          <div>
             <label className="block font-medium mb-1">Status</label>
             <select 
               name="status"
@@ -139,37 +190,26 @@ export default function EditAssignmentModal({ onClose, onSuccess, onDelete }: Ed
               onChange={handleChange}
               className="w-full border border-gray-300 px-4 py-2 rounded"
             >
-              <option value="active">Active</option>
-              <option value="inactive">Inactive</option>
-              <option value="completed">Completed</option>
+              <option value="submitted">Submitted</option>
             </select>
           </div>
         </div>
 
-        <div className="flex justify-between mt-6">
+        <div className="flex justify-end gap-3 mt-6">
           <button 
-            onClick={onDelete} 
-            className="text-red-600 font-semibold hover:underline"
+            onClick={onClose} 
+            className="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300"
             disabled={loading}
           >
-            Delete
+            Cancel
           </button>
-          <div className="flex gap-3">
-            <button 
-              onClick={onClose} 
-              className="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300"
-              disabled={loading}
-            >
-              Cancel
-            </button>
-            <button 
-              onClick={handleSubmit} 
-              className="px-6 py-2 bg-[#1AA939] text-white font-bold rounded hover:bg-[#1d5329] disabled:opacity-50"
-              disabled={loading}
-            >
-              {loading ? "Saving..." : "Save"}
-            </button>
-          </div>
+          <button 
+            onClick={handleSubmit} 
+            className="px-6 py-2 bg-[#1AA939] text-white font-bold rounded hover:bg-[#1d5329] disabled:opacity-50"
+            disabled={loading}
+          >
+            {loading ? "Saving..." : "Save Changes"}
+          </button>
         </div>
       </div>
     </div>

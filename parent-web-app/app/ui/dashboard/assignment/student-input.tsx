@@ -16,7 +16,7 @@ export default function StudendInput(){
         <input
             type="text"
             id="studentName"
-            value="Damilare Kayode Gabriel"
+            value=""
             readOnly
             className="flex-1 min-w-[250px] px-4 py-2 rounded-lg border border-gray-300 text-base font-semibold text-gray-800 bg-white cursor-pointer"
         />

@@ -1,72 +1,32 @@
 "use client";
 import { useState } from 'react';
 import Image from 'next/image';
-
-interface Admin {
-  id: number;
-  name: string;
-  email: string;
-  role: string;
-  status: string;
-  lastLogin: string;
-  image: string;
-}
+import { UserType } from '@/app/src/api/services/userService';
 
 interface AdminTableProps {
   rowsPerPage: number;
   currentPage: number;
   setCurrentPage: (page: number) => void;
-  data: Admin[];
+  data: UserType[];
 }
 
-// Mock admin data
-const mockAdmins: Admin[] = [
-  {
-    id: 1,
-    name: "John Admin",
-    email: "john.admin@school.com",
-    role: "Super Admin",
-    status: "Active",
-    lastLogin: "2024-01-15 10:30 AM",
-    image: "/Person.png"
-  },
-  {
-    id: 2,
-    name: "Sarah Manager",
-    email: "sarah.manager@school.com",
-    role: "Admin",
-    status: "Active",
-    lastLogin: "2024-01-14 09:15 AM",
-    image: "/Person.png"
-  },
-  {
-    id: 3,
-    name: "Mike Coordinator",
-    email: "mike.coordinator@school.com",
-    role: "Admin",
-    status: "Inactive",
-    lastLogin: "2024-01-10 02:45 PM",
-    image: "/Person.png"
-  }
-];
-
-export default function AdminTable({ rowsPerPage, currentPage, setCurrentPage, data = mockAdmins }: AdminTableProps) {
+export default function AdminTable({ rowsPerPage, currentPage, setCurrentPage, data }: AdminTableProps) {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [selectedAdmin, setSelectedAdmin] = useState<Admin | null>(null);
+  const [selectedAdmin, setSelectedAdmin] = useState<UserType | null>(null);
 
-  const handleDeleteClick = (e: React.MouseEvent, admin: Admin) => {
+  const handleDeleteClick = (e: React.MouseEvent, admin: UserType) => {
     e.stopPropagation();
     setSelectedAdmin(admin);
     setShowDeleteModal(true);
   };
 
-  const handleEditClick = (e: React.MouseEvent, admin: Admin) => {
+  const handleEditClick = (e: React.MouseEvent, admin: UserType) => {
     e.stopPropagation();
     // Handle edit functionality
     console.log('Edit admin:', admin);
   };
 
-  const handleViewClick = (e: React.MouseEvent, admin: Admin) => {
+  const handleViewClick = (e: React.MouseEvent, admin: UserType) => {
     e.stopPropagation();
     // Handle view functionality
     console.log('View admin:', admin);
@@ -88,16 +48,10 @@ export default function AdminTable({ rowsPerPage, currentPage, setCurrentPage, d
                 Admin
               </th>
               <th className="px-6 py-5 text-left text-xs font-medium text-[#2C2C2C] uppercase tracking-wider">
-                Email
+                Contact
               </th>
               <th className="px-6 py-5 text-left text-xs font-medium text-[#2C2C2C] uppercase tracking-wider">
-                Role
-              </th>
-              <th className="px-6 py-5 text-left text-xs font-medium text-[#2C2C2C] uppercase tracking-wider">
-                Status
-              </th>
-              <th className="px-6 py-5 text-left text-xs font-medium text-[#2C2C2C] uppercase tracking-wider">
-                Last Login
+                Created
               </th>
               <th className="px-6 py-5 text-left text-xs font-medium text-[#2C2C2C] uppercase tracking-wider">
                 Actions
@@ -110,52 +64,51 @@ export default function AdminTable({ rowsPerPage, currentPage, setCurrentPage, d
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="flex items-center gap-3">
                     <Image 
-                      src={admin.image} 
-                      alt={admin.name} 
+                      src="/Person.png" 
+                      alt={`${admin.first_name} ${admin.last_name} profile picture`}
                       width={40} 
                       height={40} 
                       className="w-10 h-10 rounded-full object-cover" 
                     />
-                    <span className="text-[#4A4C51] font-semibold">{admin.name}</span>
+                    <div>
+                      <span className="text-[#4A4C51] font-semibold">
+                        {admin.first_name} {admin.last_name}
+                      </span>
+                      {admin.middle_name && (
+                        <div className="text-sm text-gray-500">{admin.middle_name}</div>
+                      )}
+                    </div>
                   </div>
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                  {admin.email}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                  {admin.role}
-                </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-                    admin.status === 'Active' 
-                      ? 'bg-green-100 text-green-800' 
-                      : 'bg-red-100 text-red-800'
-                  }`}>
-                    {admin.status}
-                  </span>
+                  <div className="text-sm text-gray-900">{admin.email || 'N/A'}</div>
+                  <div className="text-sm text-gray-500">{admin.phone || 'N/A'}</div>
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                  {admin.lastLogin}
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  {new Date(admin.created_at).toLocaleDateString()}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="flex gap-2">
                     <button 
-                      className="p-2"
+                      className="p-2 text-indigo-600 hover:text-indigo-900"
                       onClick={(e) => handleViewClick(e, admin)}
+                      aria-label={`View ${admin.first_name} ${admin.last_name}`}
                     >
-                      <Image src="/userview.png" width={32} height={32} alt="view" />
+                      View
                     </button>
                     <button 
-                      className="p-2"
+                      className="p-2 text-green-600 hover:text-green-900"
                       onClick={(e) => handleEditClick(e, admin)}
+                      aria-label={`Edit ${admin.first_name} ${admin.last_name}`}
                     >
-                      <Image src="/useredit.png" width={32} height={32} alt="edit" />
+                      Edit
                     </button>
                     <button 
-                      className="p-2"
+                      className="p-2 text-red-600 hover:text-red-900"
                       onClick={(e) => handleDeleteClick(e, admin)}
+                      aria-label={`Delete ${admin.first_name} ${admin.last_name}`}
                     >
-                      <Image src="/userdelete.png" width={32} height={32} alt="delete" />
+                      Delete
                     </button>
                   </div>
                 </td>
@@ -171,37 +124,42 @@ export default function AdminTable({ rowsPerPage, currentPage, setCurrentPage, d
           <div key={admin.id} className="bg-white shadow rounded-lg p-4 border border-gray-100 w-full">
             <div className="flex flex-col items-center justify-center gap-4">
               <Image 
-                src={admin.image} 
-                alt={admin.name} 
+                src="/Person.png" 
+                alt={`${admin.first_name} ${admin.last_name} profile picture`}
                 width={56} 
                 height={56} 
                 className="rounded-full object-cover" 
               />
-              <div className="text-base font-semibold text-[#1AA939]">{admin.name}</div>
+              <div className="text-base font-semibold text-[#1AA939]">
+                {admin.first_name} {admin.last_name}
+              </div>
             </div>
             <div className="mt-3 text-sm flex flex-col items-center justify-center">
-              <p><span className="font-medium p-2">Email:</span> {admin.email}</p>
-              <p><span className="font-medium p-2">Role:</span> {admin.role}</p>
-              <p><span className="font-medium p-2">Status:</span> 
-                <span className={`ml-2 inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-                  admin.status === 'Active' 
-                    ? 'bg-green-100 text-green-800' 
-                    : 'bg-red-100 text-red-800'
-                }`}>
-                  {admin.status}
-                </span>
-              </p>
-              <p><span className="font-medium p-2">Last Login:</span> {admin.lastLogin}</p>
+              <p><span className="font-medium p-2">Email:</span> {admin.email || 'N/A'}</p>
+              <p><span className="font-medium p-2">Phone:</span> {admin.phone || 'N/A'}</p>
+              <p><span className="font-medium p-2">Created:</span> {new Date(admin.created_at).toLocaleDateString()}</p>
             </div>
             <div className="mt-4 flex justify-center gap-4">
-              <button onClick={(e) => handleViewClick(e, admin)}>
-                <Image src="/userview.png" width={32} height={32} alt="view" />
+              <button 
+                onClick={(e) => handleViewClick(e, admin)}
+                className="text-indigo-600 hover:text-indigo-900"
+                aria-label={`View ${admin.first_name} ${admin.last_name}`}
+              >
+                View
               </button>
-              <button onClick={(e) => handleEditClick(e, admin)}>
-                <Image src="/useredit.png" width={32} height={32} alt="edit" />
+              <button 
+                onClick={(e) => handleEditClick(e, admin)}
+                className="text-green-600 hover:text-green-900"
+                aria-label={`Edit ${admin.first_name} ${admin.last_name}`}
+              >
+                Edit
               </button>
-              <button onClick={(e) => handleDeleteClick(e, admin)}>
-                <Image src="/userdelete.png" width={32} height={32} alt="delete" />
+              <button 
+                onClick={(e) => handleDeleteClick(e, admin)}
+                className="text-red-600 hover:text-red-900"
+                aria-label={`Delete ${admin.first_name} ${admin.last_name}`}
+              >
+                Delete
               </button>
             </div>
           </div>
@@ -230,6 +188,36 @@ export default function AdminTable({ rowsPerPage, currentPage, setCurrentPage, d
             >
               Next
             </button>
+          </div>
+        </div>
+      )}
+
+      {/* Delete Confirmation Modal */}
+      {showDeleteModal && selectedAdmin && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full mx-4">
+            <h3 className="text-lg font-bold text-gray-900 mb-4">Confirm Delete</h3>
+            <p className="text-gray-600 mb-6">
+              Are you sure you want to delete {selectedAdmin.first_name} {selectedAdmin.last_name}? This action cannot be undone.
+            </p>
+            <div className="flex justify-end space-x-3">
+              <button
+                onClick={() => setShowDeleteModal(false)}
+                className="px-4 py-2 text-gray-600 border border-gray-300 rounded hover:bg-gray-50"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => {
+                  // Handle delete
+                  console.log('Delete admin:', selectedAdmin);
+                  setShowDeleteModal(false);
+                }}
+                className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+              >
+                Delete
+              </button>
+            </div>
           </div>
         </div>
       )}

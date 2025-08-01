@@ -1,4 +1,5 @@
 import Table from '@/app/ui/dashboard/table';
+import Link from 'next/link';
 
 export default function RecentPaymentsTable() {
   const data = [
@@ -54,9 +55,11 @@ export default function RecentPaymentsTable() {
       {/* Added shadow and overflow-x-auto for horizontal scrolling */}
       <Table data={data} />
       <div className="px-6 py-3 flex justify-end">
-        <button className="text-blue-600 hover:text-blue-800 text-sm">
-          View All Payments
-        </button>
+        <Link href="/dashboard/payment">
+          <button className="text-blue-600 hover:text-blue-800 text-sm">
+            View All Payments
+          </button>
+        </Link>
       </div>
     </div>
   );

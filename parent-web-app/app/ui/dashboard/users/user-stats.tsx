@@ -22,6 +22,14 @@ const userStats = [
     filter: 'teachers'
   },
   {
+    label: 'Guardians',
+    value: 89,
+    color: 'bg-[#FF6B6B]',
+    bg: 'bg-[#ff8a8a]',
+    src: '/Person.png',
+    filter: 'guardians'
+  },
+  {
     label: 'Admin',
     value: 3,
     color: 'bg-[#1AA939]',
@@ -51,6 +59,10 @@ export default function UserStats(){
     },
     [updateFilter]
   );
+
+  const handleAddNew = () => {
+    router.push('/dashboard/users/add-user');
+  };
 
   return(
     <>
@@ -91,6 +103,7 @@ export default function UserStats(){
          <div>
            <button
              type="submit"
+             onClick={handleAddNew}
              className="flex items-center gap-2 sm:gap-3 bg-white px-3 sm:px-4 py-2 rounded-lg border border-white shadow-sm hover:shadow-md transition-shadow"
            >
              <span className="w-6 sm:w-7 h-6 sm:h-7">
