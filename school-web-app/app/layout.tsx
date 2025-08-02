@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
-import { poppins } from './ui/fonts';
+import { poppins } from '@/app/ui/fonts';
 import './globals.css';
+import { AuthProvider } from './contexts/AuthContext';
+// import EnvironmentCheck from './components/EnvironmentCheck';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -14,7 +16,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${poppins.className} antialiased`}>{children}</body>
+      <body className={`${poppins.className} antialiased`}>
+        <AuthProvider>
+          {children}
+          {/* <EnvironmentCheck /> */}
+        </AuthProvider>
+      </body>
     </html>
   );
 }

@@ -7,30 +7,30 @@ const stats = [
   {
     label: 'Total Payments',
     value: 207,
-    color: 'bg-[#FFB400]',
+    color: 'bg-[#65F765]',
     bg: 'bg-[#f3c65e]',
-    src: '/total-payment-icon.png',
+    src: '/images/total-payment-icon.png',
   },
   {
     label: 'Successful Payments',
     value: 112,
     color: 'bg-[#726DCF]',
     bg: 'bg-[#8b88ca]',
-    src: '/successful-payment-icon.png',
+    src: '/images/successful-payment-icon.png',
   },
   {
     label: 'Unsuccessful Payments',
     value: 86,
     color: 'bg-[#1AA939]',
     bg: 'bg-[#79c88a]',
-    src: '/unsuccessful-payment-icon.png',
+    src: '/images/unsuccessful-payment-icon.png',
   },
   {
     label: 'Pending Payments',
     value: 40,
     color: 'bg-[#2a2ad180]',
     bg: 'bg-[#b3b3d480]',
-    src: '/pending-payment-icon.png',
+    src: '/images/pending-payment-icon.png',
   },
 ];
 

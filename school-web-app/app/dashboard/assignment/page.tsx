@@ -1,15 +1,44 @@
-import SearchClass from '../../ui/dashboard/assignment/search';
-import CreateAssignmnent from '../../ui/dashboard/assignment/create-assignment';
-import StudendInput from '../../ui/dashboard/assignment/student-input';
-import AssignmentCards from '../../ui/dashboard/assignment/assignment-cards';
+"use client";
+import { useState, useEffect, useRef } from "react";
+import SearchClass from "@/app/ui/dashboard/assignment/search"
+import CreateAssignmnent from "@/app/ui/dashboard/assignment/create-assignment";
+import StudendInput from "@/app/ui/dashboard/assignment/student-input";
+import AssignmentCards from "@/app/ui/dashboard/assignment/assignment-cards";
+import { fetchAssignmentsList, AssignmentType } from "@/app/src/api/services/schoolService";
+
 export default function Page() {
+  const [assignments, setAssignments] = useState<AssignmentType[]>([]);
+  const [loading, setLoading] = useState(true);
+  const assignmentCardsRef = useRef<{ refresh: () => void }>(null);
+
+  const fetchAssignments = async () => {
+    try {
+      setLoading(true);
+      const fetchedAssignments = await fetchAssignmentsList();
+      setAssignments(fetchedAssignments);
+    } catch (error) {
+      console.error("Error fetching assignments:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleAssignmentCreated = () => {
+    fetchAssignments();
+    assignmentCardsRef.current?.refresh();
+  };
+
+  useEffect(() => {
+    fetchAssignments();
+  }, []);
+
   return(
     <>
       <p className="text-[#1AA939] font-extrabold text-3xl">ASSIGNMENT</p>
         <SearchClass/>
-        <CreateAssignmnent/>
+        <CreateAssignmnent assignments={assignments} onRefresh={handleAssignmentCreated}/>
         <StudendInput/>
-        <AssignmentCards/>
+        <AssignmentCards ref={assignmentCardsRef}/>
     </>
-  ) 
+  )
 }

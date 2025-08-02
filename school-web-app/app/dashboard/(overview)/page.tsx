@@ -2,13 +2,13 @@
 'use client';
 
 import React from 'react';
-import MetricCardWrapper from '../../ui/dashboard/metric-card';
-import ChartData from '../../ui/dashboard/chart';
-import NotificationItemWrapper from '../../ui/dashboard/notification-item';
-import AlertItem from '../../ui/dashboard/alert-item';
-// import Calendar from '../../ui/dashboard/calendar/calendar';
-import ClassMetricsWrapper from '../../ui/dashboard/class-metric';
-import RecentPaymentsTable from '../../ui/dashboard/recent-payment-table';
+import MetricCardWrapper from '@/app/ui/dashboard/metric-card';
+import ChartData from '@/app/ui/dashboard/chart';
+import NotificationItemWrapper from '@/app/ui/dashboard/notification-item';
+import AlertItem from '@/app/ui/dashboard/alert-item';
+// import Calendar from '@/app/ui/dashboard/calendar/calendar';
+import ClassMetricsWrapper from '@/app/ui/dashboard/class-metric';
+import RecentPaymentsTable from '@/app/ui/dashboard/recent-payment-table';
 import { motion } from 'framer-motion';
 
 export default function Page() {
@@ -44,16 +44,7 @@ export default function Page() {
         </div>
       </div>
       <div className="grid md:grid-cols-[2fr_1fr] gap-8">
-        <div>
-          <p className="font-medium text-center sm:text-left mt-8 sm:mt-0">
-            TOP TEN CLASSES BY AVERAGE
-          </p>
-          <ClassMetricsWrapper />
-        </div>
-        <div>
-          <p className="font-medium mb-4 uppercase">CALENDER & EVENTS</p>
-          {/* <Calendar /> */}
-        </div>
+       
       </div>
       <div>
         

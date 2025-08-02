@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { subjects } from '../../../lib/placeholder-data';
+import { subjects } from "@/app/lib/placeholder-data";
 import EditSubjectModal from "./edit-subject-modal";
 type Subject = {
   index: number;

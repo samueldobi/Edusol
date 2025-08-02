@@ -1,6 +1,6 @@
 'use client';
 import { XMarkIcon } from '@heroicons/react/24/outline';
-import NavLinks from './nav-links';
+import NavLinks from '@/app/ui/dashboard/nav-links';
 
 interface SideNavProps {
   isOpen: boolean;
@@ -27,7 +27,7 @@ export default function SideNav({ isOpen, onClose }: SideNavProps) {
         <div className="bg-[#1AA939] flex items-center justify-between p-5">
           <div className="flex items-center">
             <img
-              src="/logo-white-better.png"
+              src="/images/logo-white-better.png"
               alt="Educesol logo"
               className="w-8 h-8 mr-2"
             />

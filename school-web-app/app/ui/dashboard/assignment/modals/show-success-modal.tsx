@@ -13,7 +13,7 @@ const SuccessModal: React.FC<SuccessModalProps> = ({ onClose, title = "Success!"
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
       <div className="bg-white p-8 rounded-lg shadow-xl text-center max-w-sm w-full">
         <Image
-         src="/checkbox.png"
+         src="/images/checkbox.png"
          width={50}
          height={50}
         alt="Success" className="mx-auto mb-4" />

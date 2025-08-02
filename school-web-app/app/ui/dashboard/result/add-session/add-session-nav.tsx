@@ -10,8 +10,8 @@ export default function AddSessionNav(){
     <button
       className="flex items-center gap-2 text-xl font-semibold text-white focus:outline-none"
     >
-      2022/2023
-      <svg
+      2025/2026
+      {/* <svg
         className="w-4 h-4 text-gray-700"
         fill="none"
         stroke="currentColor"
@@ -23,24 +23,24 @@ export default function AddSessionNav(){
           strokeWidth="2"
           d="M19 9l-7 7-7-7"
         />
-      </svg>
+      </svg> */}
     </button>
-    <div
+    {/* <div
       className="absolute right-0 mt-2 w-32 bg-white rounded-md shadow-lg z-10 hidden group-hover:block"
     >
       <a
         href="#"
         className="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-100"
       >
-        2023/2024
+        2024/2025
       </a>
       <a
         href="#"
         className="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-100"
       >
-        2021/2022
+        2025/2026 
       </a>
-    </div>
+    </div> */}
   </div>
 </div>
 

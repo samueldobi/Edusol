@@ -1,6 +1,23 @@
 "use client"
 import Image from "next/image"
-export default function StudentOverviewCard(){
+
+interface StudentData {
+  id: string;
+  name: string;
+  parent_name: string;
+  gender: string;
+  phone_number: string;
+  class: string;
+  session: string;
+  term: string;
+  classId: string;
+}
+
+interface Props {
+  studentData?: StudentData;
+}
+
+export default function StudentOverviewCard({ studentData }: Props){
     return(
         <div className="flex flex-col w-full mt-5 mb-5">
     <div className="my-8">
@@ -17,21 +34,21 @@ export default function StudentOverviewCard(){
     <div className="flex flex-col items-center text-center mb-6 md:mb-0 flex-shrink-0">
       <div className="w-24 h-24 rounded-full mb-3 flex justify-center items-center overflow-hidden bg-gray-100">
         {/* Avatar Image */}
-         <Image src="/graduate.png"
+         <Image src="/images/graduate.png"
          width={150}
          height={150}
          alt="student image avatar"
          />
       </div>
-      <p className="text-xl font-semibold text-gray-800">Tola Diamond</p>
-      <p className="text-sm text-blue-500">JSS2 Blue</p>
+      <p className="text-xl font-semibold text-gray-800">{studentData?.name || "Student Name"}</p>
+      <p className="text-sm text-blue-500">{studentData?.class || "Class"}</p>
     </div>
 
     {/* Profile Details Grid */}
     <div className="flex-grow grid grid-cols-1 gap-0 w-full text-[#040234]">
       {[
         { label: "Date Of Birth", value: "2 January 2010" },
-        { label: "Parent's/Guardian's Contact", value: "+234 8197465876" },
+        { label: "Parent's/Guardian's Contact", value: studentData?.phone_number || "+234 8197465876" },
         { label: "Class Strength", value: "30" },
         { label: "Position In Class", value: "8th" },
         { label: "Skill Acquired", value: "Fashion Designing" },
@@ -56,9 +73,9 @@ export default function StudentOverviewCard(){
   </div>
 
  <div className="button mt-5 mb-5 mx-auto">
-  <button className=" px-5 py-2 - bg-green-700 text-white font-semibold rounded-md hover:bg-green-800 transition">
+  {/* <button className=" px-5 py-2 - bg-green-700 text-white font-semibold rounded-md hover:bg-green-800 transition">
     EDIT PROFILE
-  </button>
+  </button> */}
  </div>
 </div>
 

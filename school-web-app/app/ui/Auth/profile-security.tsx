@@ -1,6 +1,6 @@
 import { Cog8ToothIcon } from '@heroicons/react/20/solid';
 import Link from 'next/link';
-import { Button } from './button';
+import { Button } from '@/app/ui/Auth/button';
 
 export default function ProfileSecurityForm() {
   return (

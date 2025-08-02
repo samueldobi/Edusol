@@ -1,7 +1,7 @@
 import { LockClosedIcon } from '@heroicons/react/20/solid';
 import Link from 'next/link';
-import OtpInput from './otpinputs';
-import { Button } from './button';
+import OtpInput from '@/app/ui/Auth/otpinputs';
+import { Button } from '@/app/ui/Auth/button';
 
 export default function TwoFactorForm() {
   return (
