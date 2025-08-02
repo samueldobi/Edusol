@@ -66,7 +66,6 @@ export default function NotificationTable({
     setSelectedNotification(null);
   };
 
-  // Ensure notificationsData is an array
   const notifications = Array.isArray(notificationsData) ? notificationsData : [];
 
   if (notifications.length === 0) {
@@ -82,22 +81,16 @@ export default function NotificationTable({
   return (
     <>
       {notifications.map((item, index) => {
-        // Debug: Log the raw item data
-        // console.log(`Notification ${index + 1} raw data:`, item);
-        
-        // Ensure item has required properties
         const notification = {
-          id: item.id,
-          title: item.title || `Notification ${index + 1}`,
-          message: item.message || item.content || 'No message available',
+          id: item.id || item._id || `notification-${index}`,
+          title: item.title || item.subject || `Notification ${index + 1}`,
+          message: item.message || item.body || 'No message available',
           type: item.type || 'info',
-          status: item.status || 'unread',
+          is_read: item.is_read || false,
           created_at: item.created_at || new Date().toISOString(),
           updated_at: item.updated_at || new Date().toISOString(),
+          recipient_id: item.recipient_id,
         };
-
-        // Debug: Log the processed notification
-        // console.log(`Notification ${index + 1} processed:`, notification);
 
         return (
           <div
@@ -111,9 +104,7 @@ export default function NotificationTable({
               {getTypeIcon(notification.type)}
             </div>
 
-            {/* Notification Content */}
             <div className="flex-1">
-              {/* Header */}
               <div className="flex items-center gap-2 mb-1">
                 <span
                   className={`text-xs font-medium px-2 py-0.5 rounded ${getTypeColor(
@@ -130,12 +121,10 @@ export default function NotificationTable({
                 )}
               </div>
 
-              {/* Body Text */}
               <div className="text-gray-600 text-sm leading-relaxed">
                 {notification.message}
               </div>
 
-              {/* Meta Info */}
               <div className="flex items-center gap-4 text-gray-400 text-xs mt-2">
                 <span>{formatDate(notification.created_at)}</span>
                 <span>{formatTime(notification.created_at)}</span>
@@ -145,7 +134,6 @@ export default function NotificationTable({
               </div>
             </div>
 
-            {/* Click indicator */}
             <div className="text-gray-400 text-xs opacity-0 group-hover:opacity-100 transition-opacity">
               Click to view details →
             </div>
@@ -153,7 +141,6 @@ export default function NotificationTable({
         );
       })}
 
-      {/* Notification Detail Modal */}
       <NotificationDetailsModal
         notification={selectedNotification}
         onClose={handleCloseModal}

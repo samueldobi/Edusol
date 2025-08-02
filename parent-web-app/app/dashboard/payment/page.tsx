@@ -27,7 +27,7 @@ export default function Page() {
         <div className="text-xl flex items-center space-x-4">
           <span className="text-[#1AA939] font-semibold">Today</span>{' '}
           <span className="font-normal text-[#2C2C2C]">{todaysDate} </span>
-          <img src="/calendar.png" className="w-11 h-11 opacity-80" />
+          <img src="/images/calendar.png" className="w-11 h-11 opacity-80" />
         </div>
       </div>
       <PaymentStats />

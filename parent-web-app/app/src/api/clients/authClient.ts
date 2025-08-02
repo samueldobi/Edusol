@@ -1,20 +1,10 @@
 import axios from 'axios';
 import { addInterceptor } from '../utils/addInterceptor';
 
-// Ensure baseURL doesn't end with slash to prevent double slashes
-const baseURL = process.env.NEXT_PUBLIC_BASE_URL?.replace(/\/$/, '') || '';
-const authServiceURL = process.env.NEXT_PUBLIC_AUTH_SERVICE_URL?.replace(/\/$/, '') || '';
 
-// Public auth client for login/register endpoints that don't need authentication
-export const publicAuthClient = axios.create({
-  baseURL,
-  timeout: 30000,
-  headers: {
-    'Content-Type': 'application/json',
-  },
-});
+const baseURL = process.env.NEXT_PUBLIC_BASE_URL;
 
-// Authenticated auth client for endpoints that require authentication
+// Auth client for all auth operations
 export const authClient = axios.create({
   baseURL,
   timeout: 30000,
@@ -23,15 +13,7 @@ export const authClient = axios.create({
   },
 });
 
-// Auth service client for comprehensive auth service endpoints
-export const authServiceClient = axios.create({
-  baseURL: authServiceURL || baseURL, // Fallback to baseURL if auth service URL not set
-  timeout: 10000,
-  headers: {
-    'Content-Type': 'application/json',
-  },
-});
+console.log('[authClient] Base URL:', baseURL);
 
-// Add interceptors to authenticated clients
+// Add interceptor to auth client
 addInterceptor(authClient);
-addInterceptor(authServiceClient);

@@ -89,17 +89,17 @@ export interface UpdateSchoolAccountPayload {
 
 // --- Payment Functions ---
 export const fetchPaymentsList = async (): Promise<PaymentType[]> => {
-  const response = await paymentServiceClient.get(PAYMENT_SERVICE_API.PAYMENTS_LIST);
+  const response = await paymentServiceClient.get(PAYMENT_SERVICE_API.PAYMENTS);
   return response.data;
 };
 
 export const fetchPaymentById = async (id: string): Promise<PaymentType> => {
-  const response = await paymentServiceClient.get(PAYMENT_SERVICE_API.PAYMENTS_SINGLE.replace('{id}', id));
+  const response = await paymentServiceClient.get(PAYMENT_SERVICE_API.PAYMENT_BY_ID.replace('{id}', id));
   return response.data;
 };
 
 export const createPayment = async (data: CreatePaymentPayload): Promise<PaymentType> => {
-  const response = await paymentServiceClient.post(PAYMENT_SERVICE_API.PAYMENTS_CREATE, data);
+  const response = await paymentServiceClient.post(PAYMENT_SERVICE_API.PAYMENTS, data);
   return response.data;
 };
 
@@ -123,17 +123,17 @@ export const fetchUserPayments = async (): Promise<PaymentType[]> => {
 
 // --- Payment Account Functions ---
 export const fetchPaymentAccounts = async (): Promise<PaymentAccountType[]> => {
-  const response = await paymentServiceClient.get(PAYMENT_SERVICE_API.PAYMENTS_ACCOUNTS);
+  const response = await paymentServiceClient.get(PAYMENT_SERVICE_API.ACCOUNTS);
   return response.data;
 };
 
 export const fetchUserPaymentAccount = async (): Promise<PaymentAccountType> => {
-  const response = await paymentServiceClient.get(PAYMENT_SERVICE_API.PAYMENTS_USER_ACCOUNT);
+  const response = await paymentServiceClient.get(PAYMENT_SERVICE_API.USER_ACCOUNT);
   return response.data;
 };
 
 export const createPaymentAccount = async (data: CreatePaymentAccountPayload): Promise<PaymentAccountType> => {
-  const response = await paymentServiceClient.post(PAYMENT_SERVICE_API.PAYMENTS_ACCOUNTS, data);
+  const response = await paymentServiceClient.post(PAYMENT_SERVICE_API.ACCOUNTS, data);
   return response.data;
 };
 
@@ -144,28 +144,28 @@ export const fetchPaymentTransactions = async (): Promise<PaymentTransactionType
 };
 
 export const fetchUserPaymentTransactions = async (): Promise<PaymentTransactionType[]> => {
-  const response = await paymentServiceClient.get(PAYMENT_SERVICE_API.PAYMENT_TRANSACTION_FOR_USER);
+  const response = await paymentServiceClient.get(PAYMENT_SERVICE_API.TRANSACTION_FOR_USER);
   return response.data;
 };
 
 export const fetchPaymentTransactionById = async (id: string): Promise<PaymentTransactionType> => {
-  const response = await paymentServiceClient.get(PAYMENT_SERVICE_API.PAYMENT_TRANSACTION_BY_ID.replace('{id}', id));
+  const response = await paymentServiceClient.get(PAYMENT_SERVICE_API.TRANSACTION_BY_ID.replace('{id}', id));
   return response.data;
 };
 
 // --- School Account Functions ---
 export const fetchSchoolAccount = async (): Promise<SchoolAccountType> => {
-  const response = await paymentServiceClient.get(PAYMENT_SERVICE_API.PAYMENT_SCHOOL_ACCOUNT);
+  const response = await paymentServiceClient.get(PAYMENT_SERVICE_API.SCHOOL_ACCOUNT);
   return response.data;
 };
 
 export const updateSchoolAccount = async (id: string, data: UpdateSchoolAccountPayload): Promise<SchoolAccountType> => {
-  const response = await paymentServiceClient.patch(PAYMENT_SERVICE_API.PAYMENT_UPDATE_SCHOOL_ACCOUNT.replace('{id}', id), data);
+  const response = await paymentServiceClient.patch(PAYMENT_SERVICE_API.SCHOOL_ACCOUNT_BY_ID.replace('{id}', id), data);
   return response.data;
 };
 
 // --- Webhook Functions ---
 export const processPaymentWebhook = async (data: any): Promise<any> => {
-  const response = await paymentServiceClient.post(PAYMENT_SERVICE_API.PAYMENT_NOTIFICATION_WEBHOOK, data);
+  const response = await paymentServiceClient.post(PAYMENT_SERVICE_API.NOTIFICATION_WEBHOOK, data);
   return response.data;
 }; 

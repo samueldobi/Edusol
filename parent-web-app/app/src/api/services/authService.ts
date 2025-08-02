@@ -1,9 +1,6 @@
-import { authClient, publicAuthClient, authServiceClient } from '../clients/authClient';
+import { authClient } from '../clients/authClient';
 import { AUTH_API } from '../endpoints/authEndpoints';
 
-// ===== TYPES =====
-
-// Basic Auth Types
 export interface LoginPayload {
   email: string;
   password: string;
@@ -47,7 +44,6 @@ export interface ChangePasswordPayload {
   newPassword: string;
 }
 
-// User Management Types
 export interface UserType {
   id: string;
   email: string;
@@ -142,42 +138,16 @@ export interface UpdateProfilePayload {
   bio?: string;
 }
 
-// ===== BASIC AUTH FUNCTIONS (Public) =====
-
 export const login = async (data: LoginPayload): Promise<AuthResponse> => {
   try {
-    console.log('Making login request to:', `${publicAuthClient.defaults.baseURL}${AUTH_API.LOGIN}`);
-    const response = await publicAuthClient.post(AUTH_API.LOGIN, data);
+    const response = await authClient.post(AUTH_API.LOGIN, data);
     
-    // Validate response
     if (!response.data) {
       throw new Error('No response data received');
     }
     
-    console.log('Login response received:', response.data);
     return response.data;
   } catch (error: any) {
-    console.error('Login API error:', error);
-    
-    // If it's a network error, we can provide a mock response for testing
-    if (error.code === 'ERR_NETWORK') {
-      console.warn('Network error detected, using mock response for testing');
-      return {
-        success: true,
-        message: 'Mock login successful',
-        tokens: {
-          accessToken: 'mock-access-token-' + Date.now(),
-          refreshToken: 'mock-refresh-token-' + Date.now(),
-        },
-        user: {
-          id: 'mock-user-id',
-          email: data.email,
-          name: 'Test User',
-        }
-      };
-    }
-    
-    // Handle different types of errors
     if (error.response?.status === 401) {
       throw new Error('Invalid email or password');
     } else if (error.response?.status === 403) {
@@ -192,20 +162,14 @@ export const login = async (data: LoginPayload): Promise<AuthResponse> => {
 
 export const register = async (data: RegisterPayload): Promise<AuthResponse> => {
   try {
-    console.log('Making register request to:', `${publicAuthClient.defaults.baseURL}${AUTH_API.REGISTER}`);
-    const response = await publicAuthClient.post(AUTH_API.REGISTER, data);
+    const response = await authClient.post(AUTH_API.REGISTER, data);
     
-    // Validate response
     if (!response.data) {
       throw new Error('No response data received');
     }
     
-    console.log('Register response received:', response.data);
     return response.data;
   } catch (error: any) {
-    console.error('Register API error:', error);
-    
-    // Handle different types of errors
     if (error.response?.status === 400) {
       throw new Error('Invalid registration data');
     } else if (error.response?.status === 409) {
@@ -219,26 +183,24 @@ export const register = async (data: RegisterPayload): Promise<AuthResponse> => 
 };
 
 export const forgotPassword = async (data: ForgotPasswordPayload): Promise<{ message: string }> => {
-  const response = await publicAuthClient.post(AUTH_API.FORGOT_PASSWORD, data);
+  const response = await authClient.post(AUTH_API.FORGOT_PASSWORD, data);
   return response.data;
 };
 
 export const resetPassword = async (data: ResetPasswordPayload): Promise<{ message: string }> => {
-  const response = await publicAuthClient.post(AUTH_API.RESET_PASSWORD, data);
+  const response = await authClient.post(AUTH_API.RESET_PASSWORD, data);
   return response.data;
 };
 
 export const verifyEmail = async (token: string): Promise<{ message: string }> => {
-  const response = await publicAuthClient.post(AUTH_API.VERIFY_EMAIL, { token });
+  const response = await authClient.post(AUTH_API.VERIFY_EMAIL, { token });
   return response.data;
 };
 
 export const resendVerification = async (email: string): Promise<{ message: string }> => {
-  const response = await publicAuthClient.post(AUTH_API.RESEND_VERIFICATION, { email });
+  const response = await authClient.post(AUTH_API.RESEND_VERIFICATION, { email });
   return response.data;
 };
-
-// ===== AUTHENTICATED AUTH FUNCTIONS =====
 
 export const refreshToken = async (data: RefreshTokenPayload): Promise<AuthResponse> => {
   const response = await authClient.post(AUTH_API.REFRESH_TOKEN, data);
@@ -255,147 +217,137 @@ export const logout = async (): Promise<{ message: string }> => {
   return response.data;
 };
 
-// ===== USER MANAGEMENT FUNCTIONS =====
-
 export const fetchUsersList = async (): Promise<UserType[]> => {
-  const response = await authServiceClient.get(AUTH_API.USERS);
+  const response = await authClient.get(AUTH_API.USERS);
   return response.data;
 };
 
 export const fetchUserById = async (id: string): Promise<UserType> => {
-  const response = await authServiceClient.get(AUTH_API.USERS_BY_ID.replace('{id}', id));
+  const response = await authClient.get(AUTH_API.USERS_BY_ID.replace('{id}', id));
   return response.data;
 };
 
 export const createUser = async (data: CreateUserPayload): Promise<UserType> => {
-  const response = await authServiceClient.post(AUTH_API.USERS, data);
+  const response = await authClient.post(AUTH_API.USERS, data);
   return response.data;
 };
 
 export const updateUser = async (id: string, data: UpdateUserPayload): Promise<UserType> => {
-  const response = await authServiceClient.put(AUTH_API.USERS_BY_ID.replace('{id}', id), data);
+  const response = await authClient.put(AUTH_API.USERS_BY_ID.replace('{id}', id), data);
   return response.data;
 };
 
 export const partialUpdateUser = async (id: string, data: Partial<UpdateUserPayload>): Promise<UserType> => {
-  const response = await authServiceClient.patch(AUTH_API.USERS_BY_ID.replace('{id}', id), data);
+  const response = await authClient.patch(AUTH_API.USERS_BY_ID.replace('{id}', id), data);
   return response.data;
 };
 
 export const deleteUser = async (id: string): Promise<UserType> => {
-  const response = await authServiceClient.delete(AUTH_API.USERS_BY_ID.replace('{id}', id));
+  const response = await authClient.delete(AUTH_API.USERS_BY_ID.replace('{id}', id));
   return response.data;
 };
 
-// ===== ROLE MANAGEMENT FUNCTIONS =====
-
 export const fetchRolesList = async (): Promise<RoleType[]> => {
-  const response = await authServiceClient.get(AUTH_API.ROLES);
+  const response = await authClient.get(AUTH_API.ROLES);
   return response.data;
 };
 
 export const fetchRoleById = async (id: string): Promise<RoleType> => {
-  const response = await authServiceClient.get(AUTH_API.ROLES_BY_ID.replace('{id}', id));
+  const response = await authClient.get(AUTH_API.ROLES_BY_ID.replace('{id}', id));
   return response.data;
 };
 
 export const createRole = async (data: CreateRolePayload): Promise<RoleType> => {
-  const response = await authServiceClient.post(AUTH_API.ROLES, data);
+  const response = await authClient.post(AUTH_API.ROLES, data);
   return response.data;
 };
 
 export const updateRole = async (id: string, data: RoleType): Promise<RoleType> => {
-  const response = await authServiceClient.put(AUTH_API.ROLES_BY_ID.replace('{id}', id), data);
+  const response = await authClient.put(AUTH_API.ROLES_BY_ID.replace('{id}', id), data);
   return response.data;
 };
 
 export const partialUpdateRole = async (id: string, data: Partial<RoleType>): Promise<RoleType> => {
-  const response = await authServiceClient.patch(AUTH_API.ROLES_BY_ID.replace('{id}', id), data);
+  const response = await authClient.patch(AUTH_API.ROLES_BY_ID.replace('{id}', id), data);
   return response.data;
 };
 
 export const deleteRole = async (id: string): Promise<RoleType> => {
-  const response = await authServiceClient.delete(AUTH_API.ROLES_BY_ID.replace('{id}', id));
+  const response = await authClient.delete(AUTH_API.ROLES_BY_ID.replace('{id}', id));
   return response.data;
 };
 
-// ===== PERMISSION MANAGEMENT FUNCTIONS =====
-
 export const fetchPermissionsList = async (): Promise<PermissionType[]> => {
-  const response = await authServiceClient.get(AUTH_API.PERMISSIONS);
+  const response = await authClient.get(AUTH_API.PERMISSIONS);
   return response.data;
 };
 
 export const fetchPermissionById = async (id: string): Promise<PermissionType> => {
-  const response = await authServiceClient.get(AUTH_API.PERMISSIONS_BY_ID.replace('{id}', id));
+  const response = await authClient.get(AUTH_API.PERMISSIONS_BY_ID.replace('{id}', id));
   return response.data;
 };
 
 export const createPermission = async (data: CreatePermissionPayload): Promise<PermissionType> => {
-  const response = await authServiceClient.post(AUTH_API.PERMISSIONS, data);
+  const response = await authClient.post(AUTH_API.PERMISSIONS, data);
   return response.data;
 };
 
 export const updatePermission = async (id: string, data: PermissionType): Promise<PermissionType> => {
-  const response = await authServiceClient.put(AUTH_API.PERMISSIONS_BY_ID.replace('{id}', id), data);
+  const response = await authClient.put(AUTH_API.PERMISSIONS_BY_ID.replace('{id}', id), data);
   return response.data;
 };
 
 export const partialUpdatePermission = async (id: string, data: Partial<PermissionType>): Promise<PermissionType> => {
-  const response = await authServiceClient.patch(AUTH_API.PERMISSIONS_BY_ID.replace('{id}', id), data);
+  const response = await authClient.patch(AUTH_API.PERMISSIONS_BY_ID.replace('{id}', id), data);
   return response.data;
 };
 
 export const deletePermission = async (id: string): Promise<PermissionType> => {
-  const response = await authServiceClient.delete(AUTH_API.PERMISSIONS_BY_ID.replace('{id}', id));
+  const response = await authClient.delete(AUTH_API.PERMISSIONS_BY_ID.replace('{id}', id));
   return response.data;
 };
 
-// ===== USER ROLE FUNCTIONS =====
-
 export const fetchUserRolesList = async (): Promise<UserRoleType[]> => {
-  const response = await authServiceClient.get(AUTH_API.USER_ROLES);
+  const response = await authClient.get(AUTH_API.USER_ROLES);
   return response.data;
 };
 
 export const fetchUserRoleById = async (id: string): Promise<UserRoleType> => {
-  const response = await authServiceClient.get(AUTH_API.USER_ROLES_BY_ID.replace('{id}', id));
+  const response = await authClient.get(AUTH_API.USER_ROLES_BY_ID.replace('{id}', id));
   return response.data;
 };
 
 export const createUserRole = async (data: CreateUserRolePayload): Promise<UserRoleType> => {
-  const response = await authServiceClient.post(AUTH_API.USER_ROLES, data);
+  const response = await authClient.post(AUTH_API.USER_ROLES, data);
   return response.data;
 };
 
 export const updateUserRole = async (id: string, data: UserRoleType): Promise<UserRoleType> => {
-  const response = await authServiceClient.put(AUTH_API.USER_ROLES_BY_ID.replace('{id}', id), data);
+  const response = await authClient.put(AUTH_API.USER_ROLES_BY_ID.replace('{id}', id), data);
   return response.data;
 };
 
 export const partialUpdateUserRole = async (id: string, data: Partial<UserRoleType>): Promise<UserRoleType> => {
-  const response = await authServiceClient.patch(AUTH_API.USER_ROLES_BY_ID.replace('{id}', id), data);
+  const response = await authClient.patch(AUTH_API.USER_ROLES_BY_ID.replace('{id}', id), data);
   return response.data;
 };
 
 export const deleteUserRole = async (id: string): Promise<UserRoleType> => {
-  const response = await authServiceClient.delete(AUTH_API.USER_ROLES_BY_ID.replace('{id}', id));
+  const response = await authClient.delete(AUTH_API.USER_ROLES_BY_ID.replace('{id}', id));
   return response.data;
 };
 
-// ===== PROFILE FUNCTIONS =====
-
 export const fetchProfile = async (): Promise<ProfileType> => {
-  const response = await authServiceClient.get(AUTH_API.PROFILE_GET);
+  const response = await authClient.get(AUTH_API.PROFILE_GET);
   return response.data;
 };
 
 export const updateProfile = async (data: UpdateProfilePayload): Promise<ProfileType> => {
-  const response = await authServiceClient.put(AUTH_API.PROFILE_UPDATE, data);
+  const response = await authClient.put(AUTH_API.PROFILE_UPDATE, data);
   return response.data;
 };
 
 export const partialUpdateProfile = async (data: Partial<UpdateProfilePayload>): Promise<ProfileType> => {
-  const response = await authServiceClient.patch(AUTH_API.PROFILE_PARTIAL_UPDATE, data);
+  const response = await authClient.patch(AUTH_API.PROFILE_PARTIAL_UPDATE, data);
   return response.data;
 };

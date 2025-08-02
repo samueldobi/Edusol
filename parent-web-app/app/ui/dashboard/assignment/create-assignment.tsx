@@ -65,7 +65,7 @@ export default function CreateAssignmnent({ assignments = [], onRefresh }: Creat
         className="flex items-center justify-center px-6 py-4 rounded-xl font-semibold cursor-pointer flex-1 min-w-[200px]  text-white bg-[#1AA939] shadow-md hover:-translate-y-1 hover:shadow-lg transition"
       >
         <Image
-          src="/images/contract.png"
+          src="/images/assignment.png"
           alt="Document Icon"
           className="mr-2 w-6 filter invert brightness-0"
           width={20}
@@ -79,7 +79,7 @@ export default function CreateAssignmnent({ assignments = [], onRefresh }: Creat
         className="flex items-center justify-center px-6 py-4 rounded-xl font-semibold cursor-pointer flex-1 min-w-[200px]  text-white bg-[#1AA939] shadow-md hover:-translate-y-1 hover:shadow-lg transition"
       >
         <Image
-          src="/images/contract.png"
+          src="/images/assignment.png"
           alt="Document Icon"
           className="mr-2 w-6 filter invert brightness-0"
           width={20}

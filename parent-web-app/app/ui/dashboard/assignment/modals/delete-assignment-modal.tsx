@@ -25,6 +25,7 @@ export default function DeleteConfirmModal({ assignment, isOpen, onClose, onSucc
     try {
       await deleteAssignment(assignment.id);
       onSuccess();
+      onClose(); // Close the modal after successful deletion
     } catch (err: any) {
       setError(err.message || 'Failed to delete assignment. Please try again.');
     } finally {

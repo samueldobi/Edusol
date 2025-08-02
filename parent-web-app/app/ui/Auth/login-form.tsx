@@ -14,13 +14,17 @@ export default function LoginForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    console.log('[LoginForm] Form submitted with email:', email);
     setError('');
     
     try {
+      console.log('[LoginForm] Calling login function...');
       await login(email, password);
+      console.log('[LoginForm] Login successful, redirecting to dashboard...');
       // Redirect to dashboard on successful login
       router.push('/dashboard');
     } catch (err: any) {
+      console.error('[LoginForm] Login failed:', err);
       setError(err?.response?.data?.message || err.message || 'Login failed');
     }
   };

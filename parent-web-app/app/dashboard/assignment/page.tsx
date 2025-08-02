@@ -24,7 +24,6 @@ export default function Page() {
   };
 
   const handleAssignmentCreated = () => {
-    // Refresh both the page-level assignments and the AssignmentCards component
     fetchAssignments();
     assignmentCardsRef.current?.refresh();
   };

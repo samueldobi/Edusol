@@ -60,7 +60,7 @@ export default function UserStats(){
       value: userCounts?.student_count || 0,
       color: 'bg-[#65F765]',
       bg: 'bg-[#f3c65e]',
-      src: '/student.png',
+      src: '/images/studentz.png',
       filter: 'students'
     },
     {
@@ -68,7 +68,7 @@ export default function UserStats(){
       value: userCounts?.teacher_count || 0,
       color: 'bg-[#726DCF]',
       bg: 'bg-[#8b88ca]',
-      src: '/teacher.png',
+      src: '/images/teacher.png',
       filter: 'teachers'
     },
     {
@@ -76,7 +76,7 @@ export default function UserStats(){
       value: userCounts?.guardian_count || 0,
       color: 'bg-[#1AA939]',
       bg: 'bg-[#79c88a]',
-      src: '/Person.png',
+      src: '/images/parentz.png',
       filter: 'guardians'
     },
     {
@@ -84,7 +84,7 @@ export default function UserStats(){
       value: userCounts?.admin_count || 0,
       color: 'bg-[#2a2ad180]',
       bg: 'bg-[#b3b3d480]',
-      src: '/admin.png',
+      src: '/images/admin.png',
       filter: 'admin'
     },
   ];

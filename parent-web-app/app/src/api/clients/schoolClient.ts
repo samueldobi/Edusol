@@ -1,11 +1,13 @@
 import axios from 'axios';
-import { addSchoolInterceptor } from '../utils/addSchoolInterceptor';
+
+// Use environment variable or fallback to the working URL
+const baseURL = process.env.NEXT_PUBLIC_BASE_URL || 'https://api-gateway-ms-app.fly.dev';
 
 export const schoolClient = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_BASE_URL,
+  baseURL,
   timeout: 20000,
   headers: {
     'Content-Type': 'application/json',
+    'Accept': 'application/json',
   },
 });
-// addSchoolInterceptor(schoolClient);

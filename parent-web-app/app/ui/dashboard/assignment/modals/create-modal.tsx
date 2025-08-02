@@ -12,7 +12,7 @@ export default function CreateAssignmentModal({ onClose, onSuccess }: CreateAssi
     title: '',
     description: '',
     due_date: '',
-    assignment_type: '',
+    assignment_type: 'homework',
     status: 'submitted' as const,
   });
   const [loading, setLoading] = useState(false);
@@ -55,9 +55,12 @@ export default function CreateAssignmentModal({ onClose, onSuccess }: CreateAssi
       const payload: CreateAssignmentPayload = {
         title: form.title.trim(),
         description: form.description.trim(),
-        due_date: new Date(form.due_date).toISOString().split('T')[0],
-        assignment_type: form.assignment_type || 'Homework',
+        due_date: form.due_date,
+        assignment_type: form.assignment_type || 'homework',
         status: 'submitted',
+        created_by: 'cdddc611-1fd3-4730-a819-9206c69b39d7',
+        created_at: new Date().toISOString(),
+        school: 'cdddc611-1fd3-4730-a819-9206c69b39d7',
         term: existingAssignment?.term || 'First Term',
         subject: existingAssignment?.subject || 'General',
         created_by_teacher_cache: existingAssignment?.created_by_teacher_cache || 'Teacher',
@@ -69,7 +72,7 @@ export default function CreateAssignmentModal({ onClose, onSuccess }: CreateAssi
         title: '',
         description: '',
         due_date: '',
-        assignment_type: '',
+        assignment_type: 'homework',
         status: 'submitted',
       });
       
@@ -149,13 +152,17 @@ export default function CreateAssignmentModal({ onClose, onSuccess }: CreateAssi
             <label className="block mb-2 font-semibold text-gray-700">
               Assignment Type
             </label>
-            <input
-              type="text"
+            <select
               value={form.assignment_type}
               onChange={(e) => handleInputChange('assignment_type', e.target.value)}
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
-              placeholder="e.g., Homework, Quiz, Project"
-            />
+            >
+              <option value="">Select assignment type</option>
+              <option value="homework">Homework</option>
+              <option value="classwork">Classwork</option>
+              <option value="test">Test</option>
+              <option value="project">Project</option>
+            </select>
           </div>
 
           <div className="flex justify-end gap-3 pt-4 border-t border-gray-200">

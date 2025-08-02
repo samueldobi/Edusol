@@ -104,7 +104,7 @@ const searchParams = useSearchParams();
                     Phone Number
                 </th>
                 <th className="px-6 py-5 text-left text-xs font-medium text-[#2C2C2C] uppercase tracking-wider">
-                    Actions (View,Edit, delete)
+                    Manage
                 </th>
                 </tr>
             </thead>
@@ -150,36 +150,19 @@ const searchParams = useSearchParams();
                     <div className="text-sm text-gray-900">{item.phone_number}</div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="flex justify-between">
+                    <div className="flex justify-center">
                         <button 
-                            className="p-2"
+                            className="inline-flex items-center px-3 py-1 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
                             onClick={(e) => {
                                 e.stopPropagation();
                                 handleStudentClick(item);
                             }}
                         >
-                            <Image
-                            src = "/images/userview.png"
-                            width={40}
-                            height={40}
-                            alt = "view button"
-                            />
-                        </button>
-                        <button className="p-2">
-                            <Image
-                            src = "/images/useredit.png"
-                            width={40}
-                            height={40}
-                            alt = "view button"
-                            />
-                        </button>
-                        <button className="p-2">
-                            <Image
-                            src = "/images/userdelete.png"
-                            width={40}
-                            height={40}
-                            alt = "view button"
-                            />
+                            <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                            Manage
                         </button>
                     </div>
                     </td>
@@ -214,20 +197,19 @@ const searchParams = useSearchParams();
         <p><span className="font-medium  p-2">Phone:</span> {item.phone_number}</p>
       </div>
 
-      <div className="mt-4 flex justify-center gap-4">
+      <div className="mt-4 flex justify-center">
         <button
+            className="inline-flex items-center px-3 py-1 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-green-600 hover:bg-green-700"
             onClick={(e) => {
                 e.stopPropagation();
                 handleStudentClick(item);
             }}
         >
-          <Image src="/images/userview.png" width={32} height={32} alt="view" />
-        </button>
-        <button>
-          <Image src="/images/useredit.png" width={32} height={32} alt="edit" />
-        </button>
-        <button>
-          <Image src="/images/userdelete.png" width={32} height={32} alt="delete" />
+            <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+            Manage
         </button>
       </div>
     </div>

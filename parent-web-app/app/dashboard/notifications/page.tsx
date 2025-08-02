@@ -44,7 +44,7 @@ export default function NotificationsPage() {
   return (
     <div className="p-6">
       <div className="mb-4">
-        <h1 className="text-2xl font-bold text-gray-900">Notifications</h1>
+        <h1 className="text-2xl font-bold text-[#1AA939]">Notifications</h1>
       </div>
       
       <AllNotifications

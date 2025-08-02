@@ -16,13 +16,13 @@ export default function MetricCardWrapper() {
       <MetricCard
         title="Guardians"
         value="20"
-        avatarSrc="/images/calendar.JPG"
+        avatarSrc="/images/parents.png"
         color="text-purple-600"
       />
       <MetricCard
         title="Users"
         value="630"
-        avatarSrc="/images/backpack.png"
+        avatarSrc="/images/users.png"
         color="text-green-600"
       />
     </>
