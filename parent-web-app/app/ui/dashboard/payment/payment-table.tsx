@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Table from '@/app/ui/dashboard/table';
 import { fetchSchoolFeesList, FeeType } from '@/app/src/api/services/schoolService';
+import { getErrorMessage } from '@/app/src/utils/errorHandling';
 
 interface PaymentTableProps {
   search: string;
@@ -28,12 +29,12 @@ export default function PaymentTable({ search }: PaymentTableProps) {
   const fetchPayments = async () => {
     try {
       setLoading(true);
+      setError("");
       const fetchedPayments = await fetchSchoolFeesList();
       setPayments(fetchedPayments);
-      console.log("Fetched payments:", fetchedPayments);
     } catch (error: any) {
       console.error("Error fetching payments:", error);
-      setError("Failed to fetch payments");
+      setError(getErrorMessage(error));
     } finally {
       setLoading(false);
     }
@@ -93,13 +94,17 @@ export default function PaymentTable({ search }: PaymentTableProps) {
   if (error) {
     return (
       <div className="text-center py-8">
-        <div className="text-red-500 mb-4">{error}</div>
-        <button 
-          onClick={fetchPayments}
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700"
-        >
-          Retry
-        </button>
+        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-4">
+          <div className="flex items-center justify-between">
+            <span>{error}</span>
+            <button 
+              onClick={fetchPayments}
+              className="text-red-800 underline hover:no-underline text-sm font-medium"
+            >
+              Try Again
+            </button>
+          </div>
+        </div>
       </div>
     );
   }

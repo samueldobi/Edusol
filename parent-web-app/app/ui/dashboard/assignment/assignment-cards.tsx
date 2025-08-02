@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect, forwardRef, useImperativeHandle } from "react";
 import { fetchAssignmentsList, AssignmentType } from "@/app/src/api/services/schoolService";
+import { getErrorMessage } from "@/app/src/utils/errorHandling";
 import ViewAssignmentModal from "./modals/view-assignment-modal";
 import EditAssignmentModal from "./modals/edit-assignment-modal";
 import DeleteConfirmModal from "./modals/delete-assignment-modal";
@@ -31,7 +32,8 @@ const AssignmentCards = forwardRef<AssignmentCardsRef, AssignmentCardsProps>(
         const fetchedAssignments = await fetchAssignmentsList();
         setAssignments(fetchedAssignments);
       } catch (err: any) {
-        setError(err.message || 'Failed to load assignments');
+        console.error('Failed to load assignments:', err);
+        setError(getErrorMessage(err));
       } finally {
         setLoading(false);
       }
@@ -100,14 +102,16 @@ const AssignmentCards = forwardRef<AssignmentCardsRef, AssignmentCardsProps>(
 
     if (error) {
       return (
-        <div className="text-center py-8">
-          <div className="text-red-500 mb-4">{error}</div>
-          <button 
-            onClick={fetchAssignments}
-            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700"
-          >
-            Retry
-          </button>
+        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-4">
+          <div className="flex items-center justify-between">
+            <span>{error}</span>
+            <button
+              onClick={fetchAssignments}
+              className="text-red-800 underline hover:no-underline text-sm font-medium"
+            >
+              Try Again
+            </button>
+          </div>
         </div>
       );
     }

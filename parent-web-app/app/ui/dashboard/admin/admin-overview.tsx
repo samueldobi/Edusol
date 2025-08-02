@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import AdminCard from "./admin-card";
 import AdminCardEdit from "./admin-card-edit";
 import { fetchSchoolInformationById, partialUpdateSchoolInformation, SchoolInformationType } from "@/app/src/api/services/schoolService";
+import { getErrorMessage } from "@/app/src/utils/errorHandling";
 
 const SCHOOL_ID = "a0308e2a-412f-4a57-b2ac-150a4507931a";
 
@@ -19,7 +20,8 @@ export default function AdminOverview() {
       const data = await fetchSchoolInformationById(SCHOOL_ID);
       setSchoolInfo(data);
     } catch (err: any) {
-      setError(err.message || 'Failed to load school information');
+      console.error('Failed to load school information:', err);
+      setError(getErrorMessage(err));
     } finally {
       setLoading(false);
     }
@@ -44,7 +46,8 @@ export default function AdminOverview() {
       setSchoolInfo(updatedData);
       setIsEditing(false);
     } catch (err: any) {
-      setError(err.message || 'Failed to update school information');
+      console.error('Failed to update school information:', err);
+      setError(getErrorMessage(err));
     } finally {
       setLoading(false);
     }
@@ -66,13 +69,15 @@ export default function AdminOverview() {
     return (
       <div className="p-6">
         <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-4">
-          {error}
-          <button 
-            onClick={handleRetry}
-            className="ml-2 underline hover:no-underline"
-          >
-            Retry
-          </button>
+          <div className="flex items-center justify-between">
+            <span>{error}</span>
+            <button 
+              onClick={handleRetry}
+              className="text-red-800 underline hover:no-underline text-sm font-medium"
+            >
+              Try Again
+            </button>
+          </div>
         </div>
       </div>
     );

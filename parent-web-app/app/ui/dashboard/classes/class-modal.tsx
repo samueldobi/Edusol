@@ -53,7 +53,7 @@ export default function AddClassUI({ onClassAdded }: AddClassUIProps) {
         school: form.school
       };
 
-      console.log("Sending payload:", payload);
+     
       
       await createSchoolClass(payload);
       setSuccess("Class added successfully!");

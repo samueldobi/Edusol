@@ -4,6 +4,7 @@ import { FeeType } from '@/app/src/api/services/schoolService';
 import { fetchFeesList, updateFee, deleteFee } from '@/app/src/api/services/schoolService';
 import FeeDetailsModal from './fee-details-modal';
 import Image from 'next/image';
+import { getErrorMessage } from '@/app/src/utils/errorHandling';
 
 interface FeesTableProps {
   onFeeUpdated?: () => void;
@@ -24,7 +25,7 @@ export default function FeesTable({ onFeeUpdated }: FeesTableProps) {
       setFees(feesData);
     } catch (err: any) {
       console.error('Failed to fetch fees:', err);
-      setError(err.message || 'Failed to load fees');
+      setError(getErrorMessage(err));
     } finally {
       setLoading(false);
     }
@@ -61,13 +62,15 @@ export default function FeesTable({ onFeeUpdated }: FeesTableProps) {
   if (error) {
     return (
       <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-4">
-        {error}
-        <button 
-          onClick={fetchFees}
-          className="ml-2 underline hover:no-underline"
-        >
-          Retry
-        </button>
+        <div className="flex items-center justify-between">
+          <span>{error}</span>
+          <button 
+            onClick={fetchFees}
+            className="text-red-800 underline hover:no-underline text-sm font-medium"
+          >
+            Try Again
+          </button>
+        </div>
       </div>
     );
   }

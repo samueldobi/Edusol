@@ -12,8 +12,4 @@ export const authClient = axios.create({
     'Content-Type': 'application/json',
   },
 });
-
-console.log('[authClient] Base URL:', baseURL);
-
-// Add interceptor to auth client
 addInterceptor(authClient);

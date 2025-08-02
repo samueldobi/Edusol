@@ -71,8 +71,6 @@ export default function SessionCard() {
       const createdTerms = await Promise.all(
         termsToCreate.map(term => createTerm(term))
       );
-
-      console.log("Created terms:", createdTerms);
       
       // Redirect to sessions page with refresh parameter
       router.push("/dashboard/result/session?refresh=true");

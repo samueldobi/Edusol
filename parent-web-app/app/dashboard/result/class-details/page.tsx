@@ -77,7 +77,7 @@ export default function ClassDetails() {
   // Show all students for testing
   const students = mockStudents;
   const className = students.length > 0 ? students[0].class : classId;
-  console.log("classId:", classId, "students:", students);
+
 
   return (
     <div className="p-4 space-y-4">

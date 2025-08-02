@@ -3,6 +3,7 @@ import React from "react"
 import { useEffect, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { fetchSchoolClasses, ClassType } from "@/app/src/api/services/schoolService";
+import { getErrorMessage } from "@/app/src/utils/errorHandling";
 
 type LevelGroup = {
   level: string;
@@ -37,14 +38,12 @@ export default function ClassGroups() {
     try {
       setLoading(true);
       setError("");
-      console.log("Fetching classes...");
-      console.log("API URL:", process.env.NEXT_PUBLIC_SCHOOL_SERVICE_URL);
-      console.log("Full endpoint:", `${process.env.NEXT_PUBLIC_SCHOOL_SERVICE_URL}/api/schools/classes`);
+
       
       const fetchedClasses = await fetchSchoolClasses();
       const groupedClasses = groupClassesByLevel(fetchedClasses);
       setAllLevels(groupedClasses);
-      console.log("Fetched classes:", fetchedClasses);
+     
     } catch (error: any) {
       console.error("Error fetching classes:", error);
       console.error("Error response:", error.response);
@@ -95,18 +94,15 @@ export default function ClassGroups() {
 
   if (error) {
     return (
-      <div className="text-center py-8">
-        <div className="text-red-500 mb-4">{error}</div>
-        <div className="flex gap-2 justify-center">
-          <button 
+      <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-4">
+        <div className="flex items-center justify-between">
+          <span>{error}</span>
+          <button
             onClick={fetchClasses}
-            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700"
+            className="text-red-800 underline hover:no-underline text-sm font-medium"
           >
-            Retry
+            Try Again
           </button>
-        </div>
-        <div className="mt-2 text-sm text-gray-600">
-          Check the browser console for more details
         </div>
       </div>
     );

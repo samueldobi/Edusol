@@ -93,51 +93,52 @@ export default function NotificationTable({
         };
 
         return (
+        
           <div
-            key={notification.id}
-            className={`flex items-start p-4 md:p-5 border-b border-gray-100 gap-4 hover:bg-gray-50 transition-colors cursor-pointer ${
-              !notification.is_read ? 'bg-blue-50' : ''
-            }`}
-            onClick={() => handleNotificationClick(item)}
-          >
-            <div className="w-9 h-9 md:w-10 md:h-10 bg-green-600 text-white rounded-full flex items-center justify-center text-sm md:text-base flex-shrink-0">
-              {getTypeIcon(notification.type)}
-            </div>
+  key={notification.id}
+  className={`flex items-start p-4 md:p-5 border-b border-gray-100 gap-4 hover:bg-gray-50 transition-colors cursor-pointer w-full min-w-0 ${
+    !notification.is_read ? 'bg-[#fff]' : ''
+  }`}
+  onClick={() => handleNotificationClick(item)}
+>
+  <div className="w-9 h-9 md:w-10 md:h-10 bg-green-600 text-white rounded-full flex items-center justify-center text-sm md:text-base flex-shrink-0">
+    {getTypeIcon(notification.type)}
+  </div>
 
-            <div className="flex-1">
-              <div className="flex items-center gap-2 mb-1">
-                <span
-                  className={`text-xs font-medium px-2 py-0.5 rounded ${getTypeColor(
-                    notification.type
-                  )}`}
-                >
-                  {notification.type}
-                </span>
-                <span className="font-semibold text-gray-800 text-sm">
-                  {notification.title}
-                </span>
-                {!notification.is_read && (
-                  <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
-                )}
-              </div>
+  <div className="flex-1 min-w-0 w-full">
+    <div className="flex flex-col sm:flex-row items-start sm:items-center gap-1 sm:gap-2 mb-1 w-full min-w-0">
+      <span
+        className={`text-xs font-medium px-2 py-0.5 rounded flex-shrink-0 ${getTypeColor(
+          notification.type
+        )}`}
+      >
+        {notification.type}
+      </span>
+      <span className="font-semibold text-gray-800 text-sm min-w-0 break-words">
+        {notification.title}
+      </span>
+      {!notification.is_read && (
+        <span className="w-2 h-2 bg-blue-500 rounded-full flex-shrink-0"></span>
+      )}
+    </div>
 
-              <div className="text-gray-600 text-sm leading-relaxed">
-                {notification.message}
-              </div>
+    <div className="text-gray-600 text-sm leading-relaxed min-w-0 break-words whitespace-normal">
+      {notification.message}
+    </div>
 
-              <div className="flex items-center gap-4 text-gray-400 text-xs mt-2">
-                <span>{formatDate(notification.created_at)}</span>
-                <span>{formatTime(notification.created_at)}</span>
-                {notification.recipient_id && (
-                  <span>To: {notification.recipient_id}</span>
-                )}
-              </div>
-            </div>
+    <div className="flex flex-wrap items-center gap-4 text-gray-400 text-xs mt-2 min-w-0">
+      <span className="flex-shrink-0">{formatDate(notification.created_at)}</span>
+      <span className="flex-shrink-0">{formatTime(notification.created_at)}</span>
+      {notification.recipient_id && (
+        <span className="min-w-0 break-words">To: {notification.recipient_id}</span>
+      )}
+    </div>
+  </div>
 
-            <div className="text-gray-400 text-xs opacity-0 group-hover:opacity-100 transition-opacity">
-              Click to view details →
-            </div>
-          </div>
+  <div className="text-gray-400 text-xs opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0 hidden sm:block">
+    Click to view details →
+  </div>
+</div>
         );
       })}
 

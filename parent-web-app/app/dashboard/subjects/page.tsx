@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import Image from "next/image";
 import AddSubjectModal from "@/app/ui/dashboard/subjects/add-subject-modal";
 import { fetchSubjectsList, SubjectType } from "@/app/src/api/services/schoolService";
+import { getErrorMessage } from "@/app/src/utils/errorHandling";
 
 function SubjectEntries({ entriesPerPage, setEntriesPerPage, search, setSearch }: { entriesPerPage: number; setEntriesPerPage: (value: number) => void; search: string; setSearch: (value: string) => void }) {
   return (
@@ -58,15 +59,8 @@ export default function Page() {
       setSubjects(fetchedSubjects);
       setCurrentPage(1);
     } catch (error: any) {
-      if (error.response?.status === 403) {
-        setError("Access forbidden. Please check your permissions.");
-      } else if (error.response?.status === 404) {
-        setError("API endpoint not found. Please check the configuration.");
-      } else if (error.response?.status >= 500) {
-        setError("Server error. Please try again later.");
-      } else {
-        setError(`Failed to fetch subjects: ${error.message || 'Unknown error'}`);
-      }
+      console.error("Error fetching subjects:", error);
+      setError(getErrorMessage(error));
     } finally {
       setLoading(false);
     }
@@ -103,13 +97,17 @@ export default function Page() {
   if (error) {
     return (
       <div className="text-center py-8">
-        <div className="text-red-500 mb-4">{error}</div>
-        <button 
-          onClick={fetchSubjects}
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700"
-        >
-          Retry
-        </button>
+        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-4">
+          <div className="flex items-center justify-between">
+            <span>{error}</span>
+            <button 
+              onClick={fetchSubjects}
+              className="text-red-800 underline hover:no-underline text-sm font-medium"
+            >
+              Try Again
+            </button>
+          </div>
+        </div>
       </div>
     );
   }

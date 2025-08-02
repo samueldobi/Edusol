@@ -36,7 +36,6 @@ export default function StudentAttendanceCard({ studentData }: Props) {
   useEffect(() => {
    
     setCardData(attendanceCardData)
-    console.log(setCardData)
   }, []);
 
   return (

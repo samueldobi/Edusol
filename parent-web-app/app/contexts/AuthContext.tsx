@@ -1,6 +1,6 @@
 "use client";
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { login as authLogin, logout as authLogout, AuthResponse } from '@/app/src/api/services/authService';
+import { login as authLogin, logout as authLogout, refreshToken, AuthResponse } from '@/app/src/api/services/authService';
 
 interface User {
   id: string;
@@ -16,6 +16,7 @@ interface AuthContextType {
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
   refreshUser: () => Promise<void>;
+  refreshAuthToken: () => Promise<boolean>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -38,6 +39,26 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const isAuthenticated = !!user;
 
+  const refreshAuthToken = async (): Promise<boolean> => {
+    try {
+      const refreshTokenValue = localStorage.getItem('refreshToken');
+      if (!refreshTokenValue) {
+        return false;
+      }
+
+      const response = await refreshToken({ refreshToken: refreshTokenValue });
+      
+      if (response.tokens?.accessToken) {
+        localStorage.setItem('token', response.tokens.accessToken);
+        localStorage.setItem('refreshToken', response.tokens.refreshToken);
+        return true;
+      }
+      return false;
+    } catch (error) {
+      return false;
+    }
+  };
+
   useEffect(() => {
     const checkAuth = async () => {
       try {
@@ -59,10 +80,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         
       } catch (error) {
         if (error instanceof Error && (error.message.includes('401') || error.message.includes('403'))) {
-          localStorage.removeItem('token');
-          localStorage.removeItem('refreshToken');
-          localStorage.removeItem('user');
-          setUser(null);
+          // Try to refresh token before clearing auth data
+          const refreshSuccess = await refreshAuthToken();
+          if (!refreshSuccess) {
+            localStorage.removeItem('token');
+            localStorage.removeItem('refreshToken');
+            localStorage.removeItem('user');
+            setUser(null);
+          }
         }
       } finally {
         setIsLoading(false);
@@ -154,6 +179,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     login,
     logout,
     refreshUser,
+    refreshAuthToken,
   };
 
   return (

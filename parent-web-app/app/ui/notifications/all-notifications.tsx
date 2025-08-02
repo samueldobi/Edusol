@@ -86,7 +86,15 @@ export default function AllNotifications({
       )}
       {error && (
         <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-4">
-          {error}
+          <div className="flex items-center justify-between">
+            <span>{error}</span>
+            <button
+              onClick={onRefresh}
+              className="text-red-800 underline hover:no-underline text-sm font-medium"
+            >
+              Try Again
+            </button>
+          </div>
         </div>
       )}
       {!loading && !error && (

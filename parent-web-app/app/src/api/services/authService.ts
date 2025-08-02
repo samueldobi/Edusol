@@ -1,5 +1,15 @@
 import { authClient } from '../clients/authClient';
 import { AUTH_API } from '../endpoints/authEndpoints';
+import axios from 'axios';
+
+// Create a separate client for refresh token requests without interceptors
+const refreshClient = axios.create({
+  baseURL: process.env.NEXT_PUBLIC_BASE_URL || 'https://api-gateway-ms-app.fly.dev',
+  timeout: 10000,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
 
 export interface LoginPayload {
   email: string;
@@ -203,8 +213,12 @@ export const resendVerification = async (email: string): Promise<{ message: stri
 };
 
 export const refreshToken = async (data: RefreshTokenPayload): Promise<AuthResponse> => {
-  const response = await authClient.post(AUTH_API.REFRESH_TOKEN, data);
-  return response.data;
+  try {
+    const response = await refreshClient.post(AUTH_API.REFRESH_TOKEN, data);
+    return response.data;
+  } catch (error: any) {
+    throw error;
+  }
 };
 
 export const changePassword = async (data: ChangePasswordPayload): Promise<{ message: string }> => {

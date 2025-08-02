@@ -13,16 +13,9 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
   const [hasCheckedAuth, setHasCheckedAuth] = useState(false);
 
   useEffect(() => {
-    console.log('[ProtectedRoute] Auth state changed:', {
-      isAuthenticated,
-      isLoading,
-      hasCheckedAuth,
-      user: user ? 'Present' : 'None'
-    });
-    
     // Only redirect after we've completed the auth check and user is still not authenticated
     if (!isLoading && !isAuthenticated && hasCheckedAuth) {
-      console.log('[ProtectedRoute] User not authenticated after auth check, redirecting to login');
+ 
       router.push('/auth/login');
     }
   }, [isAuthenticated, isLoading, hasCheckedAuth, router, user]);
@@ -30,13 +23,12 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
   useEffect(() => {
     // Mark that we've completed the auth check
     if (!isLoading) {
-      console.log('[ProtectedRoute] Auth check completed, setting hasCheckedAuth to true');
-      setHasCheckedAuth(true);
+       setHasCheckedAuth(true);
     }
   }, [isLoading]);
 
   if (isLoading) {
-    console.log('[ProtectedRoute] Still loading, showing loading screen');
+   
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
@@ -49,11 +41,9 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
 
   // Don't redirect immediately if we haven't completed the auth check yet
   if (!isAuthenticated && hasCheckedAuth) {
-    console.log('[ProtectedRoute] User not authenticated, redirecting to login');
+   
     router.push('/auth/login');
     return null;
   }
-
-  console.log('[ProtectedRoute] User authenticated, rendering children');
   return <>{children}</>;
 } 

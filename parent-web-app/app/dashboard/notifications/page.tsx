@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { fetchNotificationsList } from '../../src/api/services/notificationService';
 import { NotificationType } from '../../src/api/services/notificationService';
+import { getErrorMessage } from '../../src/utils/errorHandling';
 import AllNotifications from '../../ui/notifications/all-notifications';
 
 export default function NotificationsPage() {
@@ -23,7 +24,7 @@ export default function NotificationsPage() {
       setNotifications(notificationsArray);
     } catch (err: any) {
       console.error('[NotificationsPage] Failed to load notifications:', err);
-      setError(err.message || 'Failed to load notifications');
+      setError(getErrorMessage(err));
     } finally {
       setLoading(false);
     }

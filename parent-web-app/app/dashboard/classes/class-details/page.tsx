@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import ClassDetailsInfo from "@/app/ui/dashboard/classes/class-details-info";
 import { fetchSchoolClassById, ClassType } from "@/app/src/api/services/schoolService";
 import { fetchUserById, UserType } from "@/app/src/api/services/userService";
+import { getErrorMessage } from "@/app/src/utils/errorHandling";
 
 export default function ClassDetails() {
   const searchParams = useSearchParams();
@@ -20,20 +21,16 @@ export default function ClassDetails() {
     try {
       setLoading(true);
       setError("");
-      console.log("Fetching class details for classId:", classId);
       
       // Fetch the actual class data from the backend
       const classResponse = await fetchSchoolClassById(classId);
       setClassData(classResponse);
-      console.log("Fetched class data:", classResponse);
       
       // Fetch teacher information if we have a form_teacher_id
       if (classResponse.form_teacher_id) {
         try {
-          console.log("Fetching teacher information for ID:", classResponse.form_teacher_id);
           const teacher = await fetchUserById(classResponse.form_teacher_id);
           setTeacherData(teacher);
-          console.log("Fetched teacher data:", teacher);
         } catch (teacherError: any) {
           console.error("Error fetching teacher data:", teacherError);
           // Don't fail the entire request if teacher fetch fails
@@ -41,20 +38,10 @@ export default function ClassDetails() {
         }
       }
       
-      console.log("Class details fetched successfully");
+    
     } catch (error: any) {
       console.error("Error fetching class details:", error);
-      console.error("Error response:", error.response);
-      console.error("Error status:", error.response?.status);
-      console.error("Error data:", error.response?.data);
-      
-      if (error.response?.status === 404) {
-        setError("Class not found. Please check the class ID.");
-      } else if (error.response?.status >= 500) {
-        setError("Server error. Please try again later.");
-      } else {
-        setError(`Failed to fetch class details: ${error.message || 'Unknown error'}`);
-      }
+      setError(getErrorMessage(error));
     } finally {
       setLoading(false);
     }
@@ -70,14 +57,18 @@ export default function ClassDetails() {
 
   if (error) {
     return (
-      <div className="text-center py-8">
-        <div className="text-red-500 mb-4">{error}</div>
-        <button 
-          onClick={fetchClassDetails}
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700"
-        >
-          Retry
-        </button>
+      <div className="p-6">
+        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-4">
+          <div className="flex items-center justify-between">
+            <span>{error}</span>
+            <button
+              onClick={fetchClassDetails}
+              className="text-red-800 underline hover:no-underline text-sm font-medium"
+            >
+              Try Again
+            </button>
+          </div>
+        </div>
       </div>
     );
   }
