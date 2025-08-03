@@ -229,7 +229,7 @@ const NotificationDetailsModal = ({ notification, onClose, onSuccess }: Notifica
                   <label className="block text-sm font-medium text-gray-700 mb-2">Type:</label>
                   <select
                     value={editForm.type}
-                    onChange={(e) => setEditForm(prev => ({ ...prev, type: e.target.value as any }))}
+                    onChange={(e) => setEditForm(prev => ({ ...prev, type: e.target.value }))}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
                   >
                     <option value="info">Info</option>

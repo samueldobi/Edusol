@@ -44,7 +44,8 @@ export default function NotificationTable({
     try {
       const date = new Date(dateString);
       return date.toLocaleDateString();
-    } catch (error) {
+    } catch (error: unknown) {
+      console.warn('Date parsing error:', error);
       return 'Invalid date';
     }
   }
@@ -53,7 +54,8 @@ export default function NotificationTable({
     try {
       const date = new Date(dateString);
       return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    } catch (error) {
+    } catch (error: unknown) {
+      console.warn('Time parsing error:', error);
       return 'Invalid time';
     }
   }
@@ -73,7 +75,7 @@ export default function NotificationTable({
       <div className="flex flex-col items-center justify-center p-8 text-gray-500">
         <div className="text-4xl mb-4">📭</div>
         <h3 className="text-lg font-medium mb-2">No notifications</h3>
-        <p className="text-sm">You're all caught up!</p>
+        <p className="text-sm">You&apos;re all caught up!</p>
       </div>
     );
   }

@@ -7,7 +7,7 @@ import ChartData from '@/app/ui/dashboard/chart';
 import NotificationItemWrapper from '@/app/ui/dashboard/notification-item';
 import AlertItem from '@/app/ui/dashboard/alert-item';
 // import Calendar from '@/app/ui/dashboard/calendar/calendar';
-import ClassMetricsWrapper from '@/app/ui/dashboard/class-metric';
+// import ClassMetricsWrapper from '@/app/ui/dashboard/class-metric';
 import RecentPaymentsTable from '@/app/ui/dashboard/recent-payment-table';
 import { motion } from 'framer-motion';
 
