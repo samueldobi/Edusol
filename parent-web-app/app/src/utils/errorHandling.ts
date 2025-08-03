@@ -49,6 +49,7 @@ export const getErrorMessage = (error: unknown): string => {
     if (errorObj.message) {
       return errorObj.message;
     }
+  }
   
   // Fallback message
   return 'An unexpected error occurred. Please try again.';
