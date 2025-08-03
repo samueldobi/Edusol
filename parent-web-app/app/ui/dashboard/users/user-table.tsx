@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image"
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import axios from "axios";
 import { useRouter, useSearchParams } from "next/navigation";
 
@@ -36,8 +36,8 @@ const searchParams = useSearchParams();
             try{
                 const res = await axios.get("https://raw.githubusercontent.com/samueldobi/Currency-Converter/refs/heads/main/edusol_data.json")
                 // Filter for only students
-                const studentEntries = res.data.filter((entry:ApiStudent)=>entry.status === "student")
-                // Note: studentData and studentSize are not currently used in this component
+                // Fetch student data but not currently used in this component
+                res.data.filter((entry:ApiStudent)=>entry.status === "student")
             } catch (err: unknown) {
                 console.warn('Failed to fetch students:', err);
                 // Handle error silently

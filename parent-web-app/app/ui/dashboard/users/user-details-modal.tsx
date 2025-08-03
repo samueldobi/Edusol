@@ -65,9 +65,12 @@ export default function UserDetailsModal({
       
       // Clear success message after 2 seconds
       setTimeout(() => setSuccess(""), 2000);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Error updating user:', err);
-      setError(err.response?.data?.message || 'Failed to update user');
+      const errorMessage = err && typeof err === 'object' && 'response' in err 
+        ? (err as { response?: { data?: { message?: string } } }).response?.data?.message 
+        : 'Failed to update user';
+      setError(errorMessage || 'Failed to update user');
     } finally {
       setLoading(false);
     }
@@ -83,9 +86,12 @@ export default function UserDetailsModal({
       await deleteUser(user.id);
       onUserDeleted();
       onClose();
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Error deleting user:', err);
-      setError(err.response?.data?.message || 'Failed to delete user');
+      const errorMessage = err && typeof err === 'object' && 'response' in err 
+        ? (err as { response?: { data?: { message?: string } } }).response?.data?.message 
+        : 'Failed to delete user';
+      setError(errorMessage || 'Failed to delete user');
       setIsDeleting(false);
     }
   };
