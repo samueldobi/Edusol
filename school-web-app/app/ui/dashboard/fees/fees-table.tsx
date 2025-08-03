@@ -1,10 +1,9 @@
 "use client";
 import { useState, useEffect } from 'react';
 import { FeeType } from '@/app/src/api/services/schoolService';
-import { fetchFeesList, updateFee, deleteFee } from '@/app/src/api/services/schoolService';
+import { fetchFeesList } from '@/app/src/api/services/schoolService';
 import FeeDetailsModal from './fee-details-modal';
 import Image from 'next/image';
-import { getErrorMessage } from '@/app/src/utils/errorHandling';
 
 interface FeesTableProps {
   onFeeUpdated?: () => void;
@@ -23,9 +22,8 @@ export default function FeesTable({ onFeeUpdated }: FeesTableProps) {
       setError(null);
       const feesData = await fetchFeesList();
       setFees(feesData);
-    } catch (err: any) {
-      console.error('Failed to fetch fees:', err);
-      setError(getErrorMessage(err));
+    } catch (err: unknown) {
+      setError('Failed to fetch fees. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -84,7 +82,7 @@ export default function FeesTable({ onFeeUpdated }: FeesTableProps) {
           </div>
           <h3 className="text-xl font-semibold text-gray-900 mb-2">No Fees Created</h3>
           <p className="text-gray-600 mb-6">
-            There are no fees configured for this school yet. Click "Add New Fee" to get started.
+            There are no fees configured for this school yet. Click &quot;Add New Fee&quot; to get started.
           </p>
           <div className="text-gray-400">
             <p className="text-sm">Start by adding your first fee</p>

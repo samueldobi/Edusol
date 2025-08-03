@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import FeesTable from "@/app/ui/dashboard/fees/fees-table";
 import AddFeeModal from "@/app/ui/dashboard/fees/add-fee-modal";
 import Image from "next/image";

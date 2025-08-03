@@ -22,7 +22,7 @@ export default function NotificationsPage() {
       const notificationsArray = Array.isArray(data) ? data : [];
       
       setNotifications(notificationsArray);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('[NotificationsPage] Failed to load notifications:', err);
       setError(getErrorMessage(err));
     } finally {

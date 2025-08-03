@@ -14,7 +14,7 @@ export default function EditAssignmentModal({ assignment, isOpen, onClose, onSuc
     title: '',
     description: '',
     due_date: '',
-    assignment_type: '',
+    assignment_type: 'homework' as 'homework' | 'classwork' | 'test' | 'project',
     status: 'submitted' as const,
   });
   const [loading, setLoading] = useState(false);
@@ -26,7 +26,7 @@ export default function EditAssignmentModal({ assignment, isOpen, onClose, onSuc
         title: assignment.title || '',
         description: assignment.description || '',
         due_date: assignment.due_date ? new Date(assignment.due_date).toISOString().split('T')[0] : '',
-        assignment_type: assignment.assignment_type || '',
+        assignment_type: assignment.assignment_type || 'homework',
         status: assignment.status || 'submitted',
       });
     }
@@ -35,7 +35,7 @@ export default function EditAssignmentModal({ assignment, isOpen, onClose, onSuc
   const handleInputChange = (field: keyof typeof form, value: string) => {
     setForm(prev => ({
       ...prev,
-      [field]: value
+      [field]: field === 'assignment_type' ? (value as 'homework' | 'classwork' | 'test' | 'project') : value
     }));
   };
 
@@ -55,14 +55,15 @@ export default function EditAssignmentModal({ assignment, isOpen, onClose, onSuc
         title: form.title.trim(),
         description: form.description.trim(),
         due_date: new Date(form.due_date).toISOString().split('T')[0],
-        assignment_type: form.assignment_type || 'Homework',
+        assignment_type: form.assignment_type,
         status: form.status,
       };
 
       await partialUpdateAssignment(assignment.id, updatePayload);
       onSuccess();
-    } catch (err: any) {
-      setError(err.message || 'Failed to update assignment. Please try again.');
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error ? err.message : 'Failed to update assignment. Please try again.';
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -138,13 +139,16 @@ export default function EditAssignmentModal({ assignment, isOpen, onClose, onSuc
             <label className="block mb-2 font-semibold text-gray-700">
               Assignment Type
             </label>
-            <input
-              type="text"
+            <select
               value={form.assignment_type}
               onChange={(e) => handleInputChange('assignment_type', e.target.value)}
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
-              placeholder="e.g., Homework, Quiz, Project"
-            />
+            >
+              <option value="homework">Homework</option>
+              <option value="classwork">Classwork</option>
+              <option value="test">Test</option>
+              <option value="project">Project</option>
+            </select>
           </div>
 
           <div className="mb-6">

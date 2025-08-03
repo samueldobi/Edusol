@@ -27,9 +27,13 @@ export default function Page() {
       setError(null);
       const usersData = await fetchUsersList();
       setUsers(usersData);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Failed to load users:', err);
-      setError(err.message || 'Failed to load users');
+      if (err && typeof err === 'object' && 'message' in err && typeof (err as { message?: string }).message === 'string') {
+        setError((err as { message: string }).message);
+      } else {
+        setError('Failed to load users');
+      }
     } finally {
       setLoading(false);
     }

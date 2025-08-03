@@ -52,7 +52,7 @@ export default function Page() {
         created_at: form.created_at,
         school: form.school,
       };
-      const newSubject = await createSubject(payload);
+      await createSubject(payload);
       setSuccess("Subject added successfully!");
       
       // Reset form

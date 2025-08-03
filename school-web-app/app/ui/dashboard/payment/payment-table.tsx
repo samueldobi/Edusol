@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Table from '@/app/ui/dashboard/table';
 import { fetchSchoolFeesList, FeeType } from '@/app/src/api/services/schoolService';
-import { getErrorMessage } from '@/app/src/utils/errorHandling';
+
 
 interface PaymentTableProps {
   search: string;
@@ -32,9 +32,8 @@ export default function PaymentTable({ search }: PaymentTableProps) {
       setError("");
       const fetchedPayments = await fetchSchoolFeesList();
       setPayments(fetchedPayments);
-    } catch (error: any) {
-      console.error("Error fetching payments:", error);
-      setError(getErrorMessage(error));
+    } catch {
+      setError('Failed to fetch payments. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -59,8 +58,8 @@ export default function PaymentTable({ search }: PaymentTableProps) {
     // Apply search filter
     if (search.trim() !== "") {
       newData = newData.filter(item =>
-        (item.name && item.name.toLowerCase().includes(search.toLowerCase())) ||
-        (item.amount && item.amount.toString().includes(search))
+        (item.fee_type && item.fee_type.toLowerCase().includes(search.toLowerCase())) ||
+        (item.fee_amount && item.fee_amount.toString().includes(search))
       );
     }
 
@@ -84,8 +83,7 @@ export default function PaymentTable({ search }: PaymentTableProps) {
     setCurrentPage(1); // Reset page on rows per page change
   };
 
-  // Total number of pages
-  const totalPages = Math.ceil(filteredData.length / rowsPerPage);
+
 
   if (loading) {
     return <div className="text-center py-8">Loading payments...</div>;

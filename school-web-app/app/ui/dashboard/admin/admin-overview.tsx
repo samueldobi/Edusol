@@ -19,7 +19,7 @@ export default function AdminOverview() {
       setError(null);
       const data = await fetchSchoolInformationById(SCHOOL_ID);
       setSchoolInfo(data);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Failed to load school information:', err);
       setError(getErrorMessage(err));
     } finally {
@@ -45,7 +45,7 @@ export default function AdminOverview() {
       await partialUpdateSchoolInformation(SCHOOL_ID, updatePayload);
       setSchoolInfo(updatedData);
       setIsEditing(false);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Failed to update school information:', err);
       setError(getErrorMessage(err));
     } finally {

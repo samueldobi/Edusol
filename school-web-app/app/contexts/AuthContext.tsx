@@ -6,7 +6,7 @@ interface User {
   id: string;
   email: string;
   name: string;
-  profile?: any;
+  profile?: Record<string, unknown>;
 }
 
 interface AuthContextType {
@@ -54,7 +54,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         return true;
       }
       return false;
-    } catch (error) {
+    } catch {
       return false;
     }
   };
@@ -78,16 +78,15 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           name: parsedUserData.name || 'User',
         });
         
-      } catch (error) {
-        if (error instanceof Error && (error.message.includes('401') || error.message.includes('403'))) {
-          // Try to refresh token before clearing auth data
-          const refreshSuccess = await refreshAuthToken();
-          if (!refreshSuccess) {
-            localStorage.removeItem('token');
-            localStorage.removeItem('refreshToken');
-            localStorage.removeItem('user');
-            setUser(null);
-          }
+      } catch (error: unknown) {
+        console.error('Auth check error:', error);
+        // Try to refresh token before clearing auth data
+        const refreshSuccess = await refreshAuthToken();
+        if (!refreshSuccess) {
+          localStorage.removeItem('token');
+          localStorage.removeItem('refreshToken');
+          localStorage.removeItem('user');
+          setUser(null);
         }
       } finally {
         setIsLoading(false);
@@ -123,16 +122,20 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         name: userData.name,
       });
       
-    } catch (error: any) {
+    } catch (error: unknown) {
       let errorMessage = 'Login failed';
-      if (error.code === 'ERR_NETWORK') {
+      
+      if (error && typeof error === 'object' && 'code' in error && error.code === 'ERR_NETWORK') {
         errorMessage = 'Network error - please check your connection';
-      } else if (error.response?.status === 401) {
-        errorMessage = 'Invalid email or password';
-      } else if (error.response?.status === 403) {
-        errorMessage = 'Access forbidden - please contact support';
-      } else if (error.response?.data?.message) {
-        errorMessage = error.response.data.message;
+      } else if (error && typeof error === 'object' && 'response' in error) {
+        const response = (error as { response?: { status?: number; data?: { message?: string } } }).response;
+        if (response?.status === 401) {
+          errorMessage = 'Invalid email or password';
+        } else if (response?.status === 403) {
+          errorMessage = 'Access forbidden - please contact support';
+        } else if (response?.data?.message) {
+          errorMessage = response.data.message;
+        }
       }
       
       throw new Error(errorMessage);
@@ -147,12 +150,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       if (token) {
         try {
           await authLogout();
-        } catch (logoutError) {
+        } catch (logoutError: unknown) {
           // Continue with logout even if API call fails
+          console.warn('Logout API call failed:', logoutError);
         }
       }
-    } catch (error) {
+    } catch (error: unknown) {
       // Handle logout error silently
+      console.warn('Logout error:', error);
     } finally {
       localStorage.removeItem('token');
       localStorage.removeItem('refreshToken');
@@ -167,8 +172,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       if (!token) {
         return;
       }
-    } catch (error) {
+    } catch (error: unknown) {
       // Don't automatically logout on profile fetch failure
+      console.warn('Profile fetch error:', error);
     }
   };
 

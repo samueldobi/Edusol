@@ -20,6 +20,7 @@ export const addSchoolInterceptor = (axiosInstance: AxiosInstance) => {
             config.headers['X-Auth-Token'] = token;
           } catch (error) {
             config.headers.Authorization = `Bearer ${token}`;
+            console.log(error);
           }
         }
 

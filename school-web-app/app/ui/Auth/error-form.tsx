@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 // import OtpInput from '@/app/ui/Auth/otpinputs';
 import { Button } from '@/app/ui/Auth/button';
 
@@ -7,7 +8,13 @@ export default function ErrorForm() {
     <div className="bg-white rounded-lg shadow-lg w-[40%] max-w-[500px] min-w-[320px] flex flex-col py-12 sm:w-[90%] px-6 sm:px-12 md:px-16 md:w-[85%] lg:w-[60%] xl:w-[35%]">
       {/*Logo section*/}
       <div className="flex justify-center items-center">
-        <img alt="company logo" src="/images/logo.png" className="w-24 h-24" />
+        <Image 
+          alt="company logo" 
+          src="/images/logo.png" 
+          width={96}
+          height={96}
+          className="w-24 h-24" 
+        />
       </div>
 
       <p className="text-xs mt-5 text-center font-normal text-white bg-red-300 p-2 border border-red-500 ">

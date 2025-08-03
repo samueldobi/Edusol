@@ -8,7 +8,7 @@ import { fetchAssignmentsList, AssignmentType } from "@/app/src/api/services/sch
 
 export default function Page() {
   const [assignments, setAssignments] = useState<AssignmentType[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [, setLoading] = useState(true);
   const assignmentCardsRef = useRef<{ refresh: () => void }>(null);
 
   const fetchAssignments = async () => {

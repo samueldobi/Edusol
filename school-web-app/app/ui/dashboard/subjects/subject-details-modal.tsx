@@ -60,8 +60,9 @@ export default function SubjectDetailsModal({
       await updateSubject(subject.id, updatePayload);
       setIsEditing(false);
       onSubjectUpdated();
-    } catch (err: any) {
-      setError(err.message || 'Failed to update subject');
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error ? err.message : 'Failed to update subject';
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -76,8 +77,9 @@ export default function SubjectDetailsModal({
     try {
       await deleteSubject(subject.id);
       onSubjectDeleted();
-    } catch (err: any) {
-      setError(err.message || 'Failed to delete subject');
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error ? err.message : 'Failed to delete subject';
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }

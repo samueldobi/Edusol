@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 interface TableProps {
   data: {
@@ -47,7 +48,13 @@ export default function Table({ data }: TableProps) {
               <div className="flex items-center">
                 <div className="flex-shrink-0 h-16 w-16">
                   <div className={`flex-shrink-0 bg-[#1AA939] rounded-full`}>
-                    <img src="/images/teacher.png" alt="avatar of a teacher" />
+                    <Image 
+                      src="/images/teacher.png" 
+                      alt="avatar of a teacher"
+                      width={64}
+                      height={64}
+                      className="rounded-full"
+                    />
                   </div>
                 </div>
               </div>
@@ -69,40 +76,52 @@ export default function Table({ data }: TableProps) {
               <div className="text-sm text-gray-900 flex items-center justify-center">
                 {item.paymentDetails === '(3)' ? (
                   <div className="flex">
-                    <img
+                    <Image
                       src="/images/house-icon.png"
-                      alt="Tuition"
+                      alt="House icon"
+                      width={24}
+                      height={24}
                       className="h-6 w-6 mr-1"
                     />
-                    <img
+                    <Image
                       src="/images/tuition-icon.png"
-                      alt="Tuition"
+                      alt="Tuition icon"
+                      width={24}
+                      height={24}
                       className="h-6 w-6 mr-1"
                     />
-                    <img
+                    <Image
                       src="/images/brick-icon.png"
-                      alt="Tuition"
+                      alt="Brick icon"
+                      width={24}
+                      height={24}
                       className="h-6 w-6 mr-1"
                     />
                   </div>
                 ) : item.paymentDetails === '(2)' ? (
                   <div className="flex">
-                    <img
+                    <Image
                       src="/images/house-icon.png"
-                      alt="Tuition"
+                      alt="House icon"
+                      width={24}
+                      height={24}
                       className="h-6 w-6 mr-1"
                     />
-                    <img
+                    <Image
                       src="/images/tuition-icon.png"
-                      alt="Tuition"
+                      alt="Tuition icon"
+                      width={24}
+                      height={24}
                       className="h-6 w-6 mr-1"
                     />
                   </div>
                 ) : (
                   <div className="flex">
-                    <img
+                    <Image
                       src="/images/brick-icon.png"
-                      alt="Tuition"
+                      alt="Brick icon"
+                      width={24}
+                      height={24}
                       className="h-6 w-6 mr-1"
                     />
                   </div>

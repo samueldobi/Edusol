@@ -24,8 +24,9 @@ export default function UserStats(){
       const schoolId = "cdddc611-1fd3-4730-a819-9206c69b39d7";
       const counts = await fetchUserCounts(schoolId);
       setUserCounts(counts);
-    } catch (err: any) {
-      setError(err.message || 'Failed to fetch user counts');
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error ? err.message : 'Failed to fetch user counts';
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -137,7 +138,13 @@ export default function UserStats(){
               <div
                 className={`w-16 h-16 ${stat.bg} rounded-full overflow-hidden flex items-center justify-center`}
               >
-                <img src={stat.src} className="w-28 h-28 object-cover" />
+                <Image 
+                  src={stat.src} 
+                  width={112}
+                  height={112}
+                  alt={`${stat.label} icon`}
+                  className="w-28 h-28 object-cover" 
+                />
               </div>
 
               <h2 className="text-4xl font-normal">{stat.value}</h2>

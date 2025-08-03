@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { createNotification, SendNotificationPayload, createTagAndReturnId } from "../../src/api/services/notificationService";
+import { createNotification, createTagAndReturnId } from "../../src/api/services/notificationService";
 
 interface ComposeNotificationModalProps {
   onClose: () => void;
@@ -71,7 +71,8 @@ export default function ComposeNotificationModal({ onClose, onSuccess }: Compose
       
       onSuccess?.();
       onClose();
-    } catch (err) {
+    } catch (err: unknown) {
+      console.error('Failed to create notification:', err);
       setError("Failed to create notification. Please try again.");
     } finally {
       setLoading(false);
