@@ -17,13 +17,14 @@ export default function ProfilePage() {
   });
 
   useEffect(() => {
-    if (user?.profile) {
+    if (user?.profile && typeof user.profile === 'object') {
+      const profile = user.profile as Record<string, unknown>;
       setFormData({
-        first_name: user.profile.first_name || '',
-        last_name: user.profile.last_name || '',
-        phone_number: user.profile.phone_number || '',
-        address: user.profile.address || '',
-        bio: user.profile.bio || '',
+        first_name: (profile.first_name as string) || '',
+        last_name: (profile.last_name as string) || '',
+        phone_number: (profile.phone_number as string) || '',
+        address: (profile.address as string) || '',
+        bio: (profile.bio as string) || '',
       });
     }
   }, [user]);
@@ -38,7 +39,16 @@ export default function ProfilePage() {
       await refreshUser(); // Refresh user data
       setIsEditing(false);
     } catch (err: unknown) {
-      setError(err?.response?.data?.message || err.message || 'Failed to update profile');
+      let errorMessage = 'Failed to update profile';
+      if (err && typeof err === 'object') {
+        if ('response' in err && err.response && typeof err.response === 'object' && 'data' in err.response) {
+          const response = err.response as { data?: { message?: string } };
+          errorMessage = response.data?.message || errorMessage;
+        } else if ('message' in err && typeof err.message === 'string') {
+          errorMessage = err.message;
+        }
+      }
+      setError(errorMessage);
     } finally {
       setIsLoading(false);
     }
