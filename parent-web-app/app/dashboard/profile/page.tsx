@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/app/contexts/AuthContext';
-import { fetchProfile, updateProfile, UpdateProfilePayload } from '@/app/src/api/services/authServiceService';
+import { fetchProfile, updateProfile, UpdateProfilePayload } from '@/app/src/api/services/authService';
 
 export default function ProfilePage() {
   const { user, refreshUser } = useAuth();
