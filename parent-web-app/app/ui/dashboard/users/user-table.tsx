@@ -27,9 +27,7 @@ export default function UserTable({
   data
 }: Props){
   
-// States for student data and student size
-const [studentData, setStudentData] = useState<Student[]>([]);
-const[studentSize, setStudentSize] =  useState(0);
+
 const router = useRouter();
 const searchParams = useSearchParams();
 
@@ -39,9 +37,9 @@ const searchParams = useSearchParams();
                 const res = await axios.get("https://raw.githubusercontent.com/samueldobi/Currency-Converter/refs/heads/main/edusol_data.json")
                 // Filter for only students
                 const studentEntries = res.data.filter((entry:ApiStudent)=>entry.status === "student")
-                setStudentData(studentEntries)
-                setStudentSize(studentEntries.length)
-            }catch(err){
+                // Note: studentData and studentSize are not currently used in this component
+            } catch (err: unknown) {
+                console.warn('Failed to fetch students:', err);
                 // Handle error silently
             }
         }
