@@ -67,10 +67,23 @@ export default function PaymentTable({ search }: PaymentTableProps) {
     setCurrentPage(1); 
   }, [filter, search, payments]);
 
+  // Transform FeeType data to match Table component expectations
+  const transformDataForTable = (feeData: FeeType[]) => {
+    return feeData.map(fee => ({
+      profile: fee.id, // Using fee.id as profile identifier
+      class: 'N/A', // FeeType doesn't have class info, using placeholder
+      date: new Date(fee.created_at).toLocaleDateString(),
+      time: new Date(fee.created_at).toLocaleTimeString(),
+      paymentDetails: fee.fee_type,
+      amount: `₦${fee.fee_amount.toLocaleString()}`,
+      status: fee.status === 'active' ? 'SUCCESSFUL' : 'UNSUCCESSFUL'
+    }));
+  };
+
   // Pagination logic
   const startIndex = (currentPage - 1) * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
-  const paginatedData = filteredData.slice(startIndex, endIndex);
+  const paginatedData = transformDataForTable(filteredData.slice(startIndex, endIndex));
 
   // Change page function
   const changePage = (newPage: number) => {
