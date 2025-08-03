@@ -64,10 +64,30 @@ export const fetchUsersList = async (): Promise<UserType[]> => {
     ]);
 
     const allUsers = [
-      ...students.data.map((user: unknown) => ({ ...user, user_type: 'STUDENT' as const })),
-      ...teachers.data.map((user: unknown) => ({ ...user, user_type: 'TEACHER' as const })),
-      ...guardians.data.map((user: unknown) => ({ ...user, user_type: 'GUARDIAN' as const })),
-      ...admins.data.map((user: unknown) => ({ ...user, user_type: 'ADMIN' as const })),
+      ...students.data.map((user: unknown) => {
+        if (user && typeof user === 'object') {
+          return { ...user as Record<string, unknown>, user_type: 'STUDENT' as const };
+        }
+        return { user_type: 'STUDENT' as const };
+      }),
+      ...teachers.data.map((user: unknown) => {
+        if (user && typeof user === 'object') {
+          return { ...user as Record<string, unknown>, user_type: 'TEACHER' as const };
+        }
+        return { user_type: 'TEACHER' as const };
+      }),
+      ...guardians.data.map((user: unknown) => {
+        if (user && typeof user === 'object') {
+          return { ...user as Record<string, unknown>, user_type: 'GUARDIAN' as const };
+        }
+        return { user_type: 'GUARDIAN' as const };
+      }),
+      ...admins.data.map((user: unknown) => {
+        if (user && typeof user === 'object') {
+          return { ...user as Record<string, unknown>, user_type: 'ADMIN' as const };
+        }
+        return { user_type: 'ADMIN' as const };
+      }),
     ];
 
     return allUsers;
@@ -97,8 +117,9 @@ export const fetchUserById = async (id: string): Promise<UserType> => {
     try {
       const response = await userClient.get(`${endpoint}/${id}`);
       return response.data;
-    } catch (error) {
-      // Continue to next endpoint if user not found
+    } catch (error: unknown) {
+      // Continue to next endpoint if user not 
+      console.log(error);
       continue;
     }
   }
@@ -140,14 +161,13 @@ export const fetchUserCounts = async (): Promise<UserCountResponse> => {
       guardian_count: guardians.data.length,
       admin_count: admins.data.length,
     };
-  } catch (error) {
-    console.error('Error fetching user counts:', error);
-    return {
-      users_count: 0,
-      student_count: 0,
-      teacher_count: 0,
-      guardian_count: 0,
-      admin_count: 0,
-    };
+      } catch {
+      return {
+        users_count: 0,
+        student_count: 0,
+        teacher_count: 0,
+        guardian_count: 0,
+        admin_count: 0,
+      };
   }
 };
