@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 // import Image from "next/image";
 export default function SearchClass(){
-    const [selectedClass, setSelectedClass] = useState("SS 1 {SS1A}");
+    const [selectedClass] = useState("SS 1 {SS1A}");
     useEffect(() => {
         console.log(selectedClass);
     }, [selectedClass]);

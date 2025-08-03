@@ -22,7 +22,7 @@ export default function FeesTable({ onFeeUpdated }: FeesTableProps) {
       setError(null);
       const feesData = await fetchFeesList();
       setFees(feesData);
-    } catch (err: unknown) {
+    } catch {
       setError('Failed to fetch fees. Please try again.');
     } finally {
       setLoading(false);
