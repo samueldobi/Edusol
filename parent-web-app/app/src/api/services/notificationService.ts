@@ -15,7 +15,7 @@ export interface NotificationType {
   is_read?: boolean;
   created_at: string;
   updated_at: string;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
   tag?: string;          
 }
 
@@ -44,7 +44,7 @@ export interface EmailNotificationPayload {
   subject: string;
   message: string;
   template_id?: string;
-  variables?: Record<string, any>;
+  variables?: Record<string, unknown>;
 }
 
 export interface EmailBulkNotificationPayload {
@@ -52,14 +52,14 @@ export interface EmailBulkNotificationPayload {
   subject: string;
   message: string;
   template_id?: string;
-  variables?: Record<string, any>;
+  variables?: Record<string, unknown>;
 }
 
 export interface PushNotificationPayload {
   title: string;
   message: string;
   recipient_ids: string[];
-  data?: Record<string, any>;
+  data?: Record<string, unknown>;
 }
 
 export interface SendNotificationPayload {
@@ -68,7 +68,7 @@ export interface SendNotificationPayload {
   type: 'info' | 'success' | 'warning' | 'error';
   recipient_id: string; 
   sender_id?: string;
-  metadata?: Record<string, any>; 
+  metadata?: Record<string, unknown>; 
 }
 
 export interface CreateNotificationTemplatePayload {
@@ -103,7 +103,7 @@ export const fetchNotificationsList = async (): Promise<NotificationType[]> => {
   try {
     const schoolContext = getSchoolContext();
     
-    const params: any = {
+    const params: Record<string, unknown> = {
       page: 1,
       limit: 100
     };
@@ -126,7 +126,7 @@ export const fetchNotificationsList = async (): Promise<NotificationType[]> => {
     }
     
     return notificationsData;
-  } catch (error: any) {
+  } catch (error: unknown) {
     throw error;
   }
 };
@@ -150,7 +150,7 @@ export const createNotification = async (data: SendNotificationPayload & { tag?:
 
     const response = await notificationClient.post(NOTIFICATION_API.NOTIFICATIONS, payload);
     return response.data;
-  } catch (error: any) {
+  } catch (error: unknown) {
     throw error;
   }
 };
@@ -162,7 +162,7 @@ export const partialUpdateNotification = async (id: string, data: Partial<Notifi
       data
     );
     return response.data;
-  } catch (error: any) {
+  } catch (error: unknown) {
     throw error;
   }
 };
@@ -171,7 +171,7 @@ export const deleteNotification = async (id: string): Promise<NotificationType> 
   try {
     const response = await notificationClient.delete(NOTIFICATION_API.NOTIFICATIONS_BY_ID.replace('{id}', id));
     return response.data;
-  } catch (error: any) {
+  } catch (error: unknown) {
     throw error;
   }
 };
@@ -225,7 +225,7 @@ export const createTagAndReturnId = async (name: string, color: string): Promise
 
     const response = await notificationClient.post(NOTIFICATION_API.TAGS, payload);
     return response.data.id;
-  } catch (error: any) {
+  } catch (error: unknown) {
     throw error;
   }
 };

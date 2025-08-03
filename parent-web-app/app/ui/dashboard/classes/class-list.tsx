@@ -3,7 +3,6 @@ import React from "react"
 import { useEffect, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { fetchSchoolClasses, ClassType } from "@/app/src/api/services/schoolService";
-import { getErrorMessage } from "@/app/src/utils/errorHandling";
 
 type LevelGroup = {
   level: string;
@@ -44,24 +43,20 @@ export default function ClassGroups() {
       const groupedClasses = groupClassesByLevel(fetchedClasses);
       setAllLevels(groupedClasses);
      
-    } catch (error: any) {
-      console.error("Error fetching classes:", error);
-      console.error("Error response:", error.response);
-      console.error("Error status:", error.response?.status);
-      console.error("Error data:", error.response?.data);
-      console.error("Error config:", error.config);
-      console.error("Request URL:", error.config?.url);
-      console.error("Request method:", error.config?.method);
-      console.error("Request headers:", error.config?.headers);
-      
-      if (error.response?.status === 403) {
-        setError("Access forbidden. This might be a server configuration issue. Check console for details.");
-      } else if (error.response?.status === 404) {
-        setError("API endpoint not found. Please check the URL configuration.");
-      } else if (error.response?.status >= 500) {
-        setError("Server error. Please try again later.");
+    } catch (error: unknown) {
+      if (error && typeof error === 'object' && 'response' in error) {
+        const response = (error as { response?: { status?: number; data?: unknown } }).response;
+        if (response?.status === 403) {
+          setError("Access forbidden. Please check your permissions.");
+        } else if (response?.status === 404) {
+          setError("API endpoint not found. Please check the configuration.");
+        } else if (response?.status && response.status >= 500) {
+          setError("Server error. Please try again later.");
+        } else {
+          setError("Failed to fetch classes. Please try again.");
+        }
       } else {
-        setError(`Failed to fetch classes: ${error.message || 'Unknown error'}`);
+        setError("Failed to fetch classes. Please try again.");
       }
     } finally {
       setLoading(false);

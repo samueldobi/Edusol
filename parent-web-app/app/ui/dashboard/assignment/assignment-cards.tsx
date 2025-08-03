@@ -31,7 +31,7 @@ const AssignmentCards = forwardRef<AssignmentCardsRef, AssignmentCardsProps>(
         setError(null);
         const fetchedAssignments = await fetchAssignmentsList();
         setAssignments(fetchedAssignments);
-      } catch (err: any) {
+      } catch (err: unknown) {
         console.error('Failed to load assignments:', err);
         setError(getErrorMessage(err));
       } finally {

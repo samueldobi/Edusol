@@ -157,16 +157,18 @@ export const login = async (data: LoginPayload): Promise<AuthResponse> => {
     }
     
     return response.data;
-  } catch (error: any) {
-    if (error.response?.status === 401) {
-      throw new Error('Invalid email or password');
-    } else if (error.response?.status === 403) {
-      throw new Error('Access forbidden');
-    } else if (error.response?.data?.message) {
-      throw new Error(error.response.data.message);
-    } else {
-      throw new Error('Login failed - please try again');
+  } catch (error: unknown) {
+    if (error && typeof error === 'object' && 'response' in error) {
+      const response = (error as { response?: { status?: number; data?: { message?: string } } }).response;
+      if (response?.status === 401) {
+        throw new Error('Invalid email or password');
+      } else if (response?.status === 403) {
+        throw new Error('Access forbidden');
+      } else if (response?.data?.message) {
+        throw new Error(response.data.message);
+      }
     }
+    throw new Error('Login failed - please try again');
   }
 };
 
@@ -179,16 +181,18 @@ export const register = async (data: RegisterPayload): Promise<AuthResponse> => 
     }
     
     return response.data;
-  } catch (error: any) {
-    if (error.response?.status === 400) {
-      throw new Error('Invalid registration data');
-    } else if (error.response?.status === 409) {
-      throw new Error('User already exists');
-    } else if (error.response?.data?.message) {
-      throw new Error(error.response.data.message);
-    } else {
-      throw new Error('Registration failed - please try again');
+  } catch (error: unknown) {
+    if (error && typeof error === 'object' && 'response' in error) {
+      const response = (error as { response?: { status?: number; data?: { message?: string } } }).response;
+      if (response?.status === 400) {
+        throw new Error('Invalid registration data');
+      } else if (response?.status === 409) {
+        throw new Error('User already exists');
+      } else if (response?.data?.message) {
+        throw new Error(response.data.message);
+      }
     }
+    throw new Error('Registration failed - please try again');
   }
 };
 
@@ -216,7 +220,7 @@ export const refreshToken = async (data: RefreshTokenPayload): Promise<AuthRespo
   try {
     const response = await refreshClient.post(AUTH_API.REFRESH_TOKEN, data);
     return response.data;
-  } catch (error: any) {
+  } catch (error: unknown) {
     throw error;
   }
 };

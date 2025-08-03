@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/app/contexts/AuthContext';
-import { fetchProfile, updateProfile, UpdateProfilePayload } from '@/app/src/api/services/authService';
+import { updateProfile, UpdateProfilePayload } from '@/app/src/api/services/authService';
 
 export default function ProfilePage() {
   const { user, refreshUser } = useAuth();
@@ -37,7 +37,7 @@ export default function ProfilePage() {
       await updateProfile(formData);
       await refreshUser(); // Refresh user data
       setIsEditing(false);
-    } catch (err: any) {
+    } catch (err: unknown) {
       setError(err?.response?.data?.message || err.message || 'Failed to update profile');
     } finally {
       setIsLoading(false);

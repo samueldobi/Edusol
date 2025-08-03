@@ -68,15 +68,15 @@ export default function SessionCard() {
       ];
 
       // Create all terms
-      const createdTerms = await Promise.all(
+      await Promise.all(
         termsToCreate.map(term => createTerm(term))
       );
       
       // Redirect to sessions page with refresh parameter
       router.push("/dashboard/result/session?refresh=true");
-    } catch (error: any) {
-      console.error("Error creating terms:", error);
-      setError(`Failed to create terms: ${error.message || 'Unknown error'}`);
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      setError(`Failed to create terms: ${errorMessage}`);
     } finally {
       setLoading(false);
     }
