@@ -63,9 +63,10 @@ export default function AddUserModal({ onClose, onSuccess }: AddUserModalProps) 
       
       onSuccess?.();
       onClose();
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Failed to create user:', err);
-      setError(err.message || 'Failed to create user. Please try again.');
+      const errorMessage = err instanceof Error ? err.message : 'Failed to create user. Please try again.';
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -103,7 +104,7 @@ export default function AddUserModal({ onClose, onSuccess }: AddUserModalProps) 
             </label>
             <select
               value={formData.user_type}
-              onChange={(e) => handleInputChange('user_type', e.target.value as any)}
+              onChange={(e) => handleInputChange('user_type', e.target.value)}
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
               required
             >
