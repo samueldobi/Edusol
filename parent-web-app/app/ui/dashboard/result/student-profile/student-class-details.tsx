@@ -18,7 +18,7 @@ type Props = {
   studentData?: StudentData;
 }
 
-export default function StudentClassDetails({studentSize, studentData}:Props){
+export default function StudentClassDetails({studentSize, studentData}: Props){
     return(
  
         <>

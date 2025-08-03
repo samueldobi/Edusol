@@ -225,7 +225,7 @@ export default function ManageNotificationModal({ onClose, onSuccess }: ManageNo
                             {editingId === itemId ? (
                               <select
                                 value={editForm.type}
-                                onChange={(e) => setEditForm(prev => ({ ...prev, type: e.target.value as any }))}
+                                onChange={(e) => setEditForm(prev => ({ ...prev, type: e.target.value }))}
                                 className="w-full px-2 py-1 border border-gray-300 rounded text-sm"
                               >
                                 <option value="info">Info</option>
