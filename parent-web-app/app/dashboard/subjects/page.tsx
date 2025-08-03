@@ -58,7 +58,7 @@ export default function Page() {
       const fetchedSubjects = await fetchSubjectsList();
       setSubjects(fetchedSubjects);
       setCurrentPage(1);
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Error fetching subjects:", error);
       setError(getErrorMessage(error));
     } finally {

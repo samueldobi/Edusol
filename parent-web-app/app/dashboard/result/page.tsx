@@ -107,9 +107,9 @@ export default function AcademicSession() {
                     >
                       <div className="font-bold text-base mb-2">{term.title}</div>
                       <div className="text-gray-600 text-sm leading-relaxed">
-                        Start – {term.start}
+                        Start - {term.start}
                         <br />
-                        End – {term.end}
+                        End - {term.end}
                       </div>
                     </div>
                   </Link>

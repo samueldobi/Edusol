@@ -24,6 +24,7 @@ export function AddClassButton({ onClassAdded }: AddClassButtonProps) {
     };
     try {
       const res = await createSchoolClass(newClass);
+      console.log(res);
       alert("Class added successfully!");
       // Call the callback if provided
       if (onClassAdded) {

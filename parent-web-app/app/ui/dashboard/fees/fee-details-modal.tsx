@@ -62,9 +62,14 @@ export default function FeeDetailsModal({
       
       // Clear success message after 2 seconds
       setTimeout(() => setSuccess(""), 2000);
-    } catch (err: any) {
-      console.error('Error updating fee:', err);
-      setError(err.response?.data?.message || 'Failed to update fee');
+    } catch (err: unknown) {
+      if (err && typeof err === 'object' && 'response' in err) {
+        const response = (err as { response?: { data?: { message?: string } } }).response;
+        const errorMessage = response?.data?.message || 'Failed to update fee. Please try again.';
+        setError(errorMessage);
+      } else {
+        setError('Failed to update fee. Please try again.');
+      }
     } finally {
       setLoading(false);
     }
@@ -80,9 +85,14 @@ export default function FeeDetailsModal({
       await deleteFee(fee.id);
       onFeeDeleted();
       onClose();
-    } catch (err: any) {
-      console.error('Error deleting fee:', err);
-      setError(err.response?.data?.message || 'Failed to delete fee');
+    } catch (err: unknown) {
+      if (err && typeof err === 'object' && 'response' in err) {
+        const response = (err as { response?: { data?: { message?: string } } }).response;
+        const errorMessage = response?.data?.message || 'Failed to delete fee. Please try again.';
+        setError(errorMessage);
+      } else {
+        setError('Failed to delete fee. Please try again.');
+      }
       setIsDeleting(false);
     }
   };

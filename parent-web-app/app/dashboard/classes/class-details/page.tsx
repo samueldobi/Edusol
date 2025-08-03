@@ -31,7 +31,7 @@ export default function ClassDetails() {
         try {
           const teacher = await fetchUserById(classResponse.form_teacher_id);
           setTeacherData(teacher);
-        } catch (teacherError: any) {
+        } catch (teacherError: unknown) {
           console.error("Error fetching teacher data:", teacherError);
           // Don't fail the entire request if teacher fetch fails
           setTeacherData(null);
@@ -39,7 +39,7 @@ export default function ClassDetails() {
       }
       
     
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Error fetching class details:", error);
       setError(getErrorMessage(error));
     } finally {

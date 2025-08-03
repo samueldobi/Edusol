@@ -1,8 +1,11 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 // import Image from "next/image";
 export default function SearchClass(){
     const [selectedClass, setSelectedClass] = useState("SS 1 {SS1A}");
+    useEffect(() => {
+        console.log(selectedClass);
+    }, [selectedClass]);
     return (
     <div className="flex items-center gap-3 mb-6 p-2">
       {/* Input Wrapper */}

@@ -68,9 +68,8 @@ export default function NotificationItemWrapper() {
           setNotifications(mockNotifications);
           setUseMockData(true);
         }
-      } catch (error: any) {
-        console.error('[NotificationItem] Failed to load notifications:', error);
-        setError(getErrorMessage(error));
+      } catch (error: unknown) {
+        setError('Failed to load notifications. Using mock data.');
         // Use mock data as fallback only on error
         setNotifications(mockNotifications);
         setUseMockData(true);

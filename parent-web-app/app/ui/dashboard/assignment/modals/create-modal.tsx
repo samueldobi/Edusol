@@ -12,7 +12,7 @@ export default function CreateAssignmentModal({ onClose, onSuccess }: CreateAssi
     title: '',
     description: '',
     due_date: '',
-    assignment_type: 'homework',
+    assignment_type: 'homework' as 'homework' | 'classwork' | 'test' | 'project',
     status: 'submitted' as const,
   });
   const [loading, setLoading] = useState(false);
@@ -26,8 +26,8 @@ export default function CreateAssignmentModal({ onClose, onSuccess }: CreateAssi
         if (assignments.length > 0) {
           setExistingAssignment(assignments[0]);
         }
-      } catch (err) {
-        // Silently fail - template is optional
+      } catch (err: unknown) {
+        console.log(err);
       }
     };
     fetchTemplate();
@@ -36,7 +36,7 @@ export default function CreateAssignmentModal({ onClose, onSuccess }: CreateAssi
   const handleInputChange = (field: keyof typeof form, value: string) => {
     setForm(prev => ({
       ...prev,
-      [field]: value
+      [field]: field === 'assignment_type' ? (value as 'homework' | 'classwork' | 'test' | 'project') : value
     }));
   };
 
@@ -56,7 +56,7 @@ export default function CreateAssignmentModal({ onClose, onSuccess }: CreateAssi
         title: form.title.trim(),
         description: form.description.trim(),
         due_date: form.due_date,
-        assignment_type: form.assignment_type || 'homework',
+        assignment_type: (form.assignment_type || 'homework') as 'homework' | 'classwork' | 'test' | 'project',
         status: 'submitted',
         created_by: 'cdddc611-1fd3-4730-a819-9206c69b39d7',
         created_at: new Date().toISOString(),
@@ -77,8 +77,9 @@ export default function CreateAssignmentModal({ onClose, onSuccess }: CreateAssi
       });
       
       onSuccess();
-    } catch (err: any) {
-      setError(err.message || 'Failed to create assignment. Please try again.');
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error ? err.message : 'Failed to create assignment. Please try again.';
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }

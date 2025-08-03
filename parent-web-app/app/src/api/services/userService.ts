@@ -64,14 +64,14 @@ export const fetchUsersList = async (): Promise<UserType[]> => {
     ]);
 
     const allUsers = [
-      ...students.data.map((user: any) => ({ ...user, user_type: 'STUDENT' as const })),
-      ...teachers.data.map((user: any) => ({ ...user, user_type: 'TEACHER' as const })),
-      ...guardians.data.map((user: any) => ({ ...user, user_type: 'GUARDIAN' as const })),
-      ...admins.data.map((user: any) => ({ ...user, user_type: 'ADMIN' as const })),
+      ...students.data.map((user: unknown) => ({ ...user, user_type: 'STUDENT' as const })),
+      ...teachers.data.map((user: unknown) => ({ ...user, user_type: 'TEACHER' as const })),
+      ...guardians.data.map((user: unknown) => ({ ...user, user_type: 'GUARDIAN' as const })),
+      ...admins.data.map((user: unknown) => ({ ...user, user_type: 'ADMIN' as const })),
     ];
 
     return allUsers;
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Error fetching users:', error);
     return [];
   }
@@ -125,7 +125,7 @@ export const deleteUser = async (id: string): Promise<void> => {
 };
 
 // Get user counts for a school
-export const fetchUserCounts = async (school_id: string): Promise<UserCountResponse> => {
+export const fetchUserCounts = async (_school_id: string): Promise<UserCountResponse> => {
   try {
     const [students, teachers, guardians, admins] = await Promise.all([
       userClient.get(USER_API.STUDENTS).catch(() => ({ data: [] })),

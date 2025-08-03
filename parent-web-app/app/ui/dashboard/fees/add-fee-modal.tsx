@@ -50,7 +50,7 @@ export default function AddFeeModal({ onClose, onSuccess }: AddFeeModalProps) {
       
       onSuccess?.();
       onClose();
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Failed to create fee:', err);
       setError(err.message || 'Failed to create fee. Please try again.');
     } finally {
