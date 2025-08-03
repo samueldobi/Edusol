@@ -183,8 +183,15 @@ const AssignmentCards = forwardRef<AssignmentCardsRef, AssignmentCardsProps>(
         {showViewModal && selectedAssignment && (
           <ViewAssignmentModal
             assignment={selectedAssignment}
-            isOpen={showViewModal}
             onClose={() => setShowViewModal(false)}
+            onEdit={() => {
+              setShowViewModal(false);
+              handleEditClick(selectedAssignment);
+            }}
+            onDelete={() => {
+              setShowViewModal(false);
+              handleDeleteClick(selectedAssignment);
+            }}
           />
         )}
 

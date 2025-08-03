@@ -10,7 +10,7 @@ interface AddFeeModalProps {
 export default function AddFeeModal({ onClose, onSuccess }: AddFeeModalProps) {
   const [formData, setFormData] = useState({
     fee_type: '',
-    fee_amount: '',
+    fee_amount: 0,
   });
 
   const [loading, setLoading] = useState(false);
@@ -52,7 +52,11 @@ export default function AddFeeModal({ onClose, onSuccess }: AddFeeModalProps) {
       onClose();
     } catch (err: unknown) {
       console.error('Failed to create fee:', err);
-      setError(err.message || 'Failed to create fee. Please try again.');
+      let errorMessage = 'Failed to create fee. Please try again.';
+      if (err && typeof err === 'object' && 'message' in err && typeof err.message === 'string') {
+        errorMessage = err.message;
+      }
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }

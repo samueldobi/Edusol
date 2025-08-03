@@ -20,9 +20,7 @@ export default function UserStats(){
     try {
       setLoading(true);
       setError(null);
-      // Using the school ID that we've been using throughout the app
-      const schoolId = "cdddc611-1fd3-4730-a819-9206c69b39d7";
-      const counts = await fetchUserCounts(schoolId);
+      const counts = await fetchUserCounts();
       setUserCounts(counts);
     } catch (err: unknown) {
       const errorMessage = err instanceof Error ? err.message : 'Failed to fetch user counts';

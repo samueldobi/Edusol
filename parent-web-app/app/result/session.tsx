@@ -17,7 +17,13 @@ export default function Session({ session }: { session: SessionsPropTypes }) {
         className="w-full px-12 py-4 p-2 bg-[#b4d6fd33] items-center justify-center grid grid-cols-[repeat(3,300px)] gap-16"
       >
         {session.terms.map((term) => {
-          return <SessionCard key={term.id} term={term} />;
+          return <SessionCard 
+            key={term.id} 
+            term={term.name}
+            startDate={term.start}
+            endDate={term.end}
+            borderColor="border-blue-500"
+          />;
         })}
       </Link>
     </div>

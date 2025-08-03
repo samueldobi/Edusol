@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from 'react';
-import { SubjectType, updateSubject, deleteSubject } from '@/app/src/api/services/schoolService';
+import { SubjectType, partialUpdateSubject, deleteSubject } from '@/app/src/api/services/schoolService';
 
 interface SubjectDetailsModalProps {
   subject: SubjectType | null;
@@ -57,7 +57,7 @@ export default function SubjectDetailsModal({
         description: editForm.description.trim() || null,
       };
 
-      await updateSubject(subject.id, updatePayload);
+      await partialUpdateSubject(subject.id, updatePayload);
       setIsEditing(false);
       onSubjectUpdated();
     } catch (err: unknown) {

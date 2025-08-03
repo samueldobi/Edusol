@@ -64,10 +64,30 @@ export const fetchUsersList = async (): Promise<UserType[]> => {
     ]);
 
     const allUsers = [
-      ...students.data.map((user: unknown) => ({ ...user, user_type: 'STUDENT' as const })),
-      ...teachers.data.map((user: unknown) => ({ ...user, user_type: 'TEACHER' as const })),
-      ...guardians.data.map((user: unknown) => ({ ...user, user_type: 'GUARDIAN' as const })),
-      ...admins.data.map((user: unknown) => ({ ...user, user_type: 'ADMIN' as const })),
+      ...students.data.map((user: unknown) => {
+        if (user && typeof user === 'object') {
+          return { ...user as Record<string, unknown>, user_type: 'STUDENT' as const };
+        }
+        return { user_type: 'STUDENT' as const };
+      }),
+      ...teachers.data.map((user: unknown) => {
+        if (user && typeof user === 'object') {
+          return { ...user as Record<string, unknown>, user_type: 'TEACHER' as const };
+        }
+        return { user_type: 'TEACHER' as const };
+      }),
+      ...guardians.data.map((user: unknown) => {
+        if (user && typeof user === 'object') {
+          return { ...user as Record<string, unknown>, user_type: 'GUARDIAN' as const };
+        }
+        return { user_type: 'GUARDIAN' as const };
+      }),
+      ...admins.data.map((user: unknown) => {
+        if (user && typeof user === 'object') {
+          return { ...user as Record<string, unknown>, user_type: 'ADMIN' as const };
+        }
+        return { user_type: 'ADMIN' as const };
+      }),
     ];
 
     return allUsers;
