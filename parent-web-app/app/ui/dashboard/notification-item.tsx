@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { fetchNotificationsList } from '../../src/api/services/notificationService';
 import { NotificationType } from '../../src/api/services/notificationService';
-import { getErrorMessage } from '../../src/utils/errorHandling';
+
 
 const mockNotifications: NotificationType[] = [
   {
@@ -68,7 +68,7 @@ export default function NotificationItemWrapper() {
           setNotifications(mockNotifications);
           setUseMockData(true);
         }
-      } catch (error: unknown) {
+      } catch {
         setError('Failed to load notifications. Using mock data.');
         // Use mock data as fallback only on error
         setNotifications(mockNotifications);
