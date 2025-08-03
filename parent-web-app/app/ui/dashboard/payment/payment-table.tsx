@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Table from '@/app/ui/dashboard/table';
 import { fetchSchoolFeesList, FeeType } from '@/app/src/api/services/schoolService';
-import { getErrorMessage } from '@/app/src/utils/errorHandling';
+
 
 interface PaymentTableProps {
   search: string;
@@ -32,7 +32,7 @@ export default function PaymentTable({ search }: PaymentTableProps) {
       setError("");
       const fetchedPayments = await fetchSchoolFeesList();
       setPayments(fetchedPayments);
-    } catch (error: unknown) {
+    } catch {
       setError('Failed to fetch payments. Please try again.');
     } finally {
       setLoading(false);

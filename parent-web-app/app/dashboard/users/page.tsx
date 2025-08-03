@@ -29,8 +29,8 @@ export default function Page() {
       setUsers(usersData);
     } catch (err: unknown) {
       console.error('Failed to load users:', err);
-      if (err && typeof err === 'object' && 'message' in err && typeof (err as any).message === 'string') {
-        setError((err as any).message);
+      if (err && typeof err === 'object' && 'message' in err && typeof (err as { message?: string }).message === 'string') {
+        setError((err as { message: string }).message);
       } else {
         setError('Failed to load users');
       }

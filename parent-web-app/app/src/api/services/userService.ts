@@ -71,8 +71,7 @@ export const fetchUsersList = async (): Promise<UserType[]> => {
     ];
 
     return allUsers;
-  } catch (error: unknown) {
-    console.error('Error fetching users:', error);
+  } catch {
     return [];
   }
 };
@@ -125,7 +124,7 @@ export const deleteUser = async (id: string): Promise<void> => {
 };
 
 // Get user counts for a school
-export const fetchUserCounts = async (_school_id: string): Promise<UserCountResponse> => {
+export const fetchUserCounts = async (): Promise<UserCountResponse> => {
   try {
     const [students, teachers, guardians, admins] = await Promise.all([
       userClient.get(USER_API.STUDENTS).catch(() => ({ data: [] })),
