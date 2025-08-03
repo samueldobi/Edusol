@@ -97,8 +97,9 @@ export const fetchUserById = async (id: string): Promise<UserType> => {
     try {
       const response = await userClient.get(`${endpoint}/${id}`);
       return response.data;
-    } catch (error) {
-      // Continue to next endpoint if user not found
+    } catch (error: unknown) {
+      // Continue to next endpoint if user not 
+      console.log(error);
       continue;
     }
   }

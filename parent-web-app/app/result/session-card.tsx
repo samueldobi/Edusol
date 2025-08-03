@@ -2,14 +2,13 @@
 import Image from "next/image";
 
 interface SessionCardProps {
-  session: string;
   term: string;
   startDate: string;
   endDate: string;
   borderColor: string;
 }
 
-export default function SessionCard({ session, term, startDate, endDate, borderColor }: SessionCardProps) {
+export default function SessionCard({ term, startDate, endDate, borderColor }: SessionCardProps) {
   return (
     <div className={`bg-white p-5 rounded-xl shadow border-l-4 ${borderColor} h-full cursor-pointer transition hover:shadow-lg`}>
       <div className="font-bold text-base mb-2">{term}</div>
