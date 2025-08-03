@@ -12,7 +12,7 @@ export interface PaymentType {
   user_id: string;
   description?: string;
   reference?: string;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
   created_at: string;
   updated_at: string;
 }
@@ -44,7 +44,7 @@ export interface PaymentTransactionType {
   status: 'pending' | 'completed' | 'failed' | 'cancelled';
   reference: string;
   description?: string;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
   created_at: string;
   updated_at: string;
 }
@@ -69,7 +69,7 @@ export interface CreatePaymentPayload {
   payment_method: string;
   user_id: string;
   description?: string;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
 }
 
 export interface CreatePaymentAccountPayload {
@@ -165,7 +165,7 @@ export const updateSchoolAccount = async (id: string, data: UpdateSchoolAccountP
 };
 
 // --- Webhook Functions ---
-export const processPaymentWebhook = async (data: any): Promise<any> => {
+export const processPaymentWebhook = async (data: Record<string, unknown>): Promise<Record<string, unknown>> => {
   const response = await paymentServiceClient.post(PAYMENT_SERVICE_API.NOTIFICATION_WEBHOOK, data);
   return response.data;
 }; 

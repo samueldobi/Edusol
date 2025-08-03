@@ -140,14 +140,13 @@ export const fetchUserCounts = async (): Promise<UserCountResponse> => {
       guardian_count: guardians.data.length,
       admin_count: admins.data.length,
     };
-  } catch (error) {
-    console.error('Error fetching user counts:', error);
-    return {
-      users_count: 0,
-      student_count: 0,
-      teacher_count: 0,
-      guardian_count: 0,
-      admin_count: 0,
-    };
+      } catch {
+      return {
+        users_count: 0,
+        student_count: 0,
+        teacher_count: 0,
+        guardian_count: 0,
+        admin_count: 0,
+      };
   }
 };
