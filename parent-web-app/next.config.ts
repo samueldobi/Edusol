@@ -6,14 +6,14 @@ const nextConfig: NextConfig = {
   //       domains: ['edusol-psi.vercel.app'], 
   //     },
   
-  // async rewrites() {
-  //   return [
-  //     {
-  //       source: '/api/:path*',
-  //       destination: 'https://api-gateway-ms-app.fly.dev/:path*',
-  //     },
-  //   ];
-  // },
+  async rewrites() {
+    return [
+      {
+        source: '/api/:path*',
+        destination: 'https://api-gateway-ms-app.fly.dev/:path*',
+      },
+    ];
+  },
 };
 
 export default nextConfig;
