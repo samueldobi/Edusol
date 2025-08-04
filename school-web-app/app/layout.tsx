@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   title: 'Educesol - Smart School Management',
   description: 'Educesol is a powerful platform that simplifies school management, enabling administrators, teachers, and parents to collaborate efficiently.',
   icons: {
-    icon: '/Images/favicon.png',
+    icon: '/images/favicon.png',
   },
 };
 
