@@ -4,7 +4,7 @@ import axios from 'axios';
 
 // Create a separate client for refresh token requests without interceptors
 const refreshClient = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_BASE_URL || 'https://api-gateway-ms-app.fly.dev',
+  baseURL: process.env.NEXT_PUBLIC_BASE_URL ,
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',

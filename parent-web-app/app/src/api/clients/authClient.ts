@@ -2,7 +2,7 @@ import axios from 'axios';
 import { addInterceptor } from '../utils/addInterceptor';
 
 
-const baseURL = process.env.NEXT_PUBLIC_BASE_URL;
+const baseURL = process.env.NEXT_PUBLIC_BASE_URL?.replace(/\/$/, '') || '';
 
 // Auth client for all auth operations
 export const authClient = axios.create({
