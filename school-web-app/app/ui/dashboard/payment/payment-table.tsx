@@ -130,28 +130,30 @@ export default function PaymentTable({ search }: PaymentTableProps) {
 
   return (
     <div className="bg-white py-6 rounded-lg shadow-md">
-      <div className="flex justify-between items-center">
-        <h2 className="text-4xl font-bold text-[#1AA939] mb-4 uppercase pl-6">
-          {filter === 'total' ? 'all payments' : filter}
-        </h2>
-        {/* Rows per page selector */}
-        <div className=" p-6 flex items-center space-x-4">
-          <label htmlFor="rowsPerPage" className="mr-2">
-            Show
-          </label>
-          <select
-            id="rowsPerPage"
-            value={rowsPerPage}
-            onChange={(e) => updateRowsPerPage(Number(e.target.value))}
-            className="p-2 border rounded w-44"
-          >
-            <option value="5">5</option>
-            <option value="10">10</option>
-            <option value="20">20</option>
-          </select>
-          <p>Entries</p>
-        </div>
+
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
+      <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#1AA939] mb-4 uppercase pl-6">
+        {filter === 'total' ? 'all payments' : filter}
+      </h2>
+      {/* Rows per page selector */}
+      <div className="p-6 flex items-center space-x-2 sm:space-x-4">
+        <label htmlFor="rowsPerPage" className="mr-2 text-sm sm:text-base">
+          Show
+        </label>
+        <select
+          id="rowsPerPage"
+          value={rowsPerPage}
+          onChange={(e) => updateRowsPerPage(Number(e.target.value))}
+          className="p-2 border rounded w-20 sm:w-44"
+        >
+          <option value="5">5</option>
+          <option value="10">10</option>
+          <option value="20">20</option>
+        </select>
+        <p className="text-sm sm:text-base">Entries</p>
       </div>
+    </div>
+
 
       <Table data={paginatedData} />
       {/* Table */}
