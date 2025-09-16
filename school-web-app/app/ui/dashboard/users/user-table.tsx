@@ -3,23 +3,15 @@ import Image from "next/image"
 import { useEffect } from "react";
 import axios from "axios";
 import { useRouter, useSearchParams } from "next/navigation";
+import { CombinedUserType } from '@/app/dashboard/users/page';
 
 interface Props {
   rowsPerPage: number;
   currentPage: number;
   setCurrentPage: (page: number) => void;
-  data: Student[];
+  data: CombinedUserType[];
 }
-  type Student = {
-        id: number;
-        student_name: string;
-        parent_name: string;
-        gender: string;
-        phone_number: string;
-        class: string;
-        image: string;
-        };
-type ApiStudent = Student & { status: string };
+
 export default function UserTable({
   rowsPerPage,
   currentPage,
@@ -37,7 +29,7 @@ const searchParams = useSearchParams();
                 const res = await axios.get("https://raw.githubusercontent.com/samueldobi/Currency-Converter/refs/heads/main/edusol_data.json")
                 // Filter for only students
                 // Fetch student data but not currently used in this component
-                res.data.filter((entry:ApiStudent)=>entry.status === "student")
+                res.data.filter((entry: any)=>entry.status === "student")
             } catch (err: unknown) {
                 console.warn('Failed to fetch students:', err);
                 // Handle error silently
@@ -46,7 +38,7 @@ const searchParams = useSearchParams();
         fetchStudents();
     },[])
 
-    const handleStudentClick = (student: Student) => {
+    const handleStudentClick = (student: CombinedUserType) => {
         const session = searchParams.get("session");
         const term = searchParams.get("term");
         const classId = searchParams.get("classId");
@@ -55,12 +47,12 @@ const searchParams = useSearchParams();
             session: session || "",
             term: term || "",
             classId: classId || "",
-            studentId: student.id.toString(),
-            studentName: student.student_name,
-            parentName: student.parent_name,
-            gender: student.gender,
-            phoneNumber: student.phone_number,
-            className: student.class,
+            studentId: student.id,
+            studentName: `${student.first_name} ${student.last_name}`,
+            parentName: '',
+            gender: student.gender || 'N/A',
+            phoneNumber: student.phone || '',
+            className: student.class_id || 'N/A',
         });
         
         router.push(`/dashboard/result/student-result?${queryParams.toString()}`);
@@ -90,19 +82,13 @@ const searchParams = useSearchParams();
                     Name
                 </th>
                 <th className="px-6 py-5 text-left text-xs font-medium text-[#2C2C2C] uppercase tracking-wider">
-                    Class
+                    User Type
                 </th>
                 <th className="px-6 py-5 text-left text-xs font-medium text-[#2C2C2C] uppercase tracking-wider">
-                    Parent Name
+                    Contact
                 </th>
                 <th className="px-6 py-5 text-left text-xs font-medium text-[#2C2C2C] uppercase tracking-wider">
-                    Gender
-                </th>
-                <th className="px-6 py-5 text-left text-xs font-medium text-[#2C2C2C] uppercase tracking-wider">
-                    Phone Number
-                </th>
-                <th className="px-6 py-5 text-left text-xs font-medium text-[#2C2C2C] uppercase tracking-wider">
-                    Manage
+                    Status
                 </th>
                 </tr>
             </thead>
@@ -128,40 +114,20 @@ const searchParams = useSearchParams();
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                     <div className="text-sm text-[#4A4C51] font-semibold">
-                        {item.student_name}
+                        {item.first_name} {item.last_name}
                     </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-900">{item.class}</div>
+                    <div className="text-sm text-gray-900">{item.user_type}</div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                     <div className="text-sm text-gray-900">
-                        {item.parent_name}
+                        {item.phone || 'N/A'}
                     </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                     <div className="text-sm text-gray-900 flex items-center justify-left">
-                        {item.gender}
-                    </div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-900">{item.phone_number}</div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="flex justify-center">
-                        <button 
-                            className="inline-flex items-center px-3 py-1 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                handleStudentClick(item);
-                            }}
-                        >
-                            <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                            </svg>
-                            Manage
-                        </button>
+                        {item.status}
                     </div>
                     </td>
                 </tr>
@@ -185,14 +151,13 @@ const searchParams = useSearchParams();
           alt="avatar"
           className="rounded-full object-cover"
         />
-        <div className="text-base font-semibold text-[#1AA939]">{item.student_name}</div>
+        <div className="text-base font-semibold text-[#1AA939]">{item.first_name} {item.last_name}</div>
       </div>
 
       <div className="mt-3 text-sm flex flex-col items-center justify-center ">
-        <p><span className="font-medium p-2">Class:</span> {item.class}</p>
-        <p><span className="font-medium p-2">Parent:</span> {item.parent_name}</p>
-        <p><span className="font-medium p-2">Gender:</span> {item.gender}</p>
-        <p><span className="font-medium  p-2">Phone:</span> {item.phone_number}</p>
+        <p><span className="font-medium p-2">User Type:</span> {item.user_type}</p>
+        <p><span className="font-medium p-2">Contact:</span> {item.phone || 'N/A'}</p>
+        <p><span className="font-medium p-2">Status:</span> {item.status}</p>
       </div>
 
       <div className="mt-4 flex justify-center">

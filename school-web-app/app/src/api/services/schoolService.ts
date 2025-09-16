@@ -2,6 +2,94 @@ import {schoolClient} from '../clients/schoolClient';
 import {SCHOOL_API} from '../endpoints/schoolEndpoint';
 
 // --- Types ---
+
+// User Management Types
+export interface UsersCacheType {
+  id: string;
+  user_type: 'admin' | 'teacher' | 'guardian';
+  first_name: string;
+  last_name: string;
+  email: string;
+  phone: string;
+  status: 'active' | 'inactive';
+  last_synced: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface StudentsCacheType {
+  id: string;
+  class_id?: string | null;
+  student_code: string;
+  gender: 'M' | 'F';
+  date_of_birth: string;
+  medical_conditions?: string | null;
+  status: 'active' | 'inactive';
+  last_synced: string;
+  created_at: string;
+  updated_at: string;
+  class_obj?: string | null;
+  school: string;
+  user_cache: string;
+}
+
+export interface TeachersCacheType {
+  id: string;
+  subject: string;
+  qualification?: string | null;
+  description?: string | null;
+  created_at: string;
+  updated_at: string;
+  school?: string | null;
+  user_cache: string;
+}
+
+export interface AdminsCacheType {
+  id: string;
+  role: string;
+  permissions: string;
+  created_at: string;
+  updated_at: string;
+  school?: string | null;
+  user_cache: string;
+}
+
+export interface CreateUsersCachePayload {
+  user_type: 'admin' | 'teacher' | 'guardian';
+  first_name: string;
+  last_name: string;
+  email: string;
+  phone: string;
+  status?: 'active' | 'inactive';
+}
+
+export interface CreateStudentsCachePayload {
+  class_id?: string | null;
+  student_code: string;
+  gender: 'M' | 'F';
+  date_of_birth: string;
+  medical_conditions?: string | null;
+  status?: 'active' | 'inactive';
+  class_obj?: string | null;
+  school: string;
+  user_cache: string;
+}
+
+export interface CreateTeachersCachePayload {
+  subject: string;
+  qualification?: string | null;
+  description?: string | null;
+  school?: string | null;
+  user_cache: string;
+}
+
+export interface CreateAdminsCachePayload {
+  role: string;
+  permissions: string;
+  school?: string | null;
+  user_cache: string;
+}
+
 export interface ClassType {
   id: string;
   class_name: string;
@@ -359,4 +447,194 @@ export const partialUpdateAssignment = async (id: string, data: Partial<Assignme
 };
 export const deleteAssignment = async (id: string): Promise<void> => {
   await schoolClient.delete(SCHOOL_API.ASSIGNMENTS_BY_ID.replace('{id}', id));
+};
+
+// -------------------- USER MANAGEMENT --------------------
+
+// Users Cache
+export const fetchUsersCacheList = async (): Promise<UsersCacheType[]> => {
+  const response = await schoolClient.get(SCHOOL_API.USERS_CACHE);
+  return response.data;
+};
+
+export const fetchUserCacheById = async (id: string): Promise<UsersCacheType> => {
+  const response = await schoolClient.get(SCHOOL_API.USERS_CACHE_BY_ID.replace('{id}', id));
+  return response.data;
+};
+
+export const createUserCache = async (data: CreateUsersCachePayload): Promise<UsersCacheType> => {
+  const response = await schoolClient.post(SCHOOL_API.USERS_CACHE, data);
+  return response.data;
+};
+
+export const updateUserCache = async (id: string, data: Partial<CreateUsersCachePayload>): Promise<UsersCacheType> => {
+  const response = await schoolClient.patch(SCHOOL_API.USERS_CACHE_BY_ID.replace('{id}', id), data);
+  return response.data;
+};
+
+export const deleteUserCache = async (id: string): Promise<void> => {
+  await schoolClient.delete(SCHOOL_API.USERS_CACHE_BY_ID.replace('{id}', id));
+};
+
+// Students Cache
+export const fetchStudentsCacheList = async (): Promise<StudentsCacheType[]> => {
+  const response = await schoolClient.get(SCHOOL_API.STUDENTS_CACHE);
+  return response.data;
+};
+
+export const fetchStudentCacheById = async (id: string): Promise<StudentsCacheType> => {
+  const response = await schoolClient.get(SCHOOL_API.STUDENTS_CACHE_BY_ID.replace('{id}', id));
+  return response.data;
+};
+
+export const createStudentCache = async (data: CreateStudentsCachePayload): Promise<StudentsCacheType> => {
+  const response = await schoolClient.post(SCHOOL_API.STUDENTS_CACHE, data);
+  return response.data;
+};
+
+export const updateStudentCache = async (id: string, data: Partial<CreateStudentsCachePayload>): Promise<StudentsCacheType> => {
+  const response = await schoolClient.patch(SCHOOL_API.STUDENTS_CACHE_BY_ID.replace('{id}', id), data);
+  return response.data;
+};
+
+export const deleteStudentCache = async (id: string): Promise<void> => {
+  await schoolClient.delete(SCHOOL_API.STUDENTS_CACHE_BY_ID.replace('{id}', id));
+};
+
+// Teachers Cache
+export const fetchTeachersCacheList = async (): Promise<TeachersCacheType[]> => {
+  const response = await schoolClient.get(SCHOOL_API.TEACHERS_CACHE);
+  return response.data;
+};
+
+export const fetchTeacherCacheById = async (id: string): Promise<TeachersCacheType> => {
+  const response = await schoolClient.get(SCHOOL_API.TEACHERS_CACHE_BY_ID.replace('{id}', id));
+  return response.data;
+};
+
+export const createTeacherCache = async (data: CreateTeachersCachePayload): Promise<TeachersCacheType> => {
+  const response = await schoolClient.post(SCHOOL_API.TEACHERS_CACHE, data);
+  return response.data;
+};
+
+export const updateTeacherCache = async (id: string, data: Partial<CreateTeachersCachePayload>): Promise<TeachersCacheType> => {
+  const response = await schoolClient.patch(SCHOOL_API.TEACHERS_CACHE_BY_ID.replace('{id}', id), data);
+  return response.data;
+};
+
+export const deleteTeacherCache = async (id: string): Promise<void> => {
+  await schoolClient.delete(SCHOOL_API.TEACHERS_CACHE_BY_ID.replace('{id}', id));
+};
+
+// Admins Cache
+export const fetchAdminsCacheList = async (): Promise<AdminsCacheType[]> => {
+  const response = await schoolClient.get(SCHOOL_API.ADMINS_CACHE);
+  return response.data;
+};
+
+export const fetchAdminCacheById = async (id: string): Promise<AdminsCacheType> => {
+  const response = await schoolClient.get(SCHOOL_API.ADMINS_CACHE_BY_ID.replace('{id}', id));
+  return response.data;
+};
+
+export const createAdminCache = async (data: CreateAdminsCachePayload): Promise<AdminsCacheType> => {
+  const response = await schoolClient.post(SCHOOL_API.ADMINS_CACHE, data);
+  return response.data;
+};
+
+export const updateAdminCache = async (id: string, data: Partial<CreateAdminsCachePayload>): Promise<AdminsCacheType> => {
+  const response = await schoolClient.patch(SCHOOL_API.ADMINS_CACHE_BY_ID.replace('{id}', id), data);
+  return response.data;
+};
+
+export const deleteAdminCache = async (id: string): Promise<void> => {
+  await schoolClient.delete(SCHOOL_API.ADMINS_CACHE_BY_ID.replace('{id}', id));
+};
+
+// Combined user management functions
+export const createUser = async (userData: {
+  user_type: 'admin' | 'teacher' | 'guardian';
+  first_name: string;
+  last_name: string;
+  email: string;
+  phone: string;
+  status?: 'active' | 'inactive';
+  // Additional fields for specific user types
+  student_code?: string;
+  gender?: 'M' | 'F';
+  date_of_birth?: string;
+  medical_conditions?: string;
+  class_id?: string;
+  class_obj?: string;
+  school?: string;
+  subject?: string;
+  qualification?: string;
+  description?: string;
+  role?: string;
+  permissions?: string;
+}): Promise<{ userCache: UsersCacheType; specificCache?: StudentsCacheType | TeachersCacheType | AdminsCacheType }> => {
+  try {
+    // First, create the user cache
+    const userCacheData: CreateUsersCachePayload = {
+      user_type: userData.user_type,
+      first_name: userData.first_name,
+      last_name: userData.last_name,
+      email: userData.email,
+      phone: userData.phone,
+      status: userData.status || 'active',
+    };
+
+    const userCache = await createUserCache(userCacheData);
+
+    // Then create the specific cache based on user type
+    let specificCache: StudentsCacheType | TeachersCacheType | AdminsCacheType | undefined;
+
+    if (userData.user_type === 'guardian') {
+      // For guardian, we only need the user cache
+      return { userCache };
+    } else if (userData.user_type === 'teacher') {
+      const teacherCacheData: CreateTeachersCachePayload = {
+        subject: userData.subject || '',
+        qualification: userData.qualification,
+        description: userData.description,
+        school: userData.school,
+        user_cache: userCache.id,
+      };
+      specificCache = await createTeacherCache(teacherCacheData);
+    } else if (userData.user_type === 'admin') {
+      const adminCacheData: CreateAdminsCachePayload = {
+        role: userData.role || 'Admin',
+        permissions: userData.permissions || '',
+        school: userData.school,
+        user_cache: userCache.id,
+      };
+      specificCache = await createAdminCache(adminCacheData);
+    }
+
+    return { userCache, specificCache };
+  } catch (error) {
+    console.error('Error creating user:', error);
+    throw error;
+  }
+};
+
+export const fetchAllUsers = async (): Promise<{
+  users: UsersCacheType[];
+  students: StudentsCacheType[];
+  teachers: TeachersCacheType[];
+  admins: AdminsCacheType[];
+}> => {
+  try {
+    const [users, students, teachers, admins] = await Promise.all([
+      fetchUsersCacheList(),
+      fetchStudentsCacheList(),
+      fetchTeachersCacheList(),
+      fetchAdminsCacheList(),
+    ]);
+
+    return { users, students, teachers, admins };
+  } catch (error) {
+    console.error('Error fetching users:', error);
+    throw error;
+  }
 };

@@ -1,14 +1,14 @@
 "use client";
 import { useState } from 'react';
 import Image from 'next/image';
-import { UserType } from '@/app/src/api/services/userService';
+import { CombinedUserType } from '@/app/dashboard/users/page';
 import UserDetailsModal from './user-details-modal';
 
 interface AdminTableProps {
   rowsPerPage: number;
   currentPage: number;
   setCurrentPage: (page: number) => void;
-  data: UserType[];
+  data: CombinedUserType[];
   onUserUpdated?: () => void;
   onUserDeleted?: () => void;
 }
@@ -21,10 +21,10 @@ export default function AdminTable({
   onUserUpdated,
   onUserDeleted
 }: AdminTableProps) {
-  const [selectedUser, setSelectedUser] = useState<UserType | null>(null);
+  const [selectedUser, setSelectedUser] = useState<CombinedUserType | null>(null);
   const [showModal, setShowModal] = useState(false);
 
-  const handleManageClick = (e: React.MouseEvent, admin: UserType) => {
+  const handleManageClick = (e: React.MouseEvent, admin: CombinedUserType) => {
     e.stopPropagation();
     setSelectedUser(admin);
     setShowModal(true);
@@ -59,7 +59,10 @@ export default function AdminTable({
                   Contact
                 </th>
                 <th className="px-6 py-5 text-left text-xs font-medium text-[#2C2C2C] uppercase tracking-wider">
-                  Created
+                  Role
+                </th>
+                <th className="px-6 py-5 text-left text-xs font-medium text-[#2C2C2C] uppercase tracking-wider">
+                  Status
                 </th>
                 <th className="px-6 py-5 text-left text-xs font-medium text-[#2C2C2C] uppercase tracking-wider">
                   Actions
@@ -82,9 +85,6 @@ export default function AdminTable({
                         <span className="text-[#4A4C51] font-semibold">
                           {admin.first_name} {admin.last_name}
                         </span>
-                        {admin.middle_name && (
-                          <div className="text-sm text-gray-500">{admin.middle_name}</div>
-                        )}
                       </div>
                     </div>
                   </td>
@@ -92,8 +92,20 @@ export default function AdminTable({
                     <div className="text-sm text-gray-900">{admin.email || 'N/A'}</div>
                     <div className="text-sm text-gray-500">{admin.phone || 'N/A'}</div>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {new Date(admin.created_at).toLocaleDateString()}
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <div className="text-sm text-gray-900">{admin.role || 'N/A'}</div>
+                    {admin.permissions && (
+                      <div className="text-sm text-gray-500">{admin.permissions}</div>
+                    )}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                      admin.status === 'active' 
+                        ? 'bg-green-100 text-green-800' 
+                        : 'bg-red-100 text-red-800'
+                    }`}>
+                      {admin.status}
+                    </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <button

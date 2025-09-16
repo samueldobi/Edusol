@@ -1,14 +1,14 @@
 "use client";
 import { useState } from 'react';
 import Image from 'next/image';
-import { UserType } from '@/app/src/api/services/userService';
+import { CombinedUserType } from '@/app/dashboard/users/page';
 import UserDetailsModal from './user-details-modal';
 
 interface GuardianTableProps {
   rowsPerPage: number;
   currentPage: number;
   setCurrentPage: (page: number) => void;
-  data: UserType[];
+  data: CombinedUserType[];
   onUserUpdated?: () => void;
   onUserDeleted?: () => void;
 }
@@ -21,10 +21,10 @@ export default function GuardianTable({
   onUserUpdated,
   onUserDeleted
 }: GuardianTableProps) {
-  const [selectedUser, setSelectedUser] = useState<UserType | null>(null);
+  const [selectedUser, setSelectedUser] = useState<CombinedUserType | null>(null);
   const [showModal, setShowModal] = useState(false);
 
-  const handleManageClick = (e: React.MouseEvent, guardian: UserType) => {
+  const handleManageClick = (e: React.MouseEvent, guardian: CombinedUserType) => {
     e.stopPropagation();
     setSelectedUser(guardian);
     setShowModal(true);
@@ -59,7 +59,7 @@ export default function GuardianTable({
                   Contact
                 </th>
                 <th className="px-6 py-5 text-left text-xs font-medium text-[#2C2C2C] uppercase tracking-wider">
-                  Created
+                  Status
                 </th>
                 <th className="px-6 py-5 text-left text-xs font-medium text-[#2C2C2C] uppercase tracking-wider">
                   Actions
@@ -82,9 +82,6 @@ export default function GuardianTable({
                         <span className="text-[#4A4C51] font-semibold">
                           {guardian.first_name} {guardian.last_name}
                         </span>
-                        {guardian.middle_name && (
-                          <div className="text-sm text-gray-500">{guardian.middle_name}</div>
-                        )}
                       </div>
                     </div>
                   </td>
@@ -92,8 +89,14 @@ export default function GuardianTable({
                     <div className="text-sm text-gray-900">{guardian.email || 'N/A'}</div>
                     <div className="text-sm text-gray-500">{guardian.phone || 'N/A'}</div>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {new Date(guardian.created_at).toLocaleDateString()}
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                      guardian.status === 'active' 
+                        ? 'bg-green-100 text-green-800' 
+                        : 'bg-red-100 text-red-800'
+                    }`}>
+                      {guardian.status}
+                    </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <button

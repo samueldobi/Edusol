@@ -30,4 +30,20 @@ export const SCHOOL_API = {
     // Assignments
     ASSIGNMENTS: '/api/schools/assignments/',
     ASSIGNMENTS_BY_ID: '/api/schools/assignments/{id}/',
+    
+    // User Cache - Students
+    STUDENTS_CACHE: '/api/schools/students_cache/',
+    STUDENTS_CACHE_BY_ID: '/api/schools/students_cache/{id}/',
+    
+    // User Cache - Teachers
+    TEACHERS_CACHE: '/api/schools/teachers_cache/',
+    TEACHERS_CACHE_BY_ID: '/api/schools/teachers_cache/{id}/',
+    
+    // User Cache - Admins
+    ADMINS_CACHE: '/api/schools/admins_cache/',
+    ADMINS_CACHE_BY_ID: '/api/schools/admins_cache/{id}/',
+    
+    // User Cache - General Users
+    USERS_CACHE: '/api/schools/users_cache/',
+    USERS_CACHE_BY_ID: '/api/schools/users_cache/{id}/',
 }

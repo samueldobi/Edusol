@@ -2,14 +2,14 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { UserType } from '@/app/src/api/services/userService';
+import { CombinedUserType } from '@/app/dashboard/users/page';
 import UserDetailsModal from './user-details-modal';
 
 interface StudentTableProps {
   rowsPerPage: number;
   currentPage: number;
   setCurrentPage: (page: number) => void;
-  data: UserType[];
+  data: CombinedUserType[];
   onUserUpdated?: () => void;
   onUserDeleted?: () => void;
 }
@@ -23,23 +23,23 @@ export default function StudentTable({
   onUserDeleted
 }: StudentTableProps) {
   const router = useRouter();
-  const [selectedUser, setSelectedUser] = useState<UserType | null>(null);
+  const [selectedUser, setSelectedUser] = useState<CombinedUserType | null>(null);
   const [showModal, setShowModal] = useState(false);
 
-  const handleManageClick = (e: React.MouseEvent, student: UserType) => {
+  const handleManageClick = (e: React.MouseEvent, student: CombinedUserType) => {
     e.stopPropagation();
     setSelectedUser(student);
     setShowModal(true);
   };
 
-  const handleStudentClick = (student: UserType) => {
+  const handleStudentClick = (student: CombinedUserType) => {
     const params = new URLSearchParams({
       studentId: student.id,
       studentName: `${student.first_name} ${student.last_name}`,
-      parentName: student.middle_name || '',
-      gender: 'N/A', // Not available in UserType
+      parentName: '',
+      gender: student.gender || 'N/A',
       phoneNumber: student.phone || '',
-      class: 'N/A', // Not available in UserType
+      class: student.class_id || 'N/A',
       context: 'student'
     });
     router.push(`/dashboard/result/student-result?${params.toString()}`);
@@ -74,7 +74,10 @@ export default function StudentTable({
                   Contact
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Created
+                  Student Code
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Status
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Actions
@@ -114,7 +117,10 @@ export default function StudentTable({
                     <div className="text-sm text-gray-500">{student.phone || 'N/A'}</div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {new Date(student.created_at).toLocaleDateString()}
+                    {student.student_code || 'N/A'}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {student.status || 'N/A'}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                     <button

@@ -1,14 +1,14 @@
 "use client";
 import { useState } from 'react';
 import Image from 'next/image';
-import { UserType } from '@/app/src/api/services/userService';
+import { CombinedUserType } from '@/app/dashboard/users/page';
 import UserDetailsModal from './user-details-modal';
 
 interface TeacherTableProps {
   rowsPerPage: number;
   currentPage: number;
   setCurrentPage: (page: number) => void;
-  data: UserType[];
+  data: CombinedUserType[];
   onUserUpdated?: () => void;
   onUserDeleted?: () => void;
 }
@@ -21,10 +21,10 @@ export default function TeacherTable({
   onUserUpdated,
   onUserDeleted
 }: TeacherTableProps) {
-  const [selectedUser, setSelectedUser] = useState<UserType | null>(null);
+  const [selectedUser, setSelectedUser] = useState<CombinedUserType | null>(null);
   const [showModal, setShowModal] = useState(false);
 
-  const handleManageClick = (e: React.MouseEvent, teacher: UserType) => {
+  const handleManageClick = (e: React.MouseEvent, teacher: CombinedUserType) => {
     e.stopPropagation();
     setSelectedUser(teacher);
     setShowModal(true);
@@ -59,7 +59,10 @@ export default function TeacherTable({
                   Contact
                 </th>
                 <th className="px-6 py-5 text-left text-xs font-medium text-[#2C2C2C] uppercase tracking-wider">
-                  Created
+                  Subject
+                </th>
+                <th className="px-6 py-5 text-left text-xs font-medium text-[#2C2C2C] uppercase tracking-wider">
+                  Status
                 </th>
                 <th className="px-6 py-5 text-left text-xs font-medium text-[#2C2C2C] uppercase tracking-wider">
                   Actions
@@ -82,9 +85,6 @@ export default function TeacherTable({
                         <span className="text-[#4A4C51] font-semibold">
                           {teacher.first_name} {teacher.last_name}
                         </span>
-                        {teacher.middle_name && (
-                          <div className="text-sm text-gray-500">{teacher.middle_name}</div>
-                        )}
                       </div>
                     </div>
                   </td>
@@ -92,8 +92,20 @@ export default function TeacherTable({
                     <div className="text-sm text-gray-900">{teacher.email || 'N/A'}</div>
                     <div className="text-sm text-gray-500">{teacher.phone || 'N/A'}</div>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {new Date(teacher.created_at).toLocaleDateString()}
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <div className="text-sm text-gray-900">{teacher.subject || 'N/A'}</div>
+                    {teacher.qualification && (
+                      <div className="text-sm text-gray-500">{teacher.qualification}</div>
+                    )}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                      teacher.status === 'active' 
+                        ? 'bg-green-100 text-green-800' 
+                        : 'bg-red-100 text-red-800'
+                    }`}>
+                      {teacher.status}
+                    </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <button

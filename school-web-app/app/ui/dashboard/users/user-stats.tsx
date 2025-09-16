@@ -3,7 +3,15 @@ import Image from "next/image";
 import { useState, useCallback, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useDebouncedCallback } from 'use-debounce';
-import { fetchUserCounts, UserCountResponse } from '@/app/src/api/services/userService';
+import { fetchAllUsers } from '@/app/src/api/services/schoolService';
+
+interface UserCountResponse {
+  users_count: number;
+  admin_count: number;
+  student_count: number;
+  teacher_count: number;
+  guardian_count: number;
+}
 
 export default function UserStats(){
   const router = useRouter();
@@ -20,7 +28,16 @@ export default function UserStats(){
     try {
       setLoading(true);
       setError(null);
-      const counts = await fetchUserCounts();
+      const { users, students, teachers, admins } = await fetchAllUsers();
+      
+      const counts: UserCountResponse = {
+        users_count: users.length + students.length + teachers.length + admins.length,
+        student_count: students.length,
+        teacher_count: teachers.length,
+        guardian_count: users.filter(user => user.user_type === 'guardian').length,
+        admin_count: admins.length,
+      };
+      
       setUserCounts(counts);
     } catch (err: unknown) {
       const errorMessage = err instanceof Error ? err.message : 'Failed to fetch user counts';

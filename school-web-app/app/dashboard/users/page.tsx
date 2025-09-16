@@ -1,7 +1,7 @@
 "use client"
 import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
-import { fetchUsersList, UserType } from "@/app/src/api/services/userService";
+import { fetchAllUsers, UsersCacheType, StudentsCacheType, TeachersCacheType, AdminsCacheType } from "@/app/src/api/services/schoolService";
 import UserStats from "@/app/ui/dashboard/users/user-stats";
 import UserTable from "@/app/ui/dashboard/users/user-table";
 import StudentTable from "@/app/ui/dashboard/users/student-table";
@@ -10,13 +10,37 @@ import AdminTable from "@/app/ui/dashboard/users/admin-table";
 import GuardianTable from "@/app/ui/dashboard/users/guardian-table";
 import UserEntries from "@/app/ui/dashboard/users/user-entries";
 
+// Combined user type for display
+export interface CombinedUserType {
+  id: string;
+  user_type: 'admin' | 'teacher' | 'guardian' | 'student';
+  first_name: string;
+  last_name: string;
+  email: string;
+  phone: string;
+  status: 'active' | 'inactive';
+  // Additional fields for specific user types
+  subject?: string;
+  qualification?: string;
+  description?: string;
+  role?: string;
+  permissions?: string;
+  student_code?: string;
+  gender?: 'M' | 'F';
+  date_of_birth?: string;
+  medical_conditions?: string;
+  class_id?: string;
+  class_obj?: string;
+  school?: string;
+}
+
 export default function Page() {
   const searchParams = useSearchParams();
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
   const [search, setSearch] = useState("");
   const [activeTab, setActiveTab] = useState("students");
-  const [users, setUsers] = useState<UserType[]>([]);
+  const [users, setUsers] = useState<CombinedUserType[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -25,8 +49,67 @@ export default function Page() {
     try {
       setLoading(true);
       setError(null);
-      const usersData = await fetchUsersList();
-      setUsers(usersData);
+      const { users: usersCache, students, teachers, admins } = await fetchAllUsers();
+      
+      // Combine all user types into a single array
+      const combinedUsers: CombinedUserType[] = [
+        // Add students (they have their own cache)
+        ...students.map(student => ({
+          id: student.id,
+          user_type: 'student' as const,
+          first_name: '', // Will be populated from user_cache
+          last_name: '', // Will be populated from user_cache
+          email: '', // Will be populated from user_cache
+          phone: '', // Will be populated from user_cache
+          status: student.status,
+          student_code: student.student_code,
+          gender: student.gender,
+          date_of_birth: student.date_of_birth,
+          medical_conditions: student.medical_conditions,
+          class_id: student.class_id,
+          class_obj: student.class_obj,
+          school: student.school,
+        })),
+        // Add teachers with their cache data
+        ...teachers.map(teacher => ({
+          id: teacher.id,
+          user_type: 'teacher' as const,
+          first_name: '', // Will be populated from user_cache
+          last_name: '', // Will be populated from user_cache
+          email: '', // Will be populated from user_cache
+          phone: '', // Will be populated from user_cache
+          status: 'active', // Default status
+          subject: teacher.subject,
+          qualification: teacher.qualification,
+          description: teacher.description,
+          school: teacher.school,
+        })),
+        // Add admins with their cache data
+        ...admins.map(admin => ({
+          id: admin.id,
+          user_type: 'admin' as const,
+          first_name: '', // Will be populated from user_cache
+          last_name: '', // Will be populated from user_cache
+          email: '', // Will be populated from user_cache
+          phone: '', // Will be populated from user_cache
+          status: 'active', // Default status
+          role: admin.role,
+          permissions: admin.permissions,
+          school: admin.school,
+        })),
+        // Add general users (guardians and others)
+        ...usersCache.map(user => ({
+          id: user.id,
+          user_type: user.user_type,
+          first_name: user.first_name,
+          last_name: user.last_name,
+          email: user.email,
+          phone: user.phone,
+          status: user.status,
+        })),
+      ];
+      
+      setUsers(combinedUsers);
     } catch (err: unknown) {
       console.error('Failed to load users:', err);
       if (err && typeof err === 'object' && 'message' in err && typeof (err as { message?: string }).message === 'string') {
@@ -61,31 +144,30 @@ export default function Page() {
     
     switch (activeTab) {
       case 'students':
-        // Filter real users by student type
         data = users.filter(user => 
-          user.user_type === 'STUDENT' && (
+          user.user_type === 'student' && (
             user.first_name?.toLowerCase().includes(search.toLowerCase()) ||
             user.last_name?.toLowerCase().includes(search.toLowerCase()) ||
             user.email?.toLowerCase().includes(search.toLowerCase()) ||
-            user.phone?.includes(search)
+            user.phone?.includes(search) ||
+            user.student_code?.toLowerCase().includes(search.toLowerCase())
           )
         );
         break;
       case 'teachers':
-        // Filter real users by teacher type
         data = users.filter(user => 
-          user.user_type === 'TEACHER' && (
+          user.user_type === 'teacher' && (
             user.first_name?.toLowerCase().includes(search.toLowerCase()) ||
             user.last_name?.toLowerCase().includes(search.toLowerCase()) ||
             user.email?.toLowerCase().includes(search.toLowerCase()) ||
-            user.phone?.includes(search)
+            user.phone?.includes(search) ||
+            user.subject?.toLowerCase().includes(search.toLowerCase())
           )
         );
         break;
       case 'guardians':
-        // Filter real users by guardian type
         data = users.filter(user => 
-          user.user_type === 'GUARDIAN' && (
+          user.user_type === 'guardian' && (
             user.first_name?.toLowerCase().includes(search.toLowerCase()) ||
             user.last_name?.toLowerCase().includes(search.toLowerCase()) ||
             user.email?.toLowerCase().includes(search.toLowerCase()) ||
@@ -94,13 +176,13 @@ export default function Page() {
         );
         break;
       case 'admin':
-        // Filter real users by admin type
         data = users.filter(user => 
-          user.user_type === 'ADMIN' && (
+          user.user_type === 'admin' && (
             user.first_name?.toLowerCase().includes(search.toLowerCase()) ||
             user.last_name?.toLowerCase().includes(search.toLowerCase()) ||
             user.email?.toLowerCase().includes(search.toLowerCase()) ||
-            user.phone?.includes(search)
+            user.phone?.includes(search) ||
+            user.role?.toLowerCase().includes(search.toLowerCase())
           )
         );
         break;

@@ -75,7 +75,7 @@ export default function PaymentTable({ search }: PaymentTableProps) {
       date: new Date(fee.created_at).toLocaleDateString(),
       time: new Date(fee.created_at).toLocaleTimeString(),
       paymentDetails: fee.fee_type,
-      amount: `₦${fee.fee_amount.toLocaleString()}`,
+      amount: `₦${fee.fee_amount?.toLocaleString()}`,
       status: fee.status === 'active' ? 'SUCCESSFUL' : 'UNSUCCESSFUL'
     }));
   };

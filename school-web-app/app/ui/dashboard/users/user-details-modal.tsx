@@ -1,10 +1,11 @@
 "use client";
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { UserType, updateUser, deleteUser } from '@/app/src/api/services/userService';
+import { CombinedUserType } from '@/app/dashboard/users/page';
+import { updateUserCache, deleteUserCache, updateTeacherCache, deleteTeacherCache, updateAdminCache, deleteAdminCache, updateStudentCache, deleteStudentCache } from '@/app/src/api/services/schoolService';
 
 interface UserDetailsModalProps {
-  user: UserType | null;
+  user: CombinedUserType | null;
   isOpen: boolean;
   onClose: () => void;
   onUserUpdated: () => void;
@@ -27,9 +28,19 @@ export default function UserDetailsModal({
   const [editForm, setEditForm] = useState({
     first_name: "",
     last_name: "",
-    middle_name: "",
     email: "",
     phone: "",
+    status: "active" as "active" | "inactive",
+    // Additional fields for specific user types
+    subject: "",
+    qualification: "",
+    description: "",
+    role: "",
+    permissions: "",
+    student_code: "",
+    gender: "M" as "M" | "F",
+    date_of_birth: "",
+    medical_conditions: "",
   });
 
   // Update form when user changes or when entering edit mode
@@ -38,14 +49,23 @@ export default function UserDetailsModal({
       setEditForm({
         first_name: user.first_name || "",
         last_name: user.last_name || "",
-        middle_name: user.middle_name || "",
         email: user.email || "",
         phone: user.phone || "",
+        status: user.status || "active",
+        subject: user.subject || "",
+        qualification: user.qualification || "",
+        description: user.description || "",
+        role: user.role || "",
+        permissions: user.permissions || "",
+        student_code: user.student_code || "",
+        gender: user.gender || "M",
+        date_of_birth: user.date_of_birth || "",
+        medical_conditions: user.medical_conditions || "",
       });
     }
   }, [user, isEditing]);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setEditForm(prev => ({ ...prev, [name]: value }));
   };
@@ -58,7 +78,36 @@ export default function UserDetailsModal({
     setSuccess("");
     
     try {
-      await updateUser(user.id, editForm);
+      // Update based on user type
+      if (user.user_type === 'guardian') {
+        await updateUserCache(user.id, {
+          first_name: editForm.first_name,
+          last_name: editForm.last_name,
+          email: editForm.email,
+          phone: editForm.phone,
+          status: editForm.status,
+        });
+      } else if (user.user_type === 'teacher') {
+        await updateTeacherCache(user.id, {
+          subject: editForm.subject,
+          qualification: editForm.qualification,
+          description: editForm.description,
+        });
+      } else if (user.user_type === 'admin') {
+        await updateAdminCache(user.id, {
+          role: editForm.role,
+          permissions: editForm.permissions,
+        });
+      } else if (user.user_type === 'student') {
+        await updateStudentCache(user.id, {
+          student_code: editForm.student_code,
+          gender: editForm.gender,
+          date_of_birth: editForm.date_of_birth,
+          medical_conditions: editForm.medical_conditions,
+          status: editForm.status,
+        });
+      }
+      
       setSuccess("User updated successfully!");
       setIsEditing(false);
       onUserUpdated();
@@ -83,7 +132,17 @@ export default function UserDetailsModal({
     setError("");
     
     try {
-      await deleteUser(user.id);
+      // Delete based on user type
+      if (user.user_type === 'guardian') {
+        await deleteUserCache(user.id);
+      } else if (user.user_type === 'teacher') {
+        await deleteTeacherCache(user.id);
+      } else if (user.user_type === 'admin') {
+        await deleteAdminCache(user.id);
+      } else if (user.user_type === 'student') {
+        await deleteStudentCache(user.id);
+      }
+      
       onUserDeleted();
       onClose();
     } catch (err: unknown) {
