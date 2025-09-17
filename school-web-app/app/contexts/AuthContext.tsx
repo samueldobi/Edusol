@@ -86,7 +86,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
         const parsedUserData = JSON.parse(userData);
         const decoded = decodeToken(token);
-        console.log("Decoded token:", decoded);
+        // console.log("Decoded token:", decoded);
 
         
         setUser({

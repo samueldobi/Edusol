@@ -13,7 +13,7 @@ export default function Page() {
   });
   const [search, setSearch] = useState("");
   return (
-     <ProtectedRoute roles={["ADMIN"]}>
+     <ProtectedRoute roles={["ADMIN", "SUPER_ADMIN", "GUARDIAN"]}>
     <div className="w-full">
       <div className="flex justify-between items-center mb-4 space-x-6">
         <div className="flex-1 relative">

@@ -25,7 +25,7 @@ useEffect(() => {
     }
   }, [isAuthenticated, isLoading, hasCheckedAuth, router, user, roles]);
   useEffect(() => {
-    // Mark that we've completed the auth check
+    //  completed the auth check
     if (!isLoading) {
        setHasCheckedAuth(true);
     }
