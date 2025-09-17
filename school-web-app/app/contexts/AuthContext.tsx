@@ -6,6 +6,7 @@ interface User {
   id: string;
   email: string;
   name: string;
+  role: string; 
   profile?: Record<string, unknown>;
 }
 
@@ -59,11 +60,24 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   };
 
+  // Decode token
+  const decodeToken = (token: string) => {
+  try {
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    return payload;
+  } catch (err) {
+    console.error("Failed to decode token", err);
+    return null;
+  }
+};
+
+
   useEffect(() => {
     const checkAuth = async () => {
       try {
         const token = localStorage.getItem('token');
         const userData = localStorage.getItem('user');
+        
         
         if (!token || !userData) {
           setIsLoading(false);
@@ -71,11 +85,15 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         }
 
         const parsedUserData = JSON.parse(userData);
+        const decoded = decodeToken(token);
+        console.log("Decoded token:", decoded);
+
         
         setUser({
           id: parsedUserData.id,
           email: parsedUserData.email || '',
           name: parsedUserData.name || 'User',
+          role: decoded?.role || "USER",
         });
         
       } catch (error: unknown) {
@@ -109,6 +127,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       localStorage.setItem('token', response.tokens.accessToken);
       localStorage.setItem('refreshToken', response.tokens.refreshToken);
       
+      const decoded = decodeToken(response.tokens.accessToken);
+      
       const userData = response.user || {
         id: 'user-' + Date.now(),
         email: email,
@@ -120,6 +140,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         id: userData.id,
         email: userData.email,
         name: userData.name,
+        role: decoded?.role || "USER",
       });
       
     } catch (error: unknown) {

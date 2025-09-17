@@ -431,7 +431,9 @@ export const fetchAssignmentsList = async (): Promise<AssignmentType[]> => {
 };
 export const fetchAssignmentById = async (id: string): Promise<AssignmentType> => {
   const response = await schoolClient.get(SCHOOL_API.ASSIGNMENTS_BY_ID.replace('{id}', id));
-  return response.data;
+  const assignments = response.data;
+   // filter client-side by classId
+  return assignments.filter((assignment: any) => assignment.class_id === id);
 };
 export const createAssignment = async (data: CreateAssignmentPayload): Promise<AssignmentType> => {
   const response = await schoolClient.post(SCHOOL_API.ASSIGNMENTS, data);

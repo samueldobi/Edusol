@@ -5,21 +5,25 @@ import { useEffect, useState } from 'react';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
+  roles?: string[];
 }
 
-export default function ProtectedRoute({ children }: ProtectedRouteProps) {
+export default function ProtectedRoute({ children,roles }: ProtectedRouteProps) {
   const { isAuthenticated, isLoading, user } = useAuth();
   const router = useRouter();
   const [hasCheckedAuth, setHasCheckedAuth] = useState(false);
 
-  useEffect(() => {
-    // Only redirect after we've completed the auth check and user is still not authenticated
-    if (!isLoading && !isAuthenticated && hasCheckedAuth) {
- 
-      router.push('/auth/login');
-    }
-  }, [isAuthenticated, isLoading, hasCheckedAuth, router, user]);
+useEffect(() => {
+    if (!isLoading) {
+      setHasCheckedAuth(true);
 
+      if (!isAuthenticated) {
+        router.push('/auth/login');
+      } else if (roles && !roles.includes(user?.role || "")) {
+        router.push('/unauthorized'); 
+      }
+    }
+  }, [isAuthenticated, isLoading, hasCheckedAuth, router, user, roles]);
   useEffect(() => {
     // Mark that we've completed the auth check
     if (!isLoading) {

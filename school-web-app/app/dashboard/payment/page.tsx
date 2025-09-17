@@ -3,6 +3,7 @@ import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import PaymentStats from '@/app/ui/dashboard/payment/payment.stats';
 import PaymentTable from '@/app/ui/dashboard/payment/payment-table';
 import { useState } from 'react';
+import ProtectedRoute from '@/app/components/ProtectedRoute';
 
 export default function Page() {
   const todaysDate = new Date().toLocaleDateString('en-US', {
@@ -12,6 +13,7 @@ export default function Page() {
   });
   const [search, setSearch] = useState("");
   return (
+     <ProtectedRoute roles={["ADMIN"]}>
     <div className="w-full">
       <div className="flex justify-between items-center mb-4 space-x-6">
         <div className="flex-1 relative">
@@ -33,5 +35,6 @@ export default function Page() {
       <PaymentStats />
       <PaymentTable search={search} />
     </div>
+    </ProtectedRoute>
   );
 }
