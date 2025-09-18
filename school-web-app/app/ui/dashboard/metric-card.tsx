@@ -4,25 +4,25 @@ export default function MetricCardWrapper() {
       <MetricCard
         title="Students"
         value="589"
-        avatarSrc="/images/student.png"
+        avatarSrc="/Images/student.png"
         color="text-yellow-500"
       />
       <MetricCard
         title="Teachers"
         value="49"
-        avatarSrc="/images/teacher.png"
+        avatarSrc="/Images/teacher.png"
         color="text-teal-600"
       />
       <MetricCard
         title="Guardians"
         value="20"
-        avatarSrc="/images/parents.png"
+        avatarSrc="/Images/parents.png"
         color="text-purple-600"
       />
       <MetricCard
         title="Users"
         value="630"
-        avatarSrc="/images/users.png"
+        avatarSrc="/Images/users.png"
         color="text-green-600"
       />
     </>
