@@ -15,23 +15,23 @@ export default function SessionCard({ term, startDate, endDate, borderColor }: S
       <div className="text-gray-600 text-sm leading-relaxed">
         <div className="flex items-center gap-2 mb-1">
           <Image
-            src="/images/clockblue.png"
+            src="/Images/clockblue.png"
             alt="Clock"
             width={16}
             height={16}
             className="w-4 h-4"
           />
-          Start – {startDate}
+          Start - {startDate}
         </div>
         <div className="flex items-center gap-2">
           <Image
-            src="/images/clockblue.png"
+            src="/Images/clockblue.png"
             alt="Clock"
             width={16}
             height={16}
             className="w-4 h-4"
           />
-          End – {endDate}
+          End - {endDate}
         </div>
       </div>
     </div>

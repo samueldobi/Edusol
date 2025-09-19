@@ -20,7 +20,7 @@ export default function ResultSession() {
           </h2>
           <Image
             className=" w-[0.9rem] md:w-[1.2rem]"
-            src="/images/Polygon 1.png"
+            src="/Images/Polygon 1.png"
             alt="Polygon"
             width={20}
             height={20}

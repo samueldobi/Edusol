@@ -25,7 +25,7 @@ export default function StudentClassDetails({studentSize, studentData}: Props){
         <div className="  flex flex-col items-center justify-center lg:flex-row lg:justify-between bg-[#1AA939] text-white rounded-xl   mb-6 p-2">   
                 <div className="flex p-4">
                       <Image
-                        src="/images/teacher.png"
+                        src="/Images/teacher.png"
                         width={60}
                         height={60}
                         className="hidden md:block rounded-full border-2 m-2 border-white object-cover"
@@ -52,7 +52,7 @@ export default function StudentClassDetails({studentSize, studentData}: Props){
                     <button className="p-2 hover:bg-white/20">
                     
                         <Image
-                            src="/images/file.svg"
+                            src="/Images/file.svg"
                             width={15}
                             height={7}
                             className="hidden md:block"

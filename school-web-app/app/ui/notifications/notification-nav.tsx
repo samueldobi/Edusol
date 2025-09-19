@@ -56,7 +56,7 @@ export default function NotificationNav({ onRefresh, onNotificationCreated }: No
           >
             <span className="hidden sm:inline">
               <Image
-                src="/images/plus.png"
+                src="/Images/plus.png"
                 width={20}
                 height={20}
                 alt="plus icon"

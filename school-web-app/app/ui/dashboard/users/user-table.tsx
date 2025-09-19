@@ -107,7 +107,7 @@ const searchParams = useSearchParams();
                             <Image 
                             width={40}
                             height={40}
-                            src="/images/teacher.png" 
+                            src="/Images/teacher.png" 
                             alt="avatar of a teacher" />
                         </div>
                         </div>
@@ -148,7 +148,7 @@ const searchParams = useSearchParams();
         <Image
           width={60}
           height={60}
-          src="/images/teacher.png"
+          src="/Images/teacher.png"
           alt="avatar"
           className="rounded-full object-cover"
         />

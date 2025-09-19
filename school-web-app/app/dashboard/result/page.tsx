@@ -43,7 +43,7 @@ export default function AcademicSession() {
         {/* Search Bar */}
         <div className="flex items-center gap-2 bg-white p-3 rounded-lg shadow mb-6 max-w-md">
           <Image
-            src="/images/file.svg"
+            src="/Images/file.svg"
             alt="Search"
             width={20}
             height={20}
@@ -64,7 +64,7 @@ export default function AcademicSession() {
           className="flex items-center gap-2 mb-8 font-semibold text-green-600 hover:underline cursor-pointer"
         >
           <Image
-            src="/images/plus.png"
+            src="/Images/plus.png"
             alt="Add"
             width={24}
             height={24}

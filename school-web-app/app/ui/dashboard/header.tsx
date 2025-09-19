@@ -53,7 +53,7 @@ export default function Header({ onMenuToggle }: HeaderProps) {
           <Link href ="/dashboard">
           <Image
             alt="Educesol logo"
-            src="/images/logo-white-better.png"
+            src="/Images/logo-white-better.png"
             className="w-10 h-10 -mt-3"
             width={50}
             height={50}

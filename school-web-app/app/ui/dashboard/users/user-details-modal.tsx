@@ -231,7 +231,7 @@ export default function UserDetailsModal({
             <div className="flex items-center space-x-4">
               <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center">
                 <Image
-                  src="/images/Person.png"
+                  src="/Images/Person.png"
                   alt={`${user.first_name} ${user.last_name}`}
                   width={60}
                   height={60}

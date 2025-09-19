@@ -126,7 +126,7 @@ export default function Page() {
           >
             <span className="w-6 sm:w-7 h-6 sm:h-7">
               <Image
-                src="/images/plus.png"
+                src="/Images/plus.png"
                 width={30}
                 height={30}
                 alt="plus icon"

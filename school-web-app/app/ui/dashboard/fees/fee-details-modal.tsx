@@ -107,7 +107,7 @@ export default function FeeDetailsModal({
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
               <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center text-2xl">
-                <Image src="/images/fees.png" alt="fee-icon" width={24} height={24} />
+                <Image src="/Images/fees.png" alt="fee-icon" width={24} height={24} />
               </div>
               <div>
                 <h2 className="text-white text-xl font-bold">Fee Details</h2>

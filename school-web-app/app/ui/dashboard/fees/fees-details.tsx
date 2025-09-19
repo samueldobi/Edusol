@@ -50,7 +50,7 @@ export default function FeesDetails() {
             </div>
             <div className="text-right">
               <div className="text-2xl font-bold">
-              <Image src="/images/fees.png" alt="fee-icon" width={60} height={60} />
+              <Image src="/Images/fees.png" alt="fee-icon" width={60} height={60} />
               </div>
               <p className="text-green-100 text-sm">Fees Management</p>
             </div>

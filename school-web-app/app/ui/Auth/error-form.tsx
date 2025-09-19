@@ -10,7 +10,7 @@ export default function ErrorForm() {
       <div className="flex justify-center items-center">
         <Image 
           alt="company logo" 
-          src="/images/logo.png" 
+          src="/Images/logo.png" 
           width={96}
           height={96}
           className="w-24 h-24" 

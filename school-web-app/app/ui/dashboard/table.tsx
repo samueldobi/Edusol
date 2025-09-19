@@ -50,7 +50,7 @@ export default function Table({ data }: TableProps) {
               <div className="flex-shrink-0 h-16 w-16">
                 <div className={`flex-shrink-0 bg-[#1AA939] rounded-full`}>
                   <Image 
-                    src="/images/teacher.png" 
+                    src="/Images/teacher.png" 
                     alt="avatar of a teacher"
                     width={64}
                     height={64}
@@ -78,21 +78,21 @@ export default function Table({ data }: TableProps) {
               {item.paymentDetails === '(3)' ? (
                 <div className="flex">
                   <Image
-                    src="/images/house-icon.png"
+                    src="/Images/house-icon.png"
                     alt="House icon"
                     width={24}
                     height={24}
                     className="h-6 w-6 mr-1"
                   />
                   <Image
-                    src="/images/tuition-icon.png"
+                    src="/Images/tuition-icon.png"
                     alt="Tuition icon"
                     width={24}
                     height={24}
                     className="h-6 w-6 mr-1"
                   />
                   <Image
-                    src="/images/brick-icon.png"
+                    src="/Images/brick-icon.png"
                     alt="Brick icon"
                     width={24}
                     height={24}
@@ -102,14 +102,14 @@ export default function Table({ data }: TableProps) {
               ) : item.paymentDetails === '(2)' ? (
                 <div className="flex">
                   <Image
-                    src="/images/house-icon.png"
+                    src="/Images/house-icon.png"
                     alt="House icon"
                     width={24}
                     height={24}
                     className="h-6 w-6 mr-1"
                   />
                   <Image
-                    src="/images/tuition-icon.png"
+                    src="/Images/tuition-icon.png"
                     alt="Tuition icon"
                     width={24}
                     height={24}

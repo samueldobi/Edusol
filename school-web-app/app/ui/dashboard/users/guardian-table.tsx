@@ -72,7 +72,7 @@ export default function GuardianTable({
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="flex items-center gap-3">
                       <Image 
-                        src="/images/Person.png" 
+                        src="/Images/Person.png" 
                         alt={`${guardian.first_name} ${guardian.last_name} profile picture`}
                         width={40} 
                         height={40} 
@@ -122,7 +122,7 @@ export default function GuardianTable({
             <div key={guardian.id} className="bg-white shadow rounded-lg p-4 border border-gray-100 w-full">
               <div className="flex flex-col items-center justify-center gap-4">
                 <Image 
-                  src="/images/Person.png" 
+                  src="/Images/Person.png" 
                   alt={`${guardian.first_name} ${guardian.last_name} profile picture`}
                   width={56} 
                   height={56} 

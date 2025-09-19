@@ -78,7 +78,7 @@ export default function FeesTable({ onFeeUpdated }: FeesTableProps) {
       <div className="bg-white rounded-lg shadow-md overflow-hidden">
         <div className="p-8 text-center">
           <div className="text-6xl mb-4">
-            <Image src="/images/fees_two.png" alt="fee-icon" width={60} height={60} />
+            <Image src="/Images/fees_two.png" alt="fee-icon" width={60} height={60} />
           </div>
           <h3 className="text-xl font-semibold text-gray-900 mb-2">No Fees Created</h3>
           <p className="text-gray-600 mb-6">
@@ -124,7 +124,7 @@ export default function FeesTable({ onFeeUpdated }: FeesTableProps) {
                           <span className="text-green-600 font-semibold">
                           <Image 
                      
-                          src="/images/fees_two.png" alt="fee-icon" width={40} height={40} />
+                          src="/Images/fees_two.png" alt="fee-icon" width={40} height={40} />
                           </span>
                         </div>
                       </div>
@@ -172,7 +172,7 @@ export default function FeesTable({ onFeeUpdated }: FeesTableProps) {
                 <div className="flex items-center">
                   <div className="h-10 w-10 rounded-full bg-green-100 flex items-center justify-center mr-3">
                     <span className="text-green-600 font-semibold">
-                    <Image src="/images/fees_two.png" alt="fee-icon" width={25} height={25} />
+                    <Image src="/Images/fees_two.png" alt="fee-icon" width={25} height={25} />
                     </span>
                   </div>
                   <div>
