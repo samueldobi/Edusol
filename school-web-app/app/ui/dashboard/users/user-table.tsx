@@ -30,6 +30,7 @@ const searchParams = useSearchParams();
                 // Filter for only students
                 // Fetch student data but not currently used in this component
                 const students = res.data.filter((entry) => entry.status === "student");
+                console.log(students)
             } catch (err: unknown) {
                 console.warn('Failed to fetch students:', err);
                 // Handle error silently

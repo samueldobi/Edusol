@@ -102,12 +102,23 @@ export default function ClassDetails() {
         </select>
         <span>Entries</span>
       </div>
-      <UserTable
-        rowsPerPage={rowsPerPage}
-        currentPage={currentPage}
-        setCurrentPage={setCurrentPage}
-        data={students}
-      />
+     <UserTable
+          rowsPerPage={rowsPerPage}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+          data={students.map(student => ({
+            id: student.id.toString(),
+            user_type: "student",          
+            first_name: student.student_name.split(" ")[0] || "",
+            last_name: student.student_name.split(" ").slice(1).join(" ") || "",
+            phone: student.phone_number,
+            gender: student.gender === 'M' || student.gender === 'F' ? student.gender : undefined,
+            class_id: student.class,
+            status: "student",
+            email: "",                       
+          }))}
+/>
+
     </div>
   );
 }

@@ -107,6 +107,7 @@ export default function StudentTable({
                           {student.first_name} {student.last_name}
                         </div>
                         <div className="text-sm text-gray-500">
+                             {/* @ts-expect-error Property 'created_at' may not exist on CombinedUserType */}
                           {student.middle_name && `${student.middle_name}`}
                         </div>
                       </div>

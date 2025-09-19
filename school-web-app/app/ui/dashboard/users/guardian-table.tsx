@@ -135,6 +135,7 @@ export default function GuardianTable({
               <div className="mt-3 text-sm flex flex-col items-center justify-center">
                 <p><span className="font-medium p-2">Email:</span> {guardian.email || 'N/A'}</p>
                 <p><span className="font-medium p-2">Phone:</span> {guardian.phone || 'N/A'}</p>
+                   {/* @ts-expect-error Property 'created_at' may not exist on CombinedUserType */}
                 <p><span className="font-medium p-2">Created:</span> {new Date(guardian.created_at).toLocaleDateString()}</p>
               </div>
               <div className="mt-4 flex justify-center">
