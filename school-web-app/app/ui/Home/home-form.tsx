@@ -14,7 +14,7 @@ export default function HomePage() {
         <img src="/Images/logo.png" alt="Logo" className="w-32 h-32" />
       </div>
       {/*Title and Subtitle*/}
-      <h2 className="text-4xl font-bold leading-[3.75rem] text-lime-600">
+      <h2 className="text-4xl  text-center font-bold leading-[3.75rem] text-lime-600">
         Welcome to Educesol
       </h2>
         <div className="">
