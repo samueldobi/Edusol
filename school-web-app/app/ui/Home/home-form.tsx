@@ -15,7 +15,7 @@ export default function HomePage() {
       </div>
       {/*Title and Subtitle*/}
       <h2 className="text-4xl font-bold leading-[3.75rem] text-lime-600">
-        Welcome to Edusol
+        Welcome to Educesol
       </h2>
         <div className="">
             <p className=" text-center font-light text-indigo-950 ">
