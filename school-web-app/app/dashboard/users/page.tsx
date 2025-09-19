@@ -1,7 +1,7 @@
 "use client"
 import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
-import { fetchAllUsers, UsersCacheType, StudentsCacheType, TeachersCacheType, AdminsCacheType } from "@/app/src/api/services/schoolService";
+import { fetchAllUsers} from "@/app/src/api/services/schoolService";
 import UserStats from "@/app/ui/dashboard/users/user-stats";
 import UserTable from "@/app/ui/dashboard/users/user-table";
 import StudentTable from "@/app/ui/dashboard/users/student-table";
@@ -18,7 +18,7 @@ export interface CombinedUserType {
   last_name: string;
   email: string;
   phone: string;
-  status: 'active' | 'inactive';
+  status: "active" | "inactive" | "student";
   // Additional fields for specific user types
   subject?: string;
   qualification?: string;

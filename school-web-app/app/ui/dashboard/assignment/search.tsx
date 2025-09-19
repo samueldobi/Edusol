@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 export default function SearchClass(){
     const [selectedClass, setSelectedClass] = useState("");
     useEffect(() => {
-        console.log(selectedClass);
+        console.log(setSelectedClass);
     }, [selectedClass]);
     return (
     <div className="flex items-center gap-3 mb-6 p-2">

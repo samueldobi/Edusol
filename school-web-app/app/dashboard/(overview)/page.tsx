@@ -12,7 +12,7 @@ import { ClassOverviewCard, AssignmentCard } from '@/app/ui/dashboard/teacher-da
 import RecentPaymentsTable from '@/app/ui/dashboard/recent-payment-table';
 import { motion } from 'framer-motion';
 import { useAuth } from '@/app/contexts/AuthContext';
-import { div } from 'framer-motion/client';
+
 
 export default function Page() {
   const { user } = useAuth();

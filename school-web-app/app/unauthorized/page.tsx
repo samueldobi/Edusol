@@ -27,7 +27,7 @@ export default function UnauthorizedPage() {
             Unauthorized
           </h2>
           <p className="text-base font-light text-indigo-950 text-center">
-            You don't have permission to view this page.
+            You do not have permission to view this page.
           </p>
 
           {/* Buttons / Links */}

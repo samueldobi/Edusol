@@ -26,10 +26,10 @@ const searchParams = useSearchParams();
     useEffect(()=>{
         const fetchStudents =async()=>{
             try{
-                const res = await axios.get("https://raw.githubusercontent.com/samueldobi/Currency-Converter/refs/heads/main/edusol_data.json")
+                const res = await axios.get<CombinedUserType[]>("https://raw.githubusercontent.com/samueldobi/Currency-Converter/refs/heads/main/edusol_data.json")
                 // Filter for only students
                 // Fetch student data but not currently used in this component
-                res.data.filter((entry: any)=>entry.status === "student")
+                const students = res.data.filter((entry) => entry.status === "student");
             } catch (err: unknown) {
                 console.warn('Failed to fetch students:', err);
                 // Handle error silently

@@ -4,7 +4,7 @@ import SearchClass from "@/app/ui/dashboard/assignment/search"
 import CreateAssignmnent from "@/app/ui/dashboard/assignment/create-assignment";
 import StudendInput from "@/app/ui/dashboard/assignment/student-input";
 import AssignmentCards from "@/app/ui/dashboard/assignment/assignment-cards";
-import { fetchAssignmentsList, AssignmentType, fetchAssignmentById } from "@/app/src/api/services/schoolService";
+import { fetchAssignmentsList, AssignmentType } from "@/app/src/api/services/schoolService";
 // import { useAuth } from "@/app/contexts/AuthContext";
 
 export default function Page() {

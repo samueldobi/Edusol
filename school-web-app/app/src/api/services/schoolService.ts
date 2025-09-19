@@ -192,6 +192,7 @@ export interface AssignmentType {
   topic?: string;
   term?: string;
   created_by_teacher_cache?: string;
+  class_id?: string;
 }
 
 export type CreateSubjectPayload = {
@@ -429,11 +430,11 @@ export const fetchAssignmentsList = async (): Promise<AssignmentType[]> => {
   const response = await schoolClient.get(SCHOOL_API.ASSIGNMENTS);
   return response.data;
 };
-export const fetchAssignmentById = async (id: string): Promise<AssignmentType> => {
+export const fetchAssignmentById = async (id: string): Promise<AssignmentType[]> => {
   const response = await schoolClient.get(SCHOOL_API.ASSIGNMENTS_BY_ID.replace('{id}', id));
-  const assignments = response.data;
+  const assignments: AssignmentType[] = response.data;
    // filter client-side by classId
-  return assignments.filter((assignment: any) => assignment.class_id === id);
+  return assignments.filter((assignment) => assignment.class_id === id);
 };
 export const createAssignment = async (data: CreateAssignmentPayload): Promise<AssignmentType> => {
   const response = await schoolClient.post(SCHOOL_API.ASSIGNMENTS, data);
